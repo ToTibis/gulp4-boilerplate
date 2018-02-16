@@ -1,7 +1,7 @@
 module.exports = function() {
 	$.gulp.task('compressing', function() {
 		return $.gulp.src($.path.src.img)
-		.pipe($.loadPlugin.tinypng('ch4og7fILXNEh80XpCQaMgxZaKOP6EeK'))
+		.pipe($.loadPlugin.tinypng('your API'))
 		.pipe($.gulp.dest($.path.build.img))
 	});
 	$.gulp.task('delete-folder', function() {
