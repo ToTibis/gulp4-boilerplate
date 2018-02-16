@@ -4,7 +4,7 @@
 `Install node js https://nodejs.org/en/`
 
 `Install git https://git-scm.com/download/win`
-
+<hr>
 ### Manual
 
 ####Uninstall previous Gulp installation and related packages, if any
@@ -22,7 +22,7 @@
 ####Install Gulp 4 into your project from 4.0 GitHub branch as dev dependency
 
 `$ npm install gulp@next --save-dev`
-
+<hr>
 ### Instal project
 
 `git clone https://github.com/ToTibis/gulp4template.git`
@@ -30,7 +30,7 @@
 `npm i`
 
 `Start project: gulp`
-
+<hr>
 ### Useful commands
 
 `Delete folder 'build': gulp clear`
