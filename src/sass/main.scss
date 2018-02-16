@@ -1,0 +1,44 @@
+@import 'plug/fonts';
+@import 'plug/mixins';
+@import 'plug/rem';
+@import 'plug/sprite';
+@import 'plug/variables';
+@import 'plug/grid/smart-grid.scss';
+
+/* Global styles start*/
+html {
+	@include reset();
+	font-family: 'Jura', sans-serif;
+}
+.header, .footer, p, h1 {
+	font-size: rem(25px);
+	color: lighten($color_accent, 25%);
+	font-style: italic;
+	text-align: center;
+}
+.container {
+	@include wrapper();
+}
+.items{
+	@include row-flex();
+	justify-content: center;
+	.item{
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		@include col();
+		@include size(5);
+		@include size-md(6);
+		@include size-sm(15);
+	}
+}
+@include lg-block() {
+	html {
+		font-size: 90%;
+	}
+};
+@include sm-block() {
+	html {
+		font-size: 70%;
+	}
+}
+/* Global styles end*/
