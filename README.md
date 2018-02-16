@@ -40,17 +40,17 @@
 
 `git clone https://github.com/ToTibis/gulp4template.git`
 
-`Install dependencies: **npm i**`
+`Install dependencies: npm i`
 
-`Start project: **gulp**`
+`Start project: gulp`
 
 <hr>
 
 <h3>Useful commands</h3>
 
-`Delete folder 'build': **gulp clean** ;`
+`Delete folder 'build': gulp clean ;`
 
-`Image compression: **gulp tinypng** ** ;`
+`Image compression: gulp tinypng** ;`
 
 `** (carefully! only 500 images are available for free, use your API key from <https://tinypng.com/developers>)`
 
