@@ -21,12 +21,11 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-tinypng": "^1.0.2",
     "gulp-uglify": "^3.0.0",
-    "gulp.spritesmith": "^6.9.0",
-    "normalize-scss": "^7.0.1",
-    "smart-grid": "^2.0.1"
+    "gulp.spritesmith": "^6.9.0"
   },
   "dependencies": {
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "normalize-scss": "^7.0.1"
   },
   "optionalDependencies": {}
 }
