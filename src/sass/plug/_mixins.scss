@@ -1,0 +1,30 @@
+@mixin mx-auto {
+  margin: {
+   left: auto;
+   right: auto;
+  }
+}
+@mixin pseudo($display: block, $pos: absolute, $content: ''){
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+@mixin responsive-ratio($x,$y, $pseudo: false) {
+  $padding: unquote( ( $y / $x ) * 100 + '%' );
+  @if $pseudo {
+   &:before {
+    @include pseudo($pos: relative);
+    width: 100%;
+    padding-top: $padding;
+   }
+  } @else {
+   padding-top: $padding;
+  }
+}
+@mixin placeholder {
+  &.placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &:-ms-input-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+}

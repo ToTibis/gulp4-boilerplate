@@ -1,5 +1,22 @@
-$primary-color: lightgray;
+/* reboot vaiables*/
 
-%general {
-	background-color: white;
-}
+$font-family-base          : 'Jura', sans-serif;
+$body-color                : black;
+$body-bg                   : white;
+
+$line-height-base          : 1.5;
+$font-size-base            : 16px;
+$text-muted                : #dedede;
+$font-weight-base          : normal;
+$paragraph-margin-bottom   : 0;
+
+$link-color                : black;
+$link-hover-color          : darken($link-color, 15%);
+$link-decoration           : none;
+$link-hover-decoration     : none;
+$enable-hover-media-query  : false;
+
+$dt-font-weight            : bold;
+$table-cell-padding        : .75rem;
+
+/* reboot vaiables end*/

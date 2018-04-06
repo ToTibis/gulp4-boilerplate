@@ -1,0 +1,79 @@
+@import 'plug/fonts';
+@import 'plug/rem';
+@import 'plug/variables';
+@import 'plug/media-queries';
+@import 'plug/mixins';
+
+/* Global styles start*/
+body {
+	text-align: center;
+}
+div {
+	@include mx-auto;
+	// @include responsive-ratio(16,9);
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	padding: 1rem;
+	max-width: 80%;
+	background-color: #dedede;
+	position: relative;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	&:after {
+		@include pseudo;
+	}
+	
+}
+input[type="text"] {
+	@include placeholder {
+		color: red;
+	}
+}
+.media {
+	font-size: rem(35px);
+	display: none;
+	&.m-down {
+		@include m-down {
+			display: block;
+		}
+	}
+	&.between-m-sm {
+		@include between-m-sm {
+			display: block;
+		}
+	}
+	&.between-sm-md {
+		@include between-sm-md {
+			display: block;
+		}
+	}
+	&.between-md-lg {
+		@include between-md-lg {
+			display: block;
+		}
+	}
+	&.between-lg-xl {
+		@include between-lg-xl {
+			display: block;
+		}
+	}
+	&.between-xl-vl {
+		@include between-xl-vl {
+			display: block;
+		}
+	}
+	&.between-vl-sl {
+		@include between-vl-sl {
+			display: block;
+		}
+	}
+	&.sl-up {
+		@include sl-up {
+			display: block;
+		}
+	}
+}
+/* Global styles end*/
+
