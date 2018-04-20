@@ -1,129 +1,25 @@
-/* Переменные разрешений начало*/
-/*Минимальные разрешения начало*/
-$m-min:  375px;
-$sm-min: 576px;
-$md-min: 768px;
-$lg-min: 992px;
-$xl-min: 1200px;
-$vl-min: 1400px;
-$sl-min: 1600px;
-/*Минимальные разрешения конец*/
-/*Максимальные разрешения начало*/
-$m-max:  375.01px;
-$sm-max: 576.01px;
-$md-max: 768.01px;
-$lg-max: 992.01px;
-$xl-max: 1200.01px;
-$vl-max: 1400.01px;
-$sl-max: 1600.01px;
-/*Максимальные разрешения конец*/
-/* Пременные разрешений конец*/
+$m:  375px;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$vl: 1400px;
+$sl: 1600px;
 
-/* От и выше начало*/
-@mixin m-up {
-	@media (min-width: #{$m-min}) {
-		@content;
-	}
+@mixin mediaOnly($widthFrom, $widthTo, $device: 'all') {
+ @media #{$device} and (min-width: #{$widthFrom}) and (max-width: #{$widthTo - 1px}) {
+    @content;
+ }
 }
-@mixin sm-up {
-	@media (min-width: #{$sm-min}) {
-		@content;
-	}
-}
-@mixin md-up {
-	@media (min-width: #{$md-min}) {
-		@content;
-	}
-}
-@mixin lg-up {
-	@media (min-width: #{$lg-min}) {
-		@content;
-	}
-}
-@mixin xl-up {
-	@media (min-width: #{$xl-min}) {
-		@content;
-	}
-}
-@mixin vl-up {
-	@media (min-width: #{$vl-min}) {
-		@content;
-	}
-}
-@mixin sl-up {
-	@media (min-width: #{$sl-min}) {
-		@content;
-	}
-}
-/* От и выше конец*/
 
-/* До и ниже начало*/
-@mixin m-down {
-	@media (max-width: #{$m-max}) {
-		@content;
-	}
+@mixin mediaToUp($width, $device: 'all') {
+ @media #{$device} and (min-width: #{$width}) {
+   @content;
+ }
 }
-@mixin sm-down {
-	@media (max-width: #{$sm-max}) {
-		@content;
-	}
-}
-@mixin md-down {
-	@media (max-width: #{$md-max}) {
-		@content;
-	}
-}
-@mixin lg-down {
-	@media (max-width: #{$lg-max}) {
-		@content;
-	}
-}
-@mixin xl-down {
-	@media (max-width: #{$xl-max}) {
-		@content;
-	}
-}
-@mixin vl-down {
-	@media (max-width: #{$vl-max}) {
-		@content;
-	}
-}
-@mixin sl-down {
-	@media (max-width: #{$sl-max}) {
-		@content;
-	}
-}
-/* До и ниже конец*/
 
-/* Между разрешениями начало*/
-@mixin between-m-sm {
-	@media (min-width: #{$m-max}) and (max-width: #{$sm-min}) {
-		@content;
-	}
+@mixin mediaToDown($width, $device: 'all') {
+ @media #{$device} and (max-width: #{$width - 1px}) {
+   @content;
+ }
 }
-@mixin between-sm-md {
-	@media (min-width: #{$sm-max}) and (max-width: #{$md-min}) {
-		@content;
-	}
-}
-@mixin between-md-lg {
-	@media (min-width: #{$md-max}) and (max-width: #{$lg-min}) {
-		@content;
-	}
-}
-@mixin between-lg-xl {
-	@media (min-width: #{$lg-max}) and (max-width: #{$xl-min}) {
-		@content;
-	}
-}
-@mixin between-xl-vl {
-	@media (min-width: #{$xl-max}) and (max-width: #{$vl-min}) {
-		@content;
-	}
-}
-@mixin between-vl-sl {
-	@media (min-width: #{$vl-max}) and (max-width: #{$sl-min}) {
-		@content;
-	}
-}
-/* Между разрешениями конец*/
