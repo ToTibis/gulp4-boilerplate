@@ -12,6 +12,7 @@ global.$ = {
 			css: 'build/css/',
 			js: 'build/js/',
 			img: 'build/img/',
+			svg: 'build/img/svg/',
 			fonts: 'build/fonts/'
 		},
 		src: {
@@ -19,6 +20,7 @@ global.$ = {
 			sass: 'src/sass/*.scss',
 			js: 'src/js/*.js',
 			img: 'src/img/*.*',
+			svg: 'src/img/svg/*.svg',
 			sprites: 'src/img/sprites/*.*',
 			fonts: 'src/fonts/**/*.*'
 		},
@@ -27,6 +29,7 @@ global.$ = {
 			sass: 'src/sass/**/*.scss',
 			js: 'src/js/*.js',
 			img: 'src/img/*.*',
+			svg: 'src/img/svg/*.svg',
 			sprites: 'src/img/sprites/*.*',
 			fonts: 'src/fonts/**/*.*'
 		}
@@ -38,7 +41,7 @@ $.path.tasks.forEach(function(taskPath) {
 });
 
 $.gulp.task('default', $.gulp.series(
-	$.gulp.parallel('html', 'sass', 'js', 'img', 'fonts', 'sprites'),
+	$.gulp.parallel('html', 'sass', 'js', 'img', 'svg', 'fonts', 'sprites'),
 	$.gulp.parallel('watch', 'server')
 	)
 );
