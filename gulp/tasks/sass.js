@@ -10,6 +10,6 @@ module.exports = function() {
 		.pipe($.gcmq())
 		.pipe($.loadPlugin.csso())
 		.pipe($.gulp.dest($.path.build.css))
-		.pipe($.browserSync.reload({stream: true}))
+		.pipe($.browserSync.stream())
 	});
 };
