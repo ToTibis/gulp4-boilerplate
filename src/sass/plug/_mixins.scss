@@ -28,3 +28,13 @@
   &:-ms-input-placeholder { @content; }
   &::-webkit-input-placeholder { @content; }
 }
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+@mixin transition($what: all, $when: .3s, $how: ease) {
+  transition: $what $when $how;
+}
