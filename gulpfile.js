@@ -5,6 +5,7 @@ global.$ = {
 	loadPlugin: require('gulp-load-plugins')(),
 	browserSync: require('browser-sync').create(),
 	gcmq: require('gulp-group-css-media-queries'),
+	gscc: require('gulp-strip-css-comments'),
 	path: {
 		tasks: require('./gulp/config/tasks.js'),
 		build: {

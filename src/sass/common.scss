@@ -2,6 +2,7 @@
 @import 'plug/variables';
 @import 'plug/media-queries';
 @import 'plug/mixins';
+@import '../../node_modules/rfs/scss/rfs';
 
 /* Global styles start*/
 html,
@@ -42,13 +43,10 @@ input, textarea {
 }
 svg {
 	width: 100%;
-	background: inherit;
 	stroke-width: 0;
 	stroke: currentColor;
-	fill: inherit;
+	fill: currentColor;
 	pointer-events: none;
-	-webkit-transform: translate(0);
-	-ms-transform: translate(0);
 	transform: translate(0);
 	vertical-align: top;
 }
@@ -65,172 +63,8 @@ svg {
 }
 /* Global styles end*/
 
+.example-responsive-text {
+	@include responsive-font-size(32);
+}
 
-
-.modal {
-	&-overlay, &-container {
-		will-change: transform;
-	}
-	&-overlay {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: rgba(blue, .9);
-		display: flex;
-		z-index: 5;
-	}
-	&-container {
-		@include mediaToDown($sm) {
-			max-width: 300px;
-		}
-		@include mediaToUp($sm) {
-			max-width: rem(430px);
-			border-radius: 5px;
-		}
-		background-color: white;
-		padding: 2rem;
-		max-height: 100vh;
-		overflow: auto;
-		margin: auto;
-	}
-	&-header {
-		position: relative;
-		text-align: center;
-		padding-top: .5rem;
-		margin-bottom: 1.25rem;
-		color: black;
-		&__title {
-			line-height: 1;
-		}
-	}
-	&-close {
-		position: absolute;
-		right: - rem(16px);
-		top: - rem(16px);
-		cursor: pointer;
-		&:hover {
-			svg {
-				fill: black;
-			}
-		}
-		&__icon {
-			@include transition;
-			width: rem(16px);
-			height: rem(16px);
-			fill: gray;
-		}
-	}
-	&-animation {
-		display: none;
-		&.is-open {
-			display: block;
-		}
-		&[aria-hidden="false"] {
-			.modal {
-				&-overlay {
-					animation: mmfadeIn .4s cubic-bezier(0.0, 0.0, 0.2, 1);
-				}
-				&-container {
-					animation: mmslideIn .4s cubic-bezier(0, 0, .2, 1);
-				}
-			}
-		}
-		&[aria-hidden="true"] {
-			.modal {
-				&-overlay {
-					animation: mmfadeOut .4s cubic-bezier(0.0, 0.0, 0.2, 1);
-				}
-				&-container {
-					animation: mmslideOut .4s cubic-bezier(0, 0, .2, 1);
-				}
-			}
-		}
-	}
-	&-form {
-		&__group {
-			position: relative;
-			&:not(:last-child) {
-				margin-bottom: rem(30px);
-			}
-			label.error {
-				color: red;
-			}
-		}
-		&__label {
-			@include transition;
-			display: block;
-			color: gray;
-			margin-bottom: .25rem;
-		}
-		&__input {
-			@include transition;
-			width: 100%;
-			padding: rem(10px) 1rem;
-			border: 1px solid;
-			border-color: gray;
-			font-family: 'Roboto', sans-serif;
-			font-weight: 400;
-			color: gray;
-			&:focus {
-				border-color: black;
-				color: black;
-			}
-			&.textarea-type {
-				resize: none;
-				height: rem(150px);
-			}
-		}
-		&__submit {
-			@include transition;
-			display: block;
-			background-color: yellow;
-			border: none;
-			width: 100%;
-			line-height: rem(45px);
-			color: white;
-			cursor: pointer;
-			box-shadow: 0 0 0 0 rgba(blue, 0);
-			&:hover {
-				background-color: black;
-				box-shadow: 0 2px 5px 0 rgba(blue, .5);
-			}
-		}
-		&__annotations {
-			font-size: rem(12px);
-			text-align: center;
-			color: darken(gray, 15);
-			p {
-				&:not(:last-child) {
-					margin-bottom: .25rem;
-				}
-			}
-			a {
-				color: yellow;
-				color: black;
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-		}
-	}
-}
-/* Modal animations */
-@keyframes mmfadeIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
-}
-@keyframes mmfadeOut {
-	from { opacity: 1; }
-	to { opacity: 0; }
-}
-@keyframes mmslideIn {
-	from { transform: translateY(15%); }
-	to { transform: translateY(0); }
-}
-@keyframes mmslideOut {
-	from { transform: translateY(0); }
-	to { transform: translateY(-15%); }
-}
-/* modal styles end */
+@import 'plug/modal';

@@ -1,0 +1,122 @@
+$modal-overlay-bg: 												rgba(black, .75);
+$modal-container-bg: 											white;
+
+$modal-container-padding-y: 							1rem;
+$modal-container-padding-x: 							1rem;
+
+$modal-header-padding-y: 								  .5rem;
+$modal-header-padding-x: 								  .5rem;
+$modal-header-color:    								  black;
+
+$modal-container-max-width-sm-down: 			100%;
+$modal-container-max-width-sm-up: 				rem(430px);
+
+$modal-close-icon-size: 									rem(16px);
+$modal-close-icon-color: 								  gray;
+
+button[type=button] {
+	&[data-modal-close],
+	&[data-modal-open] {
+		cursor: pointer;
+	}
+}
+
+.modal {
+	&-overlay, &-container {
+		will-change: transform;
+	}
+	&-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: $modal-overlay-bg;
+		display: flex;
+		z-index: 5;
+	}
+	&-container {
+		background-color: $modal-container-bg;
+		padding: #{$modal-container-padding-y + $modal-close-icon-size} #{$modal-container-padding-x + $modal-close-icon-size};
+		max-height: 100vh;
+		overflow: auto;
+		margin: auto;
+		@include mediaToDown($sm) {
+			max-width: $modal-container-max-width-sm-down;
+		}
+		@include mediaToUp($sm) {	
+			max-width: $modal-container-max-width-sm-up;
+		}
+	}
+	&-header {
+		position: relative;
+		text-align: center;
+		padding: $modal-header-padding-y;
+		color: $modal-header-color;
+	}
+	&-close {
+		@include transition;
+		position: absolute;
+		right: -#{$modal-close-icon-size};
+		top: -#{$modal-close-icon-size};
+		cursor: pointer;
+		width: $modal-close-icon-size;
+		height: $modal-close-icon-size;
+		color: $modal-close-icon-color;
+		&:hover {
+			svg {
+				color: darken($modal-close-icon-color, 15%);
+			}
+		}
+		&__icon {
+			transition: inherit;
+			width: inherit;
+			height: inherit;
+			stroke: currentColor;
+			fill: currentColor;
+		}
+	}
+	&-animated {
+		display: none;
+		&.is-open {
+			display: block;
+		}
+		&[aria-hidden="false"] {
+			.modal {
+				&-overlay {
+					animation: mmfadeIn .4s cubic-bezier(0.0, 0.0, 0.2, 1);
+				}
+				&-container {
+					animation: mmslideIn .4s cubic-bezier(0, 0, .2, 1);
+				}
+			}
+		}
+		&[aria-hidden="true"] {
+			.modal {
+				&-overlay {
+					animation: mmfadeOut .4s cubic-bezier(0.0, 0.0, 0.2, 1);
+				}
+				&-container {
+					animation: mmslideOut .4s cubic-bezier(0, 0, .2, 1);
+				}
+			}
+		}
+	}
+}
+/* Modal animations */
+@keyframes mmfadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes mmfadeOut {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
+@keyframes mmslideIn {
+	from { transform: translateY(15%); }
+	to { transform: translateY(0); }
+}
+@keyframes mmslideOut {
+	from { transform: translateY(0); }
+	to { transform: translateY(-15%); }
+}
