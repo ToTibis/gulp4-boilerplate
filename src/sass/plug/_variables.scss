@@ -18,48 +18,23 @@ $link-hover-decoration     : none;
 /* Reboot vaiables end*/
 
 /* Grid variables */
-$grid-breakpoints: (
-	xs: 0,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1200px
-	);
+$grid-breakpoints: (xs: 0, sm: 576px,	md: 768px, lg: 992px,	xl: 1200px);
 
-$container-max-widths: (
-	sm: 540px,
-	md: 720px,
-	lg: 960px,
-	xl: 1140px
-	);
+$container-max-widths: (sm: 540px, md: 720px,	lg: 960px, xl: 1140px);
 
 $grid-columns:                12;
 $grid-gutter-width:           30px;
 /* Grid variables end*/
 
-/* Responsive font start */
-$rfs-minimum-font-size: 15px;
+/* Responsive font-size start */
+$rfs-minimum-font-size: 16px;
 $rfs-font-size-unit: rem;
-
-// breakpoint at where font-size starts decreasing if screen width is smaller
 $rfs-breakpoint: 1200px;
 $rfs-breakpoint-unit: px;
-
-// resize font-size based on screen height and width
 $rfs-two-dimensional: false;
-
-// factor of decrease
 $rfs-factor: 10;
-
-// generate enable or disable classes. Possibilities: false, "enable" or "disable"
 $rfs-class: false;
-
-// 1 rem = $rfs-rem-value px
 $rfs-rem-value: 16;
-
-// safari iframe resize bug: https://github.com/project-rfs/rfs/issues/14
 $rfs-safari-iframe-resize-bug-fix: false;
-
-// disable RFS by setting $enable-responsive-font-sizes to false
 $enable-responsive-font-sizes: true;
-/* Responsive font end */
+/* Responsive font-size end */

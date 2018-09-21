@@ -4,9 +4,10 @@
 @import '../../node_modules/bootstrap/scss/functions';
 @import '../../node_modules/bootstrap/scss/variables';
 @import '../../node_modules/bootstrap/scss/mixins';
+@import 'plug/reboot';
 
-@import '../../node_modules/bootstrap/scss/utilities/spacing';
-@import '../../node_modules/bootstrap/scss/utilities/text';
-@import '../../node_modules/bootstrap/scss/bootstrap-grid.scss';
-
-@import '../../node_modules/bootstrap/scss/bootstrap-reboot.scss';
+@import 'plug/utilites/text-align';
+@import 'plug/utilites/spacing';
+@import 'plug/utilites/display';
+@import 'plug/utilites/flex';
+@import 'plug/utilites/container-widths';

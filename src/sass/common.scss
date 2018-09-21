@@ -5,6 +5,9 @@
 @import '../../node_modules/rfs/scss/rfs';
 
 /* Global styles start*/
+* {
+	outline: none;
+}
 html,
 body {
 	height: 100%;
@@ -13,9 +16,6 @@ ul, ol, li {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-}
-figure {
-	margin: 0;
 }
 button {
 	border: none;
@@ -27,6 +27,9 @@ button {
 			outline: none;
 		}
 	}
+}
+a {
+	color: inherit;
 }
 input[type='number'] {
 	-moz-appearance: textfield;
@@ -50,18 +53,16 @@ svg {
 	stroke: currentColor;
 	fill: inherit;
 	pointer-events: none;
-	transform: translate(0);
-	vertical-align: top;
 }
-.page-wrapper {
+.squeeze-wrapper {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 }
-.page-content {
+.squeeze-content {
 	flex: 1 0 auto;
 }
-.footer {
+.squeeze-footer {
 	flex: 0 0 auto;
 }
 /* Global styles end*/

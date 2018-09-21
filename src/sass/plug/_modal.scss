@@ -1,4 +1,5 @@
 $modal-overlay-bg: 												rgba(black, .75);
+$modal-overlay-z-index: 									5;
 $modal-container-bg: 											white;
 
 $modal-container-padding-y: 							1rem;
@@ -33,7 +34,8 @@ button[type=button] {
 		bottom: 0;
 		background-color: $modal-overlay-bg;
 		display: flex;
-		z-index: 5;
+		align-items: flex-start;
+		z-index: $modal-overlay-z-index;
 	}
 	&-container {
 		background-color: $modal-container-bg;
