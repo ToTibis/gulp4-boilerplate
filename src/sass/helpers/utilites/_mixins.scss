@@ -1,0 +1,169 @@
+@mixin pseudo($display: block, $pos: absolute, $content: ''){
+	content: $content;
+	display: $display;
+	position: $pos;
+}
+/*---------------pseudo element default styles---------------*/
+
+@mixin pseudo-wrapper($width: 100%, $height: 100%, $content: '') {
+	content: $content;
+	position: absolute;
+	display: block;
+	left: 0;
+	top: 0;
+	width: $width;
+	height: $height;
+}
+/*---------------------pseudo full size---------------------*/
+
+@mixin responsive-ratio($x,$y, $pseudo: false) {
+	$padding: unquote( ( $y / $x ) * 100 + '%' );
+	@if $pseudo { 
+		&:before {
+			@include pseudo($pos: relative);
+			width: 100%;
+			padding-top: $padding;
+		}
+	} @else {
+		padding-top: $padding;
+	}
+}
+/*--------------------proportional ratio--------------------*/
+
+@mixin placeholder {
+	&.placeholder { @content; }
+	&:-moz-placeholder { @content; }
+	&::-moz-placeholder { @content; }
+	&:-ms-input-placeholder { @content; }
+	&::-webkit-input-placeholder { @content; }
+}
+/*--------------------placeholder styles--------------------*/
+
+@mixin clearfix {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+/*-------------------------clearfix-------------------------*/
+
+@mixin transition($what: all, $when: .3s, $how: ease) {
+	transition: $what $when $how;
+}
+/*------------------------transition------------------------*/
+
+@mixin background($path, $position: center center, $repeat: no-repeat, $size: cover) {
+	background: {
+		image: url($path);
+		position: $position;
+		repeat: $repeat;
+		size: $size;
+	}
+}
+/*--------------------background image--------------------*/
+
+@mixin center($position) {
+	position: absolute;
+	
+	@if $position == 'vertical' {
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+	@else if $position == 'horizontal' {
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		transform: translate(-50%);
+	}
+	@else if $position == 'both' {
+		top: 50%;
+		left: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+	}
+}
+/*--------------------absolute alignment--------------------*/
+
+@mixin keyframes($animation-name) {
+	@-webkit-keyframes #{$animation-name} {
+		@content;
+	}
+	@-moz-keyframes #{$animation-name} {
+		@content;
+	}  
+	@-ms-keyframes #{$animation-name} {
+		@content;
+	}
+	@-o-keyframes #{$animation-name} {
+		@content;
+	}  
+	@keyframes #{$animation-name} {
+		@content;
+	}
+}
+@mixin animation($str) {
+	-webkit-animation: #{$str};
+	-moz-animation: #{$str};
+	-ms-animation: #{$str};
+	-o-animation: #{$str};
+	animation: #{$str};      
+}
+/*------------------------animation------------------------*/
+
+@mixin background-gradient($start-color, $end-color, $orientation) { 
+	background: $start-color;
+
+	@if $orientation == 'vertical' {
+		background: -webkit-linear-gradient(top, $start-color, $end-color);
+		background: linear-gradient(to bottom, $start-color, $end-color);
+	} @else if $orientation == 'horizontal' {
+		background: -webkit-linear-gradient(left, $start-color, $end-color);
+		background: linear-gradient(to right, $start-color, $end-color);
+	} @else {
+		background: -webkit-radial-gradient(center, ellipse cover, $start-color, $end-color);
+		background: radial-gradient(ellipse at center, $start-color, $end-color);
+	}
+}
+/*-------------------------gradient-------------------------*/
+
+@mixin padding($top, $right, $bottom, $left) {
+	padding-top: $top;
+	padding-right: $right;
+	padding-bottom: $bottom;
+	padding-left: $left;
+}
+@mixin margin($top, $right, $bottom, $left) {
+	margin-top: $top;
+	margin-right: $right;
+	margin-bottom: $bottom;
+	margin-left: $left;
+}
+/*------------------quick padding and margin------------------*/
+
+@mixin font-face($font-name, $file-name, $weight: normal, $style: normal) { 
+	@font-face {
+		font-family: quote($font-name);
+		src: url($file-name + '.woff2') format('woff2'),
+		url($file-name + '.woff') format('woff'),
+		url($file-name + '.ttf')  format('truetype');
+		font-weight: $weight;
+		font-style: $style;
+	}
+}
+/*---------------------------fonts---------------------------*/
+
+@mixin forIE() { 
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { 
+		@content; 
+	} 
+} 
+@mixin forFF() { 
+	@-moz-document url-prefix() { 
+		@content; 
+	} 
+}
+/*-----------------------for browsers-----------------------*/

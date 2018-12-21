@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Главная</title>
+	<meta name="description" content="Description of the page less than 150 characters">
+	<link rel="stylesheet" href="css/libs.css">
+	<link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+		~include('./template/header.html')
+	<main>
+		<div class="container">
+			<div class="row align-items-center my-5">
+				<div class="col-lg-6 order-2 order-lg-1">
+					<h1 class="example-responsive-text">In this template</h1>
+					~loop('./template/list.html', [
+					{ "title": "- Javascript ES6 Modules transpilable in ES5"},
+					{ "title": "- Sass: grid-generator, useful mixins, media-queries"},
+					{ "title": "- SVG-sprites, support - IE8 and upper"},
+					{ "title": "- HTML-templates"},
+					{ "title": "- Automatic cache cleaning"},
+					{ "title": "- Are divided <b>gulp</b> tasks on development and production mode"}
+					])
+				</div>
+				<div class="col-lg-auto ml-lg-auto order-1 order-lg-2 mb-3 mb-lg-0">
+					<a href="https://github.com/ToTibis" class="github-link" target="_blank">
+						~include('./template/icon.html', {"iconName" : "github"})
+					</a>
+				</div>
+			</div>
+		</div>
+	</main>
+		~include('./template/footer.html')
+	<script src="js/bundle.min.js"></script>
+</body>
+</html>

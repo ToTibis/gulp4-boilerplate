@@ -1,0 +1,141 @@
+@import 'helpers/utilites/rem';
+@import 'helpers/utilites/variables';
+@import 'helpers/utilites/media-queries';
+@import 'helpers/utilites/mixins';
+@import '~modules/rfs/scss/rfs';
+
+/* Global styles start*/
+* {
+	outline: none;
+}
+html,
+body {
+	height: 100%;
+}
+ul, ol, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+button {
+	border: none;
+	padding: 0;
+	margin: 0;
+	background-color: transparent;
+	cursor: pointer;
+	&[type="button"], &[type="submit"] {
+		&:focus {
+			outline: none;
+		}
+	}
+}
+a {
+	color: inherit;
+}
+input[type='number'] {
+	-moz-appearance: textfield;
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+}
+input, textarea {
+	&:focus {
+		outline: none;
+	}
+}
+textarea {
+	resize: none;
+}
+svg {
+	width: 100%;
+	stroke-width: 0;
+	stroke: currentColor;
+	fill: currentColor;
+	pointer-events: none;
+}
+/* Global styles end*/
+.example-responsive-text {
+	@include responsive-font-size(50);
+}
+
+body {
+	position: relative;
+	overflow: hidden;
+	.header, .footer {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		padding-top: .5rem;
+		padding-bottom: .5rem;
+		p {
+			@include responsive-font-size(25);
+			color: $white;
+			text-align: center;
+		}
+	}
+	.header {
+		@include background-gradient(rgba($white, .15), $black, 'vertical');
+		top: 0;
+		box-shadow: 5px 0 10px 0 rgba($white, .25);
+		&:after {
+			@include pseudo-wrapper;
+		}
+	}
+	.footer {
+		@include background-gradient(rgba($white, .15), $black, 'horizontal');
+		bottom: 0;
+		box-shadow: -5px 0 10px 0 rgba($white, .25);
+	}
+}
+
+main {
+	@include background('../img/background.jpg');
+	color: $white;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	h1 {
+		@include padding(null, null, .5rem, null);
+	}
+	ul {
+		@include responsive-font-size(25);
+	}
+	.github-link {
+		@include transition;
+		@include animation('5s linear infinite jump');
+		display: block;
+		color: $black;
+		@include mediaToUp($lg) {
+			max-width: rem(200px);
+		}
+		@include mediaToDown($lg) {
+			max-width: rem(120px);
+			margin: 0 auto;
+		}
+		&:hover {
+			color: $white;
+			animation-play-state: paused;
+		}
+	}
+}
+@include keyframes(jump) {
+	0% {
+		transform: translateY(0);
+	}
+	25% {
+		transform: translateY(10%);
+	}
+	50% {
+		transform: translateY(0);
+	}
+	75% {
+		transform: translateY(-10%);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}

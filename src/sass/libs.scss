@@ -1,0 +1,21 @@
+@import 'helpers/utilites/variables';
+@import 'helpers/utilites/fonts';
+@import 'helpers/utilites/media-queries';
+
+@import '~modules/bootstrap/scss/functions';
+@import '~modules/bootstrap/scss/variables';
+@import '~modules/bootstrap/scss/mixins';
+@import 'helpers/utilites/reboot';
+
+@import 'helpers/bootstrap/text-align';
+@import 'helpers/bootstrap/spacing';
+@import 'helpers/bootstrap/display';
+@import 'helpers/bootstrap/flex';
+@import 'helpers/bootstrap/container-widths';
+
+
+html {
+	@include mediaToDown($lg) {
+		font-size: 15px;
+	}
+}

@@ -1,0 +1,56 @@
+/* colors vaiables start*/
+$white:																			#ffffff;
+$black:																			#000000;
+/* colors vaiables end*/
+
+/* reboot vaiables start*/
+$font-family-base: 													'Jura Regular', sans-serif;
+$font-size-base: 														1rem;
+$font-weight-base: 													normal;
+$line-height-base: 													1.35;
+
+$body-color: 																black;
+$body-bg: 																	white;
+
+$headings-margin-bottom: 										0;
+$paragraph-margin-bottom: 									0;
+$label-margin-bottom: 											0;
+
+$link-color: 																$black;
+$link-decoration: 													none;
+$link-hover-color: 													darken($link-color, 15%);
+$link-hover-decoration: 										none;
+/* Reboot vaiables end*/
+
+/* Grid variables start*/
+$grid-breakpoints: (
+	xs: 																			0,
+	sm: 																			576px,
+	md: 																			768px,
+	lg: 																			992px,
+	xl: 																			1200px
+	);
+
+$container-max-widths: (
+	sm: 																			540px,
+	md: 																			720px,
+	lg: 																			960px,
+	xl: 																			1140px
+	);
+
+$grid-columns:                							12;
+$grid-gutter-width:           							30px;
+/* Grid variables end*/
+
+/* Responsive font-size start*/
+$rfs-minimum-font-size: 										16px;
+$rfs-font-size-unit: 												rem;
+$rfs-breakpoint: 														1200px;
+$rfs-breakpoint-unit: 											px;
+$rfs-two-dimensional: 											false;
+$rfs-factor: 																10;
+$rfs-class: 																false;
+$rfs-rem-value: 														16;
+$rfs-safari-iframe-resize-bug-fix: 					false;
+$enable-responsive-font-sizes: 							true;
+/* Responsive font-size end*/
