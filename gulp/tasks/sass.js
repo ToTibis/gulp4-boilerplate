@@ -19,7 +19,7 @@ module.exports = function() {
 		.pipe($.aliases({
 			'~modules': 'node_modules'
 		}))
-		.pipe($.sass({outputStyle: 'expanded'}).on('error', $.sass.logError))
+		.pipe($.sass({outputStyle: 'compressed'}).on('error', $.sass.logError))
 		.pipe($.stripCss())
 		.pipe($.gulp.dest($.path.build.css))
 	});
