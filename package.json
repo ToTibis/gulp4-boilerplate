@@ -1,6 +1,6 @@
 {
 	"name": "gulp4template",
-	"version": "1.1",
+	"version": "1.1.0",
 	"description": "Gulp4 template for front-end development",
 	"main": "index.js",
 	"repository": {
