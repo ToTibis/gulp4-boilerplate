@@ -43,6 +43,14 @@ global.$ = {
 			js: 'build/js/',
 			fonts: 'build/fonts/',
 			img: 'build/img/'
+		},
+		watch: {
+			html: 'src/**/*.html',
+			sass: 'src/sass/**/*.scss',
+			js: 'src/js/*.js',
+			img: 'src/img/images/**/*.*',
+			svg: 'src/img/sprite/*.svg',
+			fonts: 'src/fonts/**/*.*'
 		}
 	}
 }
