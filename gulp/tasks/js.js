@@ -8,7 +8,7 @@ module.exports = function() {
 			packageCache: {},
 			plugin: [$.watchify]
 		})
-		.transform($.babel.configure({presets: ['@babel/preset-env']}))
+		.transform($.babel)
 		.bundle()
 		.on('error', function(error) {console.log(`Error : ${error.message}`);this.emit('end');})
 		.pipe($.source('bundle.min.js'))
@@ -29,7 +29,7 @@ module.exports = function() {
 			packageCache: {},
 			plugin: [$.watchify]
 		})
-		.transform($.babel.configure({presets: ['@babel/preset-env']}))
+		.transform($.babel)
 		.bundle()
 		.pipe($.source('bundle.min.js'))
 		.pipe($.buffer())

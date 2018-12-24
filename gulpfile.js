@@ -30,7 +30,7 @@ global.$ = {
 	path: {
 		tasks: require('./gulp/config/tasks.js'),
 		src: {
-			html: 'src/html/**/*.html',
+			html: 'src/html/pages/*.html',
 			sass: 'src/sass/*.scss',
 			js: 'src/js/main.js',
 			fonts: 'src/fonts/**/*.*',
@@ -45,9 +45,9 @@ global.$ = {
 			img: 'build/img/'
 		},
 		watch: {
-			html: 'src/**/*.html',
+			html: 'src/html/*.html',
 			sass: 'src/sass/**/*.scss',
-			js: 'src/js/*.js',
+			js: 'src/js/**/*.js',
 			img: 'src/img/images/**/*.*',
 			svg: 'src/img/sprite/*.svg',
 			fonts: 'src/fonts/**/*.*'
