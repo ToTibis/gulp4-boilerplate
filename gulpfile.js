@@ -45,7 +45,7 @@ global.$ = {
 			img: 'build/img/'
 		},
 		watch: {
-			html: 'src/html/*.html',
+			html: 'src/html/**/*.html',
 			sass: 'src/sass/**/*.scss',
 			js: 'src/js/**/*.js',
 			img: 'src/img/images/**/*.*',
