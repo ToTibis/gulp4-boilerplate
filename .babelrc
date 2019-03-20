@@ -1,10 +1,9 @@
 {
   "plugins": [
-    "@babel/plugin-transform-runtime",
     ["module-resolver", {
       "root": ["./"],
       "alias": {
-        "modules": "./node_modules",
+        "modules": "./node_modules"
       }
     }]
   ],
@@ -12,12 +11,14 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "entry",
+        "useBuiltIns": "usage",
         "modules" : "commonjs",
+        "debug": true,
+        "ignoreBrowserslistConfig": true,
         "targets": {
-          "browsers": ["last 2 versions", "safari 7"]
+          "browsers": ["last 2 versions", "safari >= 8"]
         }
       }
     ]
-  ]  
+  ]
 }

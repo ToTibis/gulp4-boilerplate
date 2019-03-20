@@ -13,7 +13,7 @@
 		~include('../template/header.html')
 	<main>
 		<div class="container">
-			<div class="row align-items-center my-5">
+			<div class="row align-items-center mt-5">
 				<div class="col-lg-6 order-2 order-lg-1">
 					<h1 class="example-responsive-text">In this template</h1>
 					~loop('../template/list.html', [
@@ -29,6 +29,12 @@
 					<a href="https://github.com/ToTibis" class="github-link" target="_blank">
 						~include('../template/icon.html', {"iconName" : "github"})
 					</a>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col">
+          <h2>This is output from axios.get:</h2>
+					<p id="output"></p>
 				</div>
 			</div>
 		</div>
