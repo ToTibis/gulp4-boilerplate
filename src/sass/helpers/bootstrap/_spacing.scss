@@ -8,19 +8,19 @@
 				.#{$abbrev}#{$infix}-#{$size} { #{$prop}: $length; }
 				.#{$abbrev}t#{$infix}-#{$size},
 				.#{$abbrev}y#{$infix}-#{$size} {
-					#{$prop}-top: $length;
+					#{$prop}-top: $length !important;
 				}
 				.#{$abbrev}r#{$infix}-#{$size},
 				.#{$abbrev}x#{$infix}-#{$size} {
-					#{$prop}-right: $length;
+					#{$prop}-right: $length !important;
 				}
 				.#{$abbrev}b#{$infix}-#{$size},
 				.#{$abbrev}y#{$infix}-#{$size} {
-					#{$prop}-bottom: $length;
+					#{$prop}-bottom: $length !important;
 				}
 				.#{$abbrev}l#{$infix}-#{$size},
 				.#{$abbrev}x#{$infix}-#{$size} {
-					#{$prop}-left: $length;
+					#{$prop}-left: $length !important;
 				}
 			}
 		}
@@ -28,19 +28,19 @@
 		.m#{$infix}-auto { margin: auto; }
 		.mt#{$infix}-auto,
 		.my#{$infix}-auto {
-			margin-top: auto;
+			margin-top: auto !important;
 		}
 		.mr#{$infix}-auto,
 		.mx#{$infix}-auto {
-			margin-right: auto;
+			margin-right: auto !important;
 		}
 		.mb#{$infix}-auto,
 		.my#{$infix}-auto {
-			margin-bottom: auto;
+			margin-bottom: auto !important;
 		}
 		.ml#{$infix}-auto,
 		.mx#{$infix}-auto {
-			margin-left: auto;
+			margin-left: auto !important;
 		}
 	}
 }

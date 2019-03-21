@@ -2,10 +2,10 @@
 	@include media-breakpoint-up($breakpoint) {
 		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-		.d#{$infix}-none         { display: none; }
-		.d#{$infix}-inline-block { display: inline-block; }
-		.d#{$infix}-block        { display: block; }
-		.d#{$infix}-flex         { display: flex; }
-		.d#{$infix}-inline-flex  { display: inline-flex; }
+		.d#{$infix}-none         { display: none !important; }
+		.d#{$infix}-inline-block { display: inline-block !important; }
+		.d#{$infix}-block        { display: block !important; }
+		.d#{$infix}-flex         { display: flex !important; }
+		.d#{$infix}-inline-flex  { display: inline-flex !important; }
 	}
 }
