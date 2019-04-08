@@ -1,8 +1,8 @@
 # Gulp 4 Template
 ### In this template you can use:
-- Javascript ES6 Modules;
+- Javascript ES6 Modules - processing using Webpack 4;
 - Sass - Bootstrap 4 grid-generator, a set of useful mixins out of the box;
-- SVG-sprites, support - IE 8 and upper;
+- SVG-sprites;
 - Reusable HTML-templates - based on [gulp-file-include](https://www.npmjs.com/package/gulp-file-include).
 ### Available immediately:
 - Trimmed version(**~40 kb** size) of Bootsrap 4 - grid, flex, spacing, display and text utilites, functions, mixins, variables;
@@ -12,10 +12,7 @@
 	### Installation:
 	> Note: latest versions of **[node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/)** must be installed!
 	```sh
-	$ git clone https://github.com/ToTibis/gulp4template
-	```
-	```sh
-	transfer files from the 'gulp4template' folder to your project folder
+	$ git clone https://github.com/ToTibis/gulp4template FOLDER_NAME
 	```
 	```sh
 	$ npm i

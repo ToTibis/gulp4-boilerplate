@@ -1,41 +1,21 @@
-module.exports = function() {
+const
+		configProd = require('../../webpack/config.production.js'),
+		configDev = require('../../webpack/config.development.js');
 
+module.exports = function() {
 	$.gulp.task('js:development', function() {
-		return $.browserify({
-			entries: [$.path.src.js],
-			debug: true,
-			cache: {},
-			packageCache: {},
-			plugin: [$.watchify]
-		})
-		.transform($.babel)
-		.bundle()
-		.on('error', function(error) {console.log(`Error : ${error.message}`);this.emit('end');})
-		.pipe($.source('bundle.min.js'))
-		.pipe($.buffer())
-		.pipe($.sourcemaps.init({ loadMaps: true }))
-		.pipe($.sourcemaps.write('./'))
-		.pipe($.gulp.dest($.path.build.js))
-		.pipe($.browserSync.reload({
-			stream: true
-		}))
+		return $.gulp.src($.path.src.js)
+				.pipe($.webpackStream(configDev))
+				.pipe($.gulp.dest($.path.build.js))
+				.pipe($.browserSync.reload({
+					stream: true
+				}))
 	});
 
 	$.gulp.task('js:production', function() {
-		return $.browserify({
-			entries: [$.path.src.js],
-			debug: true,
-			cache: {},
-			packageCache: {},
-			plugin: [$.watchify]
-		})
-		.transform($.babel)
-		.bundle()
-		.pipe($.source('bundle.min.js'))
-		.pipe($.buffer())
-		.pipe($.stripJs())
-		.pipe($.uglify())
-		.pipe($.gulp.dest($.path.build.js))
+		return $.gulp.src($.path.src.js)
+				.pipe($.webpackStream(configProd))
+				.pipe($.gulp.dest($.path.build.js))
 	});
 
 };

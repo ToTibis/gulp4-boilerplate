@@ -1,11 +1,15 @@
 {
   "plugins": [
     ["module-resolver", {
-      "root": ["./"],
       "alias": {
         "modules": "./node_modules"
       }
-    }]
+    }],
+    ["@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ]
   ],
   "presets": [
     [
@@ -13,7 +17,7 @@
       {
         "useBuiltIns": "usage",
         "modules" : "commonjs",
-        "debug": true,
+        "debug": false,
         "ignoreBrowserslistConfig": true,
         "targets": {
           "browsers": ["last 2 versions", "safari >= 8"]
