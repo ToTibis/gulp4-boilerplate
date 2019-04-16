@@ -14,6 +14,9 @@
 	```sh
 	$ git clone https://github.com/ToTibis/gulp4template FOLDER_NAME
 	```
+    ```sh
+    $ cd FOLDER_NAME
+    ```
 	```sh
 	$ npm i
 	```
