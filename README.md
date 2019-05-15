@@ -6,7 +6,7 @@
 - Reusable HTML-templates - based on [gulp-file-include](https://www.npmjs.com/package/gulp-file-include).
 ### Available immediately:
 - Trimmed version(**~40 kb** size) of Bootsrap 4 - grid, flex, spacing, display and text utilites, functions, mixins, variables;
-- [jQuery](https://github.com/jquery/jquery);
+- [jQuery](https://github.com/jquery/jquery)- using with WebpackProvidePlugin and partial include in main javascript file - just what we use;
 - [RFS](https://github.com/twbs/rfs) - plugin for responsive font size;
 - [svgxuse](https://github.com/Keyamoon/svgxuse) - simple polyfill that fetches external SVGs referenced in <use> elements when the browser itself fails to do so.
 	### Installation:
