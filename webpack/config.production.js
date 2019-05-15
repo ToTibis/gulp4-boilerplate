@@ -5,16 +5,5 @@ const
 
 module.exports = merge(common, {
 	mode: 'production',
-	devtool: 'none',
-	optimization: {
-		minimizer: [
-			new uglifyJs({
-				uglifyOptions: {
-					output: {
-						comments: false
-					}
-				}
-			})
-		]
-	}
+	devtool: 'none'
 });

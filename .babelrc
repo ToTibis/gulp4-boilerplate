@@ -15,7 +15,7 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "usage",
+        "useBuiltIns": "entry",
         "modules" : "commonjs",
         "debug": false,
         "ignoreBrowserslistConfig": true,
