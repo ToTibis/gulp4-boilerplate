@@ -5,8 +5,13 @@ const UglifyJs                  = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin   = require('hard-source-webpack-plugin');
 
 module.exports = {
+	entry: {
+		main: './src/js/main.js',
+	},
 	output: {
-		filename: 'bundle.min.js',
+		filename: '[name].js',
+		chunkFilename: '[name].js',
+		publicPath: '/'
 	},
 	module: {
 		rules: [
@@ -25,6 +30,16 @@ module.exports = {
 		]
 	},
 	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				vendor: {
+					test: /node_modules/,
+					chunks: 'initial',
+					name: 'vendors',
+					enforce: true
+				}
+			}
+		},
 		minimizer: [
 			new TerserPlugin({
 				cache: true,

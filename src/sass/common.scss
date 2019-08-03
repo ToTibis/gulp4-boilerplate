@@ -56,6 +56,9 @@ svg {
 	fill: currentColor;
 	pointer-events: none;
 }
+img {
+	max-width: 100%;
+}
 /* Global styles end*/
 .example-responsive-text {
 	@include responsive-font-size(50);
