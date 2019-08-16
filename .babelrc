@@ -17,11 +17,7 @@
       {
         "useBuiltIns": "entry",
         "modules" : "commonjs",
-        "debug": false,
-        "ignoreBrowserslistConfig": true,
-        "targets": {
-          "browsers": ["last 2 versions", "safari >= 8"]
-        }
+        "debug": false
       }
     ]
   ]

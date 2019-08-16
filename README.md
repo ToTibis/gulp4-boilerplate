@@ -1,9 +1,9 @@
 # Gulp 4 Template
-### In this template you can use:
+### In this boilerplate you can use:
 - Javascript ES6 Modules - processing using Webpack 4;
 - Sass - Bootstrap 4 grid-generator, a set of useful mixins out of the box;
 - SVG-sprites;
-- Reusable HTML-templates - based on [gulp-file-include](https://www.npmjs.com/package/gulp-file-include).
+- HTML - processing using Pug.js
 ### Available immediately:
 - Trimmed version(**~40 kb** size) of Bootsrap 4 - grid, flex, spacing, display and text utilites, functions, mixins, variables;
 - [jQuery](https://github.com/jquery/jquery)- using with WebpackProvidePlugin and partial include in main javascript file - just what we use;

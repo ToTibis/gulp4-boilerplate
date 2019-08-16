@@ -6,113 +6,124 @@
 
 /* Global styles start*/
 * {
-	outline: none;
+  outline: none;
 }
 html,
 body {
-	height: 100%;
+  height: 100%;
 }
 ul, ol, li {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 button {
-	border: none;
-	padding: 0;
-	margin: 0;
-	background-color: transparent;
-	cursor: pointer;
-	&[type="button"], &[type="submit"] {
-		&:focus {
-			outline: none;
-		}
-	}
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  cursor: pointer;
+  &[type="button"], &[type="submit"] {
+    &:focus {
+      outline: none;
+    }
+  }
 }
 a {
-	color: inherit;
+  color: inherit;
 }
 input[type='number'] {
-	-moz-appearance: textfield;
-	&::-webkit-outer-spin-button,
-	&::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 input, textarea {
-	&:focus {
-		outline: none;
-	}
+  &:focus {
+    outline: none;
+  }
 }
 textarea {
-	resize: none;
+  resize: none;
 }
 svg {
-	max-width: 100%;
-	max-height: 100%;
-	stroke-width: 0;
-	stroke: currentColor;
-	fill: currentColor;
-	pointer-events: none;
+  max-width: 100%;
+  max-height: 100%;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+  pointer-events: none;
 }
 img {
-	max-width: 100%;
+  max-width: 100%;
 }
 /* Global styles end*/
-.example-responsive-text {
-	@include responsive-font-size(50);
+.page {
+	&-wrapper {
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+		.footer {
+			flex: 0 0 auto;
+		}
+	}
+	&-content {
+		flex: 1 0 auto;
+	}
 }
 
-body {
-	position: relative;
-	overflow: hidden;
-	.header, .footer {
-		position: absolute;
-		left: 0;
-		width: 100%;
-		padding-top: .5rem;
-		padding-bottom: .5rem;
-		p {
-			@include responsive-font-size(25);
-			color: $white;
-			text-align: center;
+$list-class: 'list';
+
+.presentation-wrapper {
+	@include background('../img/background.jpg');
+	color: map-get($colors, white);
+	.page {
+		&-wrapper {
+			height: 100vh;
 		}
+	}
+	main {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		justify-content: center;
+	}
+	.header, .footer {
+		padding-top: $base-unit;
+		padding-bottom: $base-unit;
 	}
 	.header {
-		@include background-gradient(rgba($white, .15), $black, 'vertical');
-		top: 0;
-		box-shadow: 5px 0 10px 0 rgba($white, .25);
-		&:after {
-			@include pseudo-wrapper;
+		nav {
+			a {
+				@include transition;
+				font-weight: bold;
+				& + a {
+					margin-left: $base-unit;
+				}
+				&:hover {
+					color: get($colors, success);
+				}
+			}
 		}
 	}
-	.footer {
-		@include background-gradient(rgba($white, .15), $black, 'horizontal');
-		bottom: 0;
-		box-shadow: -5px 0 10px 0 rgba($white, .25);
+	.#{$list-class} {
+		@include setFontSize(22, true);
+		padding-top: $base-unit / 2;
+		padding-bottom: $base-unit / 2;
 	}
-}
-
-main {
-	@include background('../img/background.jpg');
-	color: $white;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 	h1 {
-		@include padding(null, null, .5rem, null);
+		@include setFontSize(32, true)
 	}
-	ul {
-		@include responsive-font-size(25);
+	h2 {
+		@include setFontSize(28, true)
 	}
 	.github-link {
 		@include transition;
 		@include animation('5s linear infinite jump');
 		display: block;
-		color: $black;
+		color: get($colors, black);
 		@include mediaToUp($lg) {
 			max-width: rem(200px);
 		}
@@ -121,7 +132,7 @@ main {
 			margin: 0 auto;
 		}
 		&:hover {
-			color: $white;
+			color: get($colors, white);
 			animation-play-state: paused;
 		}
 	}
@@ -143,3 +154,4 @@ main {
 		transform: translateY(0);
 	}
 }
+

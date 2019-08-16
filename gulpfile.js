@@ -2,7 +2,6 @@
 
 global.$ = {
     gulp: require('gulp'),
-    fileinclude: require('gulp-file-include'),
     sass: require('gulp-sass'),
     sourcemaps: require('gulp-sourcemaps'),
     autoprefixer: require('gulp-autoprefixer'),
@@ -18,14 +17,14 @@ global.$ = {
     replace: require('gulp-replace'),
     svgmin: require('gulp-svgmin'),
     cheerio: require('gulp-cheerio'),
-    htmlBeautify: require('gulp-beautify-code'),
     aliases: require('gulp-style-aliases'),
     webpack: require('webpack'),
     webpackStream: require('webpack-stream'),
+    pug: require('gulp-pug'),
     path: {
         tasks: require('./gulp/config/tasks.js'),
         src: {
-            html: 'src/html/pages/*.html',
+            html: 'src/html/pages/*.pug',
             sass: 'src/sass/*.scss',
             js: 'src/js/main.js',
             fonts: 'src/fonts/**/*.*',
@@ -40,7 +39,7 @@ global.$ = {
             img: 'build/img/'
         },
         watch: {
-            html: 'src/html/**/*.html',
+            html: 'src/html/**/*.pug',
             sass: 'src/sass/**/*.scss',
             js: 'src/js/**/*.js',
             img: 'src/img/images/**/*.*',

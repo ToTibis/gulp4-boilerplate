@@ -28,26 +28,23 @@ export function getBottomOffset(elem) {
 export function getRightOffset(elem) {
 	return $v.$window.outerWidth() - (elem.outerWidth() + elem.offset().left)
 }
-export function ifExist(elem, f) {
-	if (elem.length > 0) {
-		f()
+export const isMobile = {
+	Android: function() {
+		return navigator.userAgent.match(/Android/i);
+	},
+	BlackBerry: function() {
+		return navigator.userAgent.match(/BlackBerry/i);
+	},
+	iOS: function() {
+		return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+	},
+	Opera: function() {
+		return navigator.userAgent.match(/Opera Mini/i);
+	},
+	Windows: function() {
+		return navigator.userAgent.match(/IEMobile/i);
+	},
+	any: function() {
+		return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
 	}
-}
-export function getGreatestHeight(element) {
-	let h = 0;
-
-	$.each(element, function (index, element) {
-
-		let el = $(element);
-
-		if (el.outerHeight() > h) {
-			h = el.outerHeight()
-		}
-
-	});
-
-	let hReal = h;
-	h = 0;
-
-	return hReal;
-}
+};

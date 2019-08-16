@@ -105,6 +105,7 @@
 		@content;
 	}
 }
+
 @mixin animation($str) {
 	-webkit-animation: #{$str};
 	-moz-animation: #{$str};
@@ -113,36 +114,6 @@
 	animation: #{$str};      
 }
 /*------------------------animation------------------------*/
-
-@mixin background-gradient($start-color, $end-color, $orientation) { 
-	background: $start-color;
-
-	@if $orientation == 'vertical' {
-		background: -webkit-linear-gradient(top, $start-color, $end-color);
-		background: linear-gradient(to bottom, $start-color, $end-color);
-	} @else if $orientation == 'horizontal' {
-		background: -webkit-linear-gradient(left, $start-color, $end-color);
-		background: linear-gradient(to right, $start-color, $end-color);
-	} @else {
-		background: -webkit-radial-gradient(center, ellipse cover, $start-color, $end-color);
-		background: radial-gradient(ellipse at center, $start-color, $end-color);
-	}
-}
-/*-------------------------gradient-------------------------*/
-
-@mixin padding($top, $right, $bottom, $left) {
-	padding-top: $top;
-	padding-right: $right;
-	padding-bottom: $bottom;
-	padding-left: $left;
-}
-@mixin margin($top, $right, $bottom, $left) {
-	margin-top: $top;
-	margin-right: $right;
-	margin-bottom: $bottom;
-	margin-left: $left;
-}
-/*------------------quick padding and margin------------------*/
 
 @mixin triangle($direction, $size: 6px, $color: #222){
 	content: '';
@@ -195,3 +166,24 @@
 	} 
 }
 /*-----------------------for browsers-----------------------*/
+
+@function get($map, $keys...) {
+	@each $key in $keys {
+		$map: map-get($map, $key);
+	}
+	@return $map;
+}
+/*-----------------------map get recursive-----------------------*/
+
+@mixin setFontSize($px, $rfs: false, $px-to-rem: true) {
+	@if($rfs) {
+		@include responsive-font-size($px);
+	}
+	@else if($px-to-rem) {
+		font-size: rem($px * 1px);
+	}
+	@else {
+		font-size: #{$px}px;
+	}
+}
+/*-----------------------font size-----------------------*/

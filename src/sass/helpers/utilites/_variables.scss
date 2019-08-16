@@ -1,56 +1,71 @@
-/* colors vaiables start*/
-$white:																			#ffffff;
-$black:																			#000000;
-/* colors vaiables end*/
+@import 'mixins';
 
-/* reboot vaiables start*/
-$font-family-base: 													-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
-$font-size-base: 														1rem;
-$font-weight-base: 													normal;
-$line-height-base: 													1.35;
+/* Colors variables start */
 
-$body-color: 																black;
-$body-bg: 																	white;
+$colors: (
+		success: #A4DE2F,
+		warning: #EE8732,
 
-$headings-margin-bottom: 										0;
-$paragraph-margin-bottom: 									0;
-$label-margin-bottom: 											0;
+		white: #ffffff,
+		black: #000000
+);
 
-$link-color: 																$black;
-$link-decoration: 													none;
-$link-hover-color: 													darken($link-color, 15%);
-$link-hover-decoration: 										none;
-/* Reboot vaiables end*/
+/* Colors variables end */
 
-/* Grid variables start*/
+/* Reboot variables start */
+$font-family-base: 														-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+$font-size-base: 															1rem;
+$font-weight-base: 														normal;
+$line-height-base: 														1.35;
+
+$body-color: 																	get($colors, black);
+$body-bg: 																		get($colors, white);
+
+$headings-margin-bottom: 											0;
+$paragraph-margin-bottom: 										0;
+$label-margin-bottom: 												0;
+
+$link-color: 																	get($colors, black);
+$link-decoration: 														none;
+$link-hover-color: 														darken($link-color, 15%);
+$link-hover-decoration: 											none;
+/* Reboot variables end */
+
+/* Grid variables start */
 $grid-breakpoints: (
-	xs: 																			0,
-	sm: 																			576px,
-	md: 																			768px,
-	lg: 																			992px,
-	xl: 																			1200px
-	);
+		xs: 																			0,
+		sm: 																			576px,
+		md: 																			768px,
+		lg: 																			992px,
+		xl: 																			1200px
+);
 
 $container-max-widths: (
-	sm: 																			540px,
-	md: 																			720px,
-	lg: 																			960px,
-	xl: 																			1140px
-	);
+		sm: 																			540px,
+		md: 																			720px,
+		lg: 																			960px,
+		xl: 																			1140px
+);
 
-$grid-columns:                							12;
-$grid-gutter-width:           							30px;
-/* Grid variables end*/
+$grid-columns:                								12;
+$grid-gutter-width:           								30px;
+/* Grid variables end */
 
-/* Responsive font-size start*/
-$rfs-minimum-font-size: 										16px;
-$rfs-font-size-unit: 												rem;
-$rfs-breakpoint: 														1200px;
-$rfs-breakpoint-unit: 											px;
-$rfs-two-dimensional: 											false;
-$rfs-factor: 																10;
-$rfs-class: 																false;
-$rfs-rem-value: 														16;
-$rfs-safari-iframe-resize-bug-fix: 					false;
-$enable-responsive-font-sizes: 							true;
-/* Responsive font-size end*/
+/* Responsive font-size start */
+$rfs-minimum-font-size: 											16px;
+$rfs-font-size-unit: 													rem;
+$rfs-breakpoint: 															get($grid-breakpoints, xl);
+$rfs-breakpoint-unit: 												px;
+$rfs-two-dimensional: 												false;
+$rfs-factor: 																	10;
+$rfs-class: 																	false;
+$rfs-rem-value: 															16;
+$rfs-safari-iframe-resize-bug-fix: 						false;
+$enable-responsive-font-sizes: 								true;
+/* Responsive font-size end */
+
+/*Common variables start */
+
+$base-unit:																		1rem;
+
+/*Common variables end */

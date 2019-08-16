@@ -1,39 +1,46 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Главная</title>
-	<meta name="description" content="Description of the page less than 150 characters">
-	<link rel="stylesheet" href="css/libs.css">
-	<link rel="stylesheet" href="css/common.css">
-</head>
-<body>
-		~include('../common/header.html')
-	<main>
-		<div class="container">
-			<div class="row align-items-center mt-5">
-				<div class="col-lg-8 order-2 order-lg-1">
-					<h1 class="example-responsive-text">In this template</h1>
-					<ul>
-						<li class="list-item">- Javascript ES6 Modules - processing using Webpack 4</li>
-						<li class="list-item">- jQuery - using with ProvidePlugin and partial include - just what we use</li>
-						<li class="list-item">- Sass - grid-generator, useful mixins, variables</li>
-						<li class="list-item">- SVG-sprites</li>
-						<li class="list-item">- HTML-templates</li>
-					</ul>
-				</div>
-				<div class="col-lg-auto ml-lg-auto order-1 order-lg-2 mb-3 mb-lg-0">
-					<a href="https://github.com/ToTibis" class="github-link" target="_blank">
-						~include('../template/icon.html', {"iconName" : "github"})
-					</a>
-				</div>
-			</div>
-		</div>
-	</main>
-		~include('../common/footer.html')
-	<script src="js/vendors.js"></script>
-	<script src="js/main.js"></script>
-</body>
-</html>
+doctype html
+html(lang='ru')
+	head
+		meta(charset='UTF-8')
+		meta(http-equiv='x-ua-compatible' content="ie=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		meta(name="description" content="Description of the page less than 150 characters")
+		title Главная
+		link(rel="stylesheet" href="css/libs.css")
+		link(rel="stylesheet" href="css/common.css")
+	body
+		include ../templates/mixins
+		- const listClass = ['list'];
+		- const imageAttributes = {"src": "img/v8.png", "alt": "Alternative description"};
+		- const listItems  = ['- HTML - processing using Pug.js', '- Sass - Bootstrap 4 grid-generator, a set of useful mixins out of the box', '- Javascript ES6 Modules - processing using Webpack 4', '- jQuery - using with ProvidePlugin', '- SVG-sprites', ];
+
+	.presentation-wrapper
+		.page-wrapper
+			.page-content
+				include ../common/header
+
+
+
+
+
+
+
+				main
+					.container
+						.row.align-items-center
+							.col-8.d-flex
+								.row
+									.col-4
+										a(href="https://github.com/ToTibis" target="_blank").github-link
+											+icon('github')
+									.col-8
+										section
+											h1 In this boilerplate you can use:
+											ul(class=listClass)
+												each item in listItems
+													li= item
+							.col-3.ml-auto
+								img&attributes(imageAttributes)
+
+
+			include ../common/footer

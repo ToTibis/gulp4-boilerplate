@@ -6,7 +6,7 @@ const HardSourceWebpackPlugin   = require('hard-source-webpack-plugin');
 
 module.exports = {
 	entry: {
-		main: './src/js/main.js',
+		main: './src/js/main.js'
 	},
 	output: {
 		filename: '[name].js',
@@ -46,19 +46,24 @@ module.exports = {
 				parallel: true
 			}),
 			new UglifyJs({
+				cache: true,
+				parallel: true,
 				uglifyOptions: {
+					compress: false,
+					ecma: 6,
 					output: {
 						comments: false
 					}
-				}
+				},
 			})
 		]
 	},
 	plugins: [
 		new HardSourceWebpackPlugin(),
 		new webpack.ProvidePlugin({
-			$: 'jquery/src/core',
-			jQuery: 'jquery/src/core'
+			$: 'jquery',
+			jQuery: 'jquery',
+			'window.jQuery': 'jquery'
 		})
 	]
 };
