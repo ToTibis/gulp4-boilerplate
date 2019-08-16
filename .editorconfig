@@ -7,11 +7,11 @@ tab_width=2
 
 [{*.ng,*.sht,*.html,*.shtm,*.shtml,*.htm}]
 indent_style=space
-indent_size=4
+indent_size=2
 
 [{*.jhm,*.xslt,*.xul,*.rng,*.xsl,*.xsd,*.ant,*.tld,*.fxml,*.jrxml,*.xml,*.jnlp,*.wsdl}]
 indent_style=space
-indent_size=4
+indent_size=2
 
 [*.svg]
 indent_style=space
@@ -47,11 +47,11 @@ indent_size=2
 
 [{*.js,*.cjs}]
 indent_style=space
-indent_size=4
+indent_size=2
 
 [{*.ats,*.ts}]
 indent_style=space
-indent_size=4
+indent_size=2
 
 [*.js.map]
 indent_style=space
