@@ -83,6 +83,10 @@ $list-class: 'list';
 		&-wrapper {
 			height: 100vh;
 		}
+		&-content {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 	main {
 		display: flex;
@@ -123,7 +127,7 @@ $list-class: 'list';
 		@include transition;
 		@include animation('5s linear infinite jump');
 		display: block;
-		color: get($colors, black);
+		color: get($colors, info);
 		@include mediaToUp($lg) {
 			max-width: rem(200px);
 		}
@@ -154,4 +158,5 @@ $list-class: 'list';
 		transform: translateY(0);
 	}
 }
+
 

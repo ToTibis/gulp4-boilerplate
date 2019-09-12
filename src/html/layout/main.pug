@@ -1,0 +1,20 @@
+block mainVariables
+
+doctype html
+html(lang='ru')
+	head
+		meta(charset='UTF-8')
+		meta(http-equiv='x-ua-compatible' content="ie=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		meta(name="description" content="Description of the page less than 150 characters")
+		title #{pageTitle}
+		link(rel="stylesheet" href="css/libs.css")
+		link(rel="stylesheet" href="css/common.css")
+	body
+		.presentation-wrapper
+			.page-wrapper
+				.page-content
+					include ../components/header
+					main
+						block mainContent
+				include ../components/footer

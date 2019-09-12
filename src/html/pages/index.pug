@@ -1,46 +1,31 @@
-doctype html
-html(lang='ru')
-	head
-		meta(charset='UTF-8')
-		meta(http-equiv='x-ua-compatible' content="ie=edge")
-		meta(name="viewport" content="width=device-width, initial-scale=1")
-		meta(name="description" content="Description of the page less than 150 characters")
-		title Главная
-		link(rel="stylesheet" href="css/libs.css")
-		link(rel="stylesheet" href="css/common.css")
-	body
-		include ../templates/mixins
-		- const listClass = ['list'];
-		- const imageAttributes = {"src": "img/v8.png", "alt": "Alternative description"};
-		- const listItems  = ['- HTML - processing using Pug.js', '- Sass - Bootstrap 4 grid-generator, a set of useful mixins out of the box', '- Javascript ES6 Modules - processing using Webpack 4', '- jQuery - using with ProvidePlugin', '- SVG-sprites', ];
 
-	.presentation-wrapper
-		.page-wrapper
-			.page-content
-				include ../common/header
+extends ../layout/main
+
+block mainVariables
+	- pageTitle = 'Главная'
+
+block mainContent
+
+	include ../mixins/icon
+	include ../mixins/breadcrumbs
+
+	- const listClass = ['list'];
+	- const imageAttributes = {"src": "img/v8.png", "alt": "Alternative description"};
+	- const listItems  = ['- HTML - processing using Pug.js', '- Sass - Bootstrap 4 grid-generator, a set of useful mixins out of the box', '- Javascript ES6 Modules - processing using Webpack 4', '- jQuery - using with ProvidePlugin', '- SVG-sprites', ];
 
 
-
-
-
-
-
-				main
-					.container
-						.row.align-items-center
-							.col-8.d-flex
-								.row
-									.col-4
-										a(href="https://github.com/ToTibis" target="_blank").github-link
-											+icon('github')
-									.col-8
-										section
-											h1 In this boilerplate you can use:
-											ul(class=listClass)
-												each item in listItems
-													li= item
-							.col-3.ml-auto
-								img&attributes(imageAttributes)
-
-
-			include ../common/footer
+	.container
+		.row.align-items-center
+			.col-8.d-flex
+				.row.align-items-center
+					.col-4
+						a(href='https://github.com/ToTibis' target='_blank', class='github-link')
+							+icon('github')
+					.col-8
+						section
+							h1 In this boilerplate you can use:
+							ul(class=listClass)
+								each item in listItems
+									li= item
+			.col-3.ml-auto
+				img&attributes(imageAttributes)
