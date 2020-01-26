@@ -1,7 +1,5 @@
 const path                      = require('path');
-const webpack                   = require('webpack');
 const TerserPlugin              = require('terser-webpack-plugin');
-const UglifyJs                  = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin   = require('hard-source-webpack-plugin');
 
 module.exports = {
@@ -44,26 +42,10 @@ module.exports = {
 			new TerserPlugin({
 				cache: true,
 				parallel: true
-			}),
-			new UglifyJs({
-				cache: true,
-				parallel: true,
-				uglifyOptions: {
-					compress: false,
-					ecma: 6,
-					output: {
-						comments: false
-					}
-				},
 			})
 		]
 	},
 	plugins: [
-		new HardSourceWebpackPlugin(),
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery',
-			'window.jQuery': 'jquery'
-		})
+		new HardSourceWebpackPlugin()
 	]
 };

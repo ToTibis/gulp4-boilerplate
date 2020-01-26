@@ -10,8 +10,15 @@ block mainContent
 	include ../mixins/breadcrumbs
 
 	- const listClass = ['list'];
-	- const imageAttributes = {"src": "img/v8.png", "alt": "Alternative description"};
-	- const listItems  = ['- HTML - processing using Pug.js', '- Sass - Bootstrap 4 grid-generator, a set of useful mixins out of the box', '- Javascript ES6 Modules - processing using Webpack 4', '- jQuery - using with ProvidePlugin', '- SVG-sprites', ];
+	- const imageAttributes = {"src": "img/v8.png", "alt": "Alternative description", 'class': 'v8-image'};
+	-
+		const listItems  = [
+		'- HTML - processing using Pug.js',
+		'- Sass - Bootstrap 4 grid-generator, a set of useful mixins out of the box',
+		'- Javascript ES6 Modules - processing using Webpack 4',
+		'- Without jQuery - instead in this template included small helper-class - Assistant',
+		'- <a href="https://github.com/greensock/GSAP" target="_blank">GSAP</a> - is a JavaScript library for building high-performance animations that work in every major browser.',
+		'- SVG-sprites', ];
 
 
 	.container
@@ -25,7 +32,7 @@ block mainContent
 						section
 							h1 In this boilerplate you can use:
 							ul(class=listClass)
-								each item in listItems
-									li= item
+								each item, index in listItems
+									li(class=[index === 0 ? 'active' : '']) !{item}
 			.col-3.ml-auto
 				img&attributes(imageAttributes)
