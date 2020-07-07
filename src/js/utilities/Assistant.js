@@ -70,8 +70,6 @@ class Assistant {
 				this.elsArray = ( this.selector[0] && this.selector[0] instanceof Element ) ? this.selector : [ this.selector ];
 				break;
 			case 'string':
-
-
 				this.elsArray = this.parent.querySelectorAll( this.selector );
 				break;
 		}

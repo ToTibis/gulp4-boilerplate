@@ -1,6 +1,6 @@
 import {TimelineMax} from "gsap/all";
-import {$assist} from '../../utilites/Assistant';
-import {domReady} from '../../utilites/Common';
+import {$assist} from '../../utilities/Assistant';
+import {domReady} from '../../utilities/Common';
 
 
 domReady(() => {

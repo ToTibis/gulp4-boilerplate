@@ -10,25 +10,30 @@
 - [gsap](https://github.com/greensock/GSAP) -  is a JavaScript library for building high-performance animations that work in every major browser.
 - [RFS](https://github.com/twbs/rfs) - plugin for responsive font size;
 - [svgxuse](https://github.com/Keyamoon/svgxuse) - simple polyfill that fetches external SVGs referenced in <use> elements when the browser itself fails to do so.
-	### Installation:
-	> Note: latest versions of **[node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/)** must be installed!
-	```sh
-	$ git clone https://github.com/ToTibis/gulp4template FOLDER_NAME
-	```
-    ```sh
-    $ cd FOLDER_NAME
-    ```
-	```sh
-	$ npm i
-	```
-	### Usage
-	For **development** mode:
-	```sh
-	$ gulp
-	```
-	For **production** mode:
-	```sh
-	$ gulp build
-	```
-	### Notes
-	>SVG-sprites work and display content only on the server - local or any other. The reason this doesn't work is due to a security concern.
+### Installation:
+> Note: latest versions of **[node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/)** must be installed!
+```sh
+$ git clone https://github.com/ToTibis/gulp4template FOLDER_NAME
+```
+```sh
+$ cd FOLDER_NAME
+```
+ ```sh
+ $ npm i
+ ```
+### Template usage:
+For **development** mode
+ ```sh
+ $ gulp
+ ```
+For **production** mode
+ ```sh
+ $ gulp build
+ ```
+### Assistant-class usage:
+You can import helper Assistant-class under any name:
+ ```sh
+ import {$assist as *anyName*} from 'Utilities/Assistant';
+ ```
+
+

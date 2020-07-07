@@ -41,7 +41,7 @@ global.$ = {
         watch: {
             html: 'src/html/**/*.pug',
             sass: 'src/sass/**/*.scss',
-            js: 'src/js/**/*.js',
+            js: ['src/js/**/*.js', 'src/js/svelte/**/*.svelte'],
             img: 'src/img/images/**/*.*',
             svg: 'src/img/sprite/*.svg',
             fonts: 'src/fonts/**/*.*'
