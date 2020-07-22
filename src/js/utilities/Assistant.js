@@ -1,64 +1,11 @@
-if (!Object.entries) {
-	Object.entries = function( obj ){
-		let ownProps = Object.keys( obj ),
-			i = ownProps.length,
-			resArray = new Array(i); // preallocate the Array
-		while (i--)
-			resArray[i] = [ownProps[i], obj[ownProps[i]]];
-
-		return resArray;
-	};
-}
-
-if (!Element.prototype.matches) {
-	Element.prototype.matches = Element.prototype.msMatchesSelector ||
-		Element.prototype.webkitMatchesSelector;
-}
-
-if (!Array.prototype.filter){
-	Array.prototype.filter = function(func, thisArg) {
-		'use strict';
-		if ( ! ((typeof func === 'function' || typeof func === 'function') && this) )
-			throw new TypeError();
-
-		let len = this.length >>> 0,
-			res = new Array(len),
-			t = this, c = 0, i = -1;
-
-		let kValue;
-		if (thisArg === undefined){
-			while (++i !== len){
-				if (i in this){
-					kValue = t[i];
-					if (func(t[i], i, t)){
-						res[c++] = kValue;
-					}
-				}
-			}
-		}
-		else{
-			while (++i !== len){
-				if (i in this){
-					kValue = t[i];
-					if (func.call(thisArg, t[i], i, t)){
-						res[c++] = kValue;
-					}
-				}
-			}
-		}
-
-		res.length = c;
-		return res;
-	};
-}
-/*-----------------------polyfills--------------------------*/
+import './polyfills';
 
 class Assistant {
 	constructor(selector, parent = document) {
 
 		this.selector = selector;
-		this.parent = parent === document ? document : document.querySelector(parent);
-		this.elsArray = null;
+		this.parent = parent === document ? document : (parent instanceof Element ? parent : document.querySelector(parent));
+		this.els = null;
 
 		this.init();
 	}
@@ -67,14 +14,14 @@ class Assistant {
 
 		switch (typeof this.selector) {
 			case 'object':
-				this.elsArray = ( this.selector[0] && this.selector[0] instanceof Element ) ? this.selector : [ this.selector ];
+				this.els = ( this.selector[0] && this.selector[0] instanceof Element ) ? this.selector : [ this.selector ];
 				break;
 			case 'string':
-				this.elsArray = this.parent.querySelectorAll( this.selector );
+				this.els = this.parent.querySelectorAll( this.selector );
 				break;
 		}
 
-		this.elsArray = [].slice.call( this.elsArray );
+		this.els = [].slice.call( this.els );
 
 		return this;
 	}
@@ -85,8 +32,12 @@ class Assistant {
 		} );
 	}
 
+	get el() {
+		return this.els[0]
+	}
+
 	each(cb) {
-		Array.prototype.forEach.call(this.elsArray, function(el, index){
+		Array.prototype.forEach.call(this.els, function(el, index){
 			cb(el, index)
 		});
 
@@ -125,6 +76,14 @@ class Assistant {
 		return this;
 	}
 
+	toggleClass(className) {
+		this.each( el => {
+			el.classList.toggle(className)
+		});
+
+		return this;
+	}
+
 	hasClass(className) {
 		let found = false;
 
@@ -139,7 +98,7 @@ class Assistant {
 	css(property, value) {
 
 		const
-			el = this.elsArray[0],
+			el = this.els[0],
 			styles = getComputedStyle(el)
 		;
 
@@ -174,7 +133,7 @@ class Assistant {
 
 	getParent(s) {
 
-		let el = this.elsArray[0];
+		let el = this.els[0];
 
 		if (s !== undefined) {
 			do {
@@ -189,12 +148,14 @@ class Assistant {
 
 	}
 
-	not(exceptionSelector) {
+	not(exception) {
+
+		const target = typeof exception === 'string' ? this.parent.querySelector(exception) : exception;
 
 		return new Assistant(
 
-			this.elsArray.filter(elem => {
-				return elem !== document.querySelector(exceptionSelector)
+			this.els.filter(elem => {
+				return elem !== target
 			})
 
 		)
@@ -203,7 +164,7 @@ class Assistant {
 
 	offset() {
 
-		let rect = 	this.elsArray[0].getBoundingClientRect();
+		let rect = 	this.els[0].getBoundingClientRect();
 
 		return {
 			left: rect.left,
@@ -239,6 +200,10 @@ class Assistant {
 		return this;
 	}
 
+	get(index) {
+		return this.els[index]
+	}
+
 	on(event, listener) {
 		this.eventsHandler( addEventListener, event, listener );
 		return this;
@@ -247,6 +212,7 @@ class Assistant {
 	off(event, listener) {
 		this.eventsHandler( removeEventListener, event, listener );
 	}
+
 }
 
 export function $assist(selector, parent = document) {
