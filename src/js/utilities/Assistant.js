@@ -26,7 +26,7 @@ class Assistant {
 		return this;
 	}
 
-	static _cssPropertyToCamelCase(string) {
+	_cssPropertyToCamelCase(string) {
 		return string.replace( /-([a-z])/g, function( _all, letter ) {
 			return letter.toUpperCase();
 		} );
@@ -117,7 +117,7 @@ class Assistant {
 			return this;
 		} else {
 			this.each(el => {
-				el.style[Assistant._cssPropertyToCamelCase(property)] = value
+				el.style[this._cssPropertyToCamelCase(property)] = value
 			});
 		}
 
