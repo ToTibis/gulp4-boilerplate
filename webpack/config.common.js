@@ -11,11 +11,6 @@ module.exports = {
 		chunkFilename: '[name].js',
 		publicPath: '/'
 	},
-	resolve: {
-		alias: {
-			Utilities: path.resolve(__dirname, '../src/js/utilities/')
-		},
-	},
 	module: {
 		rules: [
 			{

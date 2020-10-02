@@ -174,16 +174,3 @@
 	@return $map;
 }
 /*-----------------------map get recursive-----------------------*/
-
-@mixin setFontSize($px, $rfs: false, $px-to-rem: true) {
-	@if($rfs) {
-		@include responsive-font-size($px);
-	}
-	@else if($px-to-rem) {
-		font-size: rem($px * 1px);
-	}
-	@else {
-		font-size: #{$px}px;
-	}
-}
-/*-----------------------font size-----------------------*/

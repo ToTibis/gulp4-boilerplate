@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'rem';
 
 /* Colors variables start */
 
@@ -67,6 +68,6 @@ $enable-responsive-font-sizes: 								true;
 
 /*Common variables start */
 
-$base-unit:																		1rem;
+$spacer:																			rem(10px);
 
 /*Common variables end */

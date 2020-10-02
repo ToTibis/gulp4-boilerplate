@@ -5,7 +5,7 @@
 - SVG-sprites;
 - HTML - processing using Pug.js
 ### Available immediately:
-- Trimmed version(**~40 kb** size) of Bootsrap 4 - grid, flex, spacing, display and text utilites, functions, mixins, variables;
+- Trimmed version(**~40 kb** minified size) of Bootsrap 4 - grid, flex, spacing, display and text utilites, functions, mixins, variables;
 - Without jQuery - instead in this template included small helper-class - Assistant;
 - [gsap](https://github.com/greensock/GSAP) -  is a JavaScript library for building high-performance animations that work in every major browser.
 - [RFS](https://github.com/twbs/rfs) - plugin for responsive font size;

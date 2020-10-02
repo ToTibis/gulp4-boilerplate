@@ -1,8 +1,8 @@
-@import 'helpers/utilites/rem';
-@import 'helpers/utilites/variables';
-@import 'helpers/utilites/media-queries';
-@import 'helpers/utilites/mixins';
-@import '~modules/rfs/scss/rfs';
+@import 'utilites/rem';
+@import 'utilites/variables';
+@import 'utilites/media-queries';
+@import 'utilites/mixins';
+@import 'node_modules/bootstrap/scss/vendor/rfs';
 
 /* Global styles start*/
 * {
@@ -45,9 +45,6 @@ input, textarea {
     outline: none;
   }
 }
-textarea {
-  resize: none;
-}
 svg {
   max-width: 100%;
   max-height: 100%;
@@ -60,6 +57,7 @@ img {
   max-width: 100%;
 }
 /* Global styles end*/
+
 .page {
 	&-wrapper {
 		display: flex;
@@ -95,8 +93,8 @@ $list-class: 'list';
 		justify-content: center;
 	}
 	.header, .footer {
-		padding-top: $base-unit;
-		padding-bottom: $base-unit;
+		padding-top: $spacer;
+		padding-bottom: $spacer;
 	}
 	.header {
 		nav {
@@ -104,7 +102,7 @@ $list-class: 'list';
 				@include transition;
 				font-weight: bold;
 				& + a {
-					margin-left: $base-unit;
+					margin-left: $spacer;
 				}
 				&:hover {
 					color: get($colors, success);
@@ -113,15 +111,16 @@ $list-class: 'list';
 		}
 	}
 	.#{$list-class} {
-		@include setFontSize(22, true);
-		padding-top: $base-unit / 2;
-		padding-bottom: $base-unit / 2;
+		@include font-size(22);
+
+		padding-top: $spacer / 2;
+		padding-bottom: $spacer / 2;
 	}
 	h1 {
-		@include setFontSize(32, true)
+		@include font-size(32, true)
 	}
 	h2 {
-		@include setFontSize(28, true)
+		@include font-size(28, true)
 	}
 	.github-link {
 		@include transition;
@@ -158,5 +157,3 @@ $list-class: 'list';
 		transform: translateY(0);
 	}
 }
-
-

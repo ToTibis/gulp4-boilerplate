@@ -1,3 +1,3 @@
 import './Assistant__demo'
-import './TweenMax__demo'
+import './Gsap__demo'
 

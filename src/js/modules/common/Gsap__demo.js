@@ -1,7 +1,6 @@
 import {gsap} from "gsap";
-import {$assist} from '../../utilities/Assistant';
+import $assist from '../../utilities/Assistant';
 import {domReady} from '../../utilities/callbacks';
-
 
 domReady(() => {
 
@@ -9,6 +8,7 @@ domReady(() => {
 		v8Image = $assist('.v8-image').el,
 		duration = .75
 	;
+
 
 	gsap.timeline({
 		yoyo: true,

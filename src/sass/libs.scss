@@ -1,18 +1,17 @@
-@import 'helpers/utilites/variables';
-@import 'helpers/utilites/fonts';
-@import 'helpers/utilites/media-queries';
+@import 'utilites/variables';
+@import 'utilites/fonts';
+@import 'utilites/media-queries';
 
-@import '~modules/bootstrap/scss/functions';
-@import '~modules/bootstrap/scss/variables';
-@import '~modules/bootstrap/scss/mixins';
-@import 'helpers/utilites/reboot';
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
 
-@import 'helpers/bootstrap/text-align';
-@import 'helpers/bootstrap/spacing';
-@import 'helpers/bootstrap/display';
-@import 'helpers/bootstrap/flex';
-@import 'helpers/bootstrap/container-widths';
-
+@import 'bootstrap/reboot';
+@import 'bootstrap/utilities/text';
+@import 'bootstrap/utilities/spacing';
+@import 'bootstrap/utilities/display';
+@import 'bootstrap/utilities/flex';
+@import 'bootstrap/grid';
 
 html {
 	@include mediaToDown($lg) {

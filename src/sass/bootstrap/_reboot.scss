@@ -8,15 +8,7 @@ html {
   font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -ms-overflow-style: scrollbar;
   -webkit-tap-highlight-color: rgba($black, 0);
-}
-
-@at-root {
-  @-ms-viewport {
-    width: device-width;
-  }
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -26,7 +18,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 body {
   margin: 0;
   font-family: $font-family-base;
-  font-size: $font-size-base;
+  @include font-size($font-size-base);
   font-weight: $font-weight-base;
   line-height: $line-height-base;
   color: $body-color;
@@ -34,14 +26,18 @@ body {
   background-color: $body-bg;
 }
 
-[tabindex="-1"]:focus {
-  outline: 0;
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: 0 !important;
 }
 
 hr {
+	color: $black;
+	background-color: $black;
   box-sizing: content-box;
-  height: 0;
+	border: 0 none;
+  height: $border-width;
   overflow: visible;
+	clear: both;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -54,16 +50,9 @@ p {
   margin-bottom: $paragraph-margin-bottom;
 }
 
-abbr[title],
-abbr[data-original-title] {
-  text-decoration: underline;
-  text-decoration: underline dotted;
-  cursor: help;
-  border-bottom: 0;
-}
 
 address {
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   font-style: normal;
   line-height: inherit;
 }
@@ -92,26 +81,23 @@ dd {
 }
 
 blockquote {
-  margin: 0 0 1rem;
-}
-
-dfn {
-  font-style: italic;
+  margin: 0;
 }
 
 b,
 strong {
-  font-weight: bolder;
+  font-weight: $font-weight-bolder;
 }
 
 small {
-  font-size: 80%; 
+  @include font-size(80%);
 }
+
 
 sub,
 sup {
   position: relative;
-  font-size: 75%;
+  @include font-size(75%);
   line-height: 0;
   vertical-align: baseline;
 }
@@ -122,25 +108,21 @@ sup { top: -.5em; }
 a {
   color: $link-color;
   text-decoration: $link-decoration;
-  background-color: transparent;
-  -webkit-text-decoration-skip: objects;
-  @include hover {
+  background-color: transparent; // Remove the gray background on active links in IE 10.
+
+  @include hover() {
     color: $link-hover-color;
     text-decoration: $link-hover-decoration;
   }
 }
 
-a:not([href]):not([tabindex]) {
+a:not([href]):not([class]) {
   color: inherit;
   text-decoration: none;
 
-  @include hover-focus {
+  @include hover() {
     color: inherit;
     text-decoration: none;
-  }
-
-  &:focus {
-    outline: 0;
   }
 }
 
@@ -149,18 +131,18 @@ code,
 kbd,
 samp {
   font-family: $font-family-monospace;
-  font-size: 1em;
+  @include font-size(1em);
 }
 
 pre {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: $spacer;
   overflow: auto;
   -ms-overflow-style: scrollbar;
 }
 
 figure {
-  margin: 0;
+  margin: 0 0 $spacer;
 }
 
 img {
@@ -174,7 +156,7 @@ svg {
 }
 
 table {
-  border-collapse: collapse;
+  border-collapse: collapse; // Prevent double borders
 }
 
 caption {
@@ -198,14 +180,18 @@ button {
   border-radius: 0;
 }
 
+button:focus {
+  outline: none;
+}
+
 input,
 button,
 select,
 optgroup,
 textarea {
+	@include font-size(inherit);
   margin: 0;
   font-family: inherit;
-  font-size: inherit;
   line-height: inherit;
 }
 
@@ -219,11 +205,30 @@ select {
   text-transform: none;
 }
 
+[role="button"] {
+  cursor: pointer;
+}
+
+select {
+  word-wrap: normal;
+}
+
 button,
-html [type="button"],
+[type="button"],
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
+}
+
+@if $enable-pointer-cursor-for-buttons {
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+  }
 }
 
 button::-moz-focus-inner,
@@ -241,16 +246,9 @@ input[type="checkbox"] {
 }
 
 
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"],
-input[type="month"] {
-  -webkit-appearance: listbox;
-}
-
 textarea {
   overflow: auto;
-  resize: vertical;
+  resize: none;
 }
 
 fieldset {
@@ -266,10 +264,9 @@ legend {
   max-width: 100%;
   padding: 0;
   margin-bottom: .5rem;
-  font-size: 1.5rem;
   line-height: inherit;
   color: inherit;
-  white-space: normal; 
+  white-space: normal;
 }
 
 progress {
@@ -286,7 +283,6 @@ progress {
   -webkit-appearance: none;
 }
 
-[type="search"]::-webkit-search-cancel-button,
 [type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
@@ -295,6 +291,7 @@ progress {
   font: inherit;
   -webkit-appearance: button;
 }
+
 
 output {
   display: inline-block;

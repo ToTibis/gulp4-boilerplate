@@ -1,29 +1,59 @@
 import './polyfills';
 
+const debugMode = true;
+
+if (debugMode) {
+	console.info('%cAssistant debug mode on, to disable it look for 3 line in Assistant.js', 'color: #43a047 ')
+}
+
 class Assistant {
-	constructor(selector, parent = document) {
+	constructor(selector, parent, debug = debugMode) {
 
 		this.selector = selector;
-		this.parent = parent === document ? document : (parent instanceof Element ? parent : document.querySelector(parent));
-		this.els = null;
 
-		this.init();
-	}
+		try {
 
-	init() {
+			if (parent instanceof Element) {
+				this.parent = parent
+			} else if(typeof parent === 'string') {
+				this.parent = document.querySelector(parent);
+			} else if(parent === undefined) {
+				this.parent = document
+			}
 
-		switch (typeof this.selector) {
-			case 'object':
-				this.els = ( this.selector[0] && this.selector[0] instanceof Element ) ? this.selector : [ this.selector ];
-				break;
-			case 'string':
-				this.els = this.parent.querySelectorAll( this.selector );
-				break;
+			switch (typeof this.selector) {
+				case 'object':
+					this.els = ( this.selector[0] && this.selector[0] instanceof Element ) ? this.selector : [ this.selector ];
+					break;
+				case 'string':
+					this.els = this.parent.querySelectorAll( this.selector );
+					break;
+			}
+
+			this.els = [].slice.call( this.els );
+
+			Object.defineProperty(this, 'el', {
+				get() {
+					return this.els[0]
+				}
+			});
+			Object.defineProperty(this, 'exist', {
+				get() {
+					return this.els.length > 0
+				}
+			});
+
+			if (debug) {
+				if (!this.exist) {
+					console.warn(`%cElements by selector ${selector} not found`, 'padding: 5px 10px;');
+				}
+			}
+
 		}
-
-		this.els = [].slice.call( this.els );
-
-		return this;
+		catch (e) {
+			console.warn(`%cAn error occurred while creating the Assistant class. \nSelector: ${selector};\nParent: ${parent};`, 'padding: 5px 10px;');
+			this.els = null;
+		}
 	}
 
 	_cssPropertyToCamelCase(string) {
@@ -32,9 +62,6 @@ class Assistant {
 		} );
 	}
 
-	get el() {
-		return this.els[0]
-	}
 
 	each(cb) {
 		Array.prototype.forEach.call(this.els, function(el, index){
@@ -140,7 +167,7 @@ class Assistant {
 				if (el.matches(s)) return new Assistant(el);
 				el = el.parentElement || el.parentNode;
 			} while (el !== null && el.nodeType === 1);
-			throw new Error('missing arguments in Assistant.getParent or parent not found');
+
 		} else {
 			return el.parentNode
 		}
@@ -204,17 +231,17 @@ class Assistant {
 		return this.els[index]
 	}
 
-	on(event, listener) {
-		this.eventsHandler( addEventListener, event, listener );
+	on(event, listener, capture = false) {
+		this.eventsHandler( addEventListener, event, listener, capture );
 		return this;
 	}
 
-	off(event, listener) {
-		this.eventsHandler( removeEventListener, event, listener );
+	off(event, listener, capture = false) {
+		this.eventsHandler( removeEventListener, event, listener, capture );
 	}
 
 }
 
-export function $assist(selector, parent = document) {
+export default function $assist(selector, parent) {
 	return new Assistant(selector, parent)
 }
