@@ -30,10 +30,6 @@ For **production** mode
  ```sh
  $ gulp build
  ```
-### Assistant-class usage:
-You can import helper Assistant-class under any name:
- ```sh
- import {$assist as *anyName*} from 'Utilities/Assistant';
- ```
+
 
 
