@@ -174,3 +174,14 @@
 	@return $map;
 }
 /*-----------------------map get recursive-----------------------*/
+@mixin ifHoverSupport() {
+  @media screen and (hover: hover){
+    @content
+  }
+}
+@mixin ifHoverNotSupport() {
+  @media screen and (hover: none){
+    @content
+  }
+}
+/*-----------------------hover support-----------------------*/

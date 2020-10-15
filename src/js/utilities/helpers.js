@@ -1,5 +1,5 @@
 import {gsap} from "gsap";
-import $assist from "Utilities/Assistant";
+import $assist from "../utilities/Assistant";
 
 const
 	sbw = getScrollbarWidth(),
