@@ -1,10 +1,17 @@
-import $assist from "./utilities/Assistant";
-
 export const variables = {
-	assistantDebugMode: true,
-	body: $assist('body'),
 	gsapDefaultDuration: .25,
-	customResizeEventName: 'global-resize-done',
+	resizeDebounce: 100,
+	customEventNames: {
+		resize: 'resize-done',
+		animateEnd: 'animate-end'
+	},
+	get windowWidth() {
+		return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+	},
+	get windowHeight() {
+		return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+	},
+	scrollbarWidth:	window.innerWidth - document.documentElement.clientWidth,
 	breakpoints: {
 		sm: 576,
 		md: 768,

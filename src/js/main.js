@@ -1,6 +1,9 @@
 import 'svgxuse';
+import initGlobalApi, {performanceTest} from "./helpers/_service";
 
-import './modules/common/';
-import './utilities/resizeTrigger';
+//performanceTest(initGlobalApi);
+initGlobalApi();
+
+import './modules/test';
 
 

@@ -49,9 +49,7 @@ svg {
   max-width: 100%;
   max-height: 100%;
   stroke-width: 0;
-  stroke: currentColor;
   fill: currentColor;
-  pointer-events: none;
 }
 img {
   max-width: 100%;
@@ -63,6 +61,7 @@ img {
 		display: flex;
 		flex-direction: column;
 		min-height: 100%;
+		overflow: hidden;
 		.footer {
 			flex: 0 0 auto;
 		}
@@ -72,14 +71,30 @@ img {
 	}
 }
 
-$list-class: 'list';
-
+.page__modal {
+	&.small {
+		.page__modal-container {
+			width: 500px;
+		}
+	}
+	&-container {
+		padding: $spacer $spacer * 2.5;
+	}
+	&-close {
+		margin-right: -$spacer * 1.5;
+	}
+}
 .presentation-wrapper {
 	@include background('../img/background.jpg');
 	color: map-get($colors, white);
+	@include forIE {
+		.row {
+			width: 100%;
+		}
+	}
 	.page {
 		&-wrapper {
-			height: 100vh;
+			min-height: 110vh;
 		}
 		&-content {
 			display: flex;
@@ -89,7 +104,7 @@ $list-class: 'list';
 	main {
 		display: flex;
 		flex-direction: column;
-		height: 100%;
+		flex: 1 0 auto;
 		justify-content: center;
 	}
 	.header, .footer {
@@ -101,26 +116,24 @@ $list-class: 'list';
 			a {
 				@include transition;
 				font-weight: bold;
-				& + a {
-					margin-left: $spacer;
-				}
+				margin-right: $spacer;
 				&:hover {
 					color: get($colors, success);
 				}
 			}
 		}
 	}
-	.#{$list-class} {
+	.list {
 		@include font-size(22);
 
 		padding-top: $spacer / 2;
 		padding-bottom: $spacer / 2;
 	}
 	h1 {
-		@include font-size(32, true)
+		@include font-size(32)
 	}
 	h2 {
-		@include font-size(28, true)
+		@include font-size(28)
 	}
 	.github-link {
 		@include transition;
@@ -138,6 +151,14 @@ $list-class: 'list';
 			color: get($colors, white);
 			animation-play-state: paused;
 		}
+	}
+	.button {
+		padding: $spacer;
+		display: block;
+		color: inherit;
+		border: $border-width solid get($colors, white);
+		border-radius: $spacer;
+		width: 100%;
 	}
 }
 @include keyframes(jump) {
@@ -157,3 +178,7 @@ $list-class: 'list';
 		transform: translateY(0);
 	}
 }
+
+
+
+

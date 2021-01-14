@@ -69,5 +69,18 @@ $enable-responsive-font-sizes: 								true;
 /*Common variables start */
 
 $spacer:																			rem(10px);
+$transition-duration:                         .15;
+$animation-duration:  												$transition-duration * 4;
+$border-width:  															1px;
+
+$index: (
+		negative: -1,
+		default: 1,
+		xs: 2,
+		sm: 3,
+		md: 5,
+		lg: 7,
+		xl: 9
+);
 
 /*Common variables end */

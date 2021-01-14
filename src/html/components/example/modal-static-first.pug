@@ -1,0 +1,12 @@
+extends ../../layout/modal
+
+block modalVariables
+	- modalId = 'example-static-first'
+	- modalClassName = 'small'
+
+block modalContent
+	div
+		h2.pb-3  Modal static first
+		p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti, deserunt earum explicabo fugit hic incidunt laborum mollitia nesciunt, nihil quis quo repellat sint! Animi at minus quo reprehenderit voluptas.
+	button(type='button' class=['button'] data-modal-open='example-static-second').py-4.mt-5
+		b Open second modal

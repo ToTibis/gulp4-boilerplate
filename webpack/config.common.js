@@ -4,7 +4,8 @@ const HardSourceWebpackPlugin   = require('hard-source-webpack-plugin');
 
 module.exports = {
 	entry: {
-		main: './src/js/main.js'
+		main: './src/js/main.js',
+		iePolyfills: './src/js/iePolyfills'
 	},
 	output: {
 		filename: '[name].js',

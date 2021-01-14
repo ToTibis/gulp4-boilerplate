@@ -48,7 +48,7 @@
 }
 /*-------------------------clearfix-------------------------*/
 
-@mixin transition($what: all, $when: .3s, $how: ease) {
+@mixin transition($what: all, $when: #{$transition-duration}s, $how: ease) {
 	transition: $what $when $how;
 }
 /*------------------------transition------------------------*/

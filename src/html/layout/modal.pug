@@ -1,0 +1,10 @@
+block modalVariables
+
+div(id=modalId, class=['page__modal', modalClassName || null], aria-hidden='true')
+
+	div(class=['page__modal-wrapper'])
+		div(class=['page__modal-overlay'], data-modal-close)
+		div(class=['page__modal-container'], role='dialog' aria-modal='true')
+			button(class=['page__modal-close'], aria-label='Close modal', data-modal-close)
+				+icon('close')
+			block modalContent

@@ -13,6 +13,9 @@
 @import 'bootstrap/utilities/flex';
 @import 'bootstrap/grid';
 
+@import 'animations/index';
+@import 'components/modal';
+
 html {
 	@include mediaToDown($lg) {
 		font-size: 15px;
