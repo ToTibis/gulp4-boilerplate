@@ -87,19 +87,12 @@ export function isNode(target){
 	);
 }
 
-export function performanceTest(cb, customMessage = null) {
-	const t0 = performance.now();
-	cb();
-	const t1 = performance.now();
-	console.log(`performanceTest took ${t1 - t0} milliseconds.`);
-}
-
 export function filterStringArgs(targets) {
  	return targets.toString().split(/[\s,]+/).filter(e => e.length)
 }
 
 export function convertReturnedTarget(target) {
-	return is.not.array(target) && !isElement(target) ? document.querySelector(target) : target;
+	return is.not.array(target) && !isElement(target) && is.string(target) ? document.querySelector(target) : target;
 }
 
 

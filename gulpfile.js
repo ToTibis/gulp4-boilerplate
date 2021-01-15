@@ -56,7 +56,7 @@ $.gulp.task('common', $.gulp.series('clean', $.gulp.parallel('html', 'fonts', 's
 
 $.gulp.task('dev', $.gulp.series('sass:development', 'js:development', 'img:development',));
 
-$.gulp.task('build', $.gulp.series('common', $.gulp.parallel('sass:production', 'js:production', 'img:production',),
+$.gulp.task('build', $.gulp.series('common', $.gulp.parallel('sass:production', 'js:production', 'img:production'),
 	function completion(done) {
 		done();
 		process.exit();

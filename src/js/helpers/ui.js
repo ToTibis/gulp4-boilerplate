@@ -15,7 +15,7 @@ export const $ui = (function () {
 				const sbw = $v.scrollbarWidth;
 				set(document.body, {
 					overflow: 'hidden',
-					paddingRight: sbw
+					paddingRight: sbw + 'px'
 				});
 				break;
 			case 'disable':

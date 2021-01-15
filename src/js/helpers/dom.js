@@ -157,7 +157,7 @@ export const $dom = (function () {
 
 	localAPIs.removeClass = (target, className) => doWithClass(target, className, 'remove');
 
-	localAPIs.hasClass = (element, className) => target.classList.contains(className);
+	localAPIs.hasClass = (element, className) => element.classList.contains(className);
 
 	localAPIs.toggleClass = (target, className) => doWithClass(target, className, 'toggle');
 

@@ -9,10 +9,12 @@ export const $data = (function () {
 
 		for (let i = 1; i < len; i++) {
 			for (let key in arguments[i]) {
-				if (Object.prototype.toString.call(arguments[i][key]) === '[object Object]') {
-					arguments[0][key] = localAPIs.deepAssign(arguments[0][key] || {}, arguments[i][key]);
-				} else {
-					arguments[0][key] = arguments[i][key];
+				if (arguments[i].hasOwnProperty(key)) {
+					if (Object.prototype.toString.call(arguments[i][key]) === '[object Object]') {
+						arguments[0][key] = localAPIs.deepAssign(arguments[0][key] || {}, arguments[i][key]);
+					} else {
+						arguments[0][key] = arguments[i][key];
+					}
 				}
 			}
 		}

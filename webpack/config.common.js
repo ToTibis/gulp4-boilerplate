@@ -1,6 +1,5 @@
 const path                      = require('path');
 const TerserPlugin              = require('terser-webpack-plugin');
-const HardSourceWebpackPlugin   = require('hard-source-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -31,7 +30,7 @@ module.exports = {
 	optimization: {
 		splitChunks: {
 			cacheGroups: {
-				vendor: {
+				defaultVendors: {
 					test: /node_modules/,
 					chunks: 'initial',
 					name: 'vendors',
@@ -45,8 +44,5 @@ module.exports = {
 				parallel: true
 			})
 		]
-	},
-	plugins: [
-		new HardSourceWebpackPlugin()
-	]
+	}
 };
