@@ -26,7 +26,7 @@ For **production** mode run command:
 
 ## In this boilerplate you can use:
 
-###HTML:
+### HTML:
 Processing using [Pug.js](https://github.com/pugjs/pug):
 - components - for static (in which the data does not change) reusable components;
 - layout - reusable layouts. [See more](https://pugjs.org/language/inheritance.html);
@@ -34,7 +34,7 @@ Processing using [Pug.js](https://github.com/pugjs/pug):
 - pages - all pages of project - home, about, contacts e.t.c.
 
 
-###CSS:
+### CSS:
 Processing using [Sass](https://sass-lang.com/), syntax is scss.
 - animations - css animations based on [Animate.css](https://animate.style/);
 - bootstrap - used just grid and reboot. Also used set of utilities - text, spacing, display, flex;
@@ -42,31 +42,31 @@ Processing using [Sass](https://sass-lang.com/), syntax is scss.
 - utilities - some utilities like variables, mixins e.t.c.
 - common and libs - for custom styles and import libraries.
 
-###Javascript:
+### Javascript:
 You can use Javascript ES6 modules - Javascript is processing by [Webpack 5](https://webpack.js.org/) to handle Javascript.
 I stopped using jquery because this tool is cumbersome, outdated and part of the functionality is already implemented native.
 
 I wrote my own "bicycle" :) - a library of helpers for working with DOM, events, styles. It works in all modern browsers and IE10+. 
 The helper library is written in a functional style and uses revealing module pattern.
 
-####The following sources were used to write it:
+#### The following sources were used to write it:
 - [The Vanilla JS Toolkit](https://vanillajstoolkit.com/) - A collection of JavaScript methods, helper functions, plugins, boilerplates, polyfills, and learning resources;
 - [plain.js](https://plainjs.com/javascript/) - Vanilla JavaScript for building powerful web applications;
 - [Events](https://github.com/cferdinandi/events) - Event delegation helper library;
 - [Tocca.js](https://github.com/GianlucaGuarini/Tocca.js/) - Script to detect via Javascript events like 'tap' 'longtap' 'dbltap' 'swipeup' 'swipedown' 'swipeleft' 'swiperight' on any kind of device.
 
-####The following plugins are used in the js-component of the boilerplate:
+#### The following plugins are used in the js-component of the boilerplate:
 - [is.js](https://github.com/arasatasaygin/is.js) - multi-purpose check library.
 - [svgxuse](https://github.com/Keyamoon/svgxuse) - simple polyfill that fetches external SVGs referenced in <use> elements when the browser itself fails to do so.
 
 *Of course, you can remove my "bicycle", include jQuery and use it as you like.*
 
-###All helpers are divided into the following modules:
+### All helpers are divided into the following modules:
 
-####**$data**:
+#### **$data**:
 - deepAssign(Object, Object, ....) - deep merge two or more objects into the first. Returns Object.
 
-####**$dom**:
+#### **$dom**:
 - **get(selector: String; context: String or Element or undefined)** - search of Element by provided selector in a given context. Returns Element;
 - **getAll(selector: String; context: String or Element or undefined)** - search of Elements by provided selector in a given context. Returns array of Elements;
 - **each(collection: Array of Elements; callback: Function)** - at each iteration supplies a separate item and item index to callback. Returns provided collection;
@@ -111,11 +111,11 @@ The helper library is written in a functional style and uses revealing module pa
     }
     ```
 
-####**$events**:
+#### **$events**:
 - **add(types: String or Array; target: Array of Elements or String or Element; callback: Function; options: Object)** - add event listeners to target. "Types" can be transmitted in the following ways - `'click touch'` or `'click, touch, mouseenter'` or `["mouseenter", "swipeLeft"]`. `this` in callback is target element(if you don't use arrow function). This method delivers to the callback event. "Options" - is a native addEventListener options object(like capture, once, passive); that is, if you want to call the listener once - you must specify it like this `$events.add('tap click swipeRight', 'h1', log, {once: true});`;
 - **remove(types: String or Array; target: Array of Elements or String or Element; callback: Function)** - removes event handlers of the specified types;
 - **emit(type: String; element: Element, by default is Window; detail: Object)** - emit a custom event, example `$events.emit('resize-done', document.body, {originalEvent: event});`
-#####**$events.delegate**:
+##### **$events.delegate**:
 Event bubbling is an approach to listening for events that’s better for performance and gives you a bit more flexibility.
 Instead of adding event listeners to specific elements, you listen to all events on a parent element (often the document or window). Events within that element “bubble up,” and you can check to see if the element that triggered the event (the event.target) matches the selector you really care about.
 
@@ -125,7 +125,7 @@ Instead of adding event listeners to specific elements, you listen to all events
 - **once(types: String or Array; target: String or Element; callback: Function)** - adds an event handler, which is removed after one trigger;
 - **list** - getter, get an immutable copy of all active event listeners;
 
-####**$style**:
+#### **$style**:
 - **get(element: String or Element; property: String - by default is undefined; clean: Boolean - by default is false)** - if property is undefined method will return `getComputedStyle` of element, otherwise method will return value  of the specified property. If "clean" is true - method will return clean number, example `$style.get('h1', 'font-size', true)` will return `22.755`, but not `'22.755px'`. Returns String or Number;
 - **set(target: Array of Elements or String or Element; property: String or Object; value: String - by default is null)** - sets the specified styles. If the property is an object and value is null, then method will set each property and its value passed by a key-value pair, for example `$style.set('h1', {fontSize: '50px', color: 'red'})`; if value argument passed, then method set property and value, example `$style.set('h1', 'font-size', '50px')`. Return Element or Array of Elements;
 - **remove(target: Array of Elements or String or Element; property: String or Array)** - removes the specified properties from the element. Properties can be transmitted in the following ways - `'font-size color'` or `'font-size, color'` or `["font-size", "color"]`. Example `$style.remove('.section', 'font-size, color')`. Return Element or Array of Elements;
@@ -136,5 +136,5 @@ Instead of adding event listeners to specific elements, you listen to all events
 - **slideToggle(target: Array of Elements or String or Element; options: Object)** - toggles the visibility of an element. The default options object looks like this `{duration: 500, onDown: null, onUp: null}` - duration - animation duration in milliseconds, onDown - Function - called when the element is shown, onUp - Function - called when the element is hide;
 - **offset(element: Element or String; relativeTo: String - can be only two values: "document"(by default) or "parent" )** - is the equivalent of jQuery's `.offset()`. Returns Object, example `{left: number, top: number}`. If "relativeTo" parameter not provide - returns coordinates relative to the document, If "relativeTo" equal "parent", then returns coordinates relative to the `offsetParent`;
 
-####**$ui**:
+#### **$ui**:
 - **blockedScroll(action: String)** - the action argument can be 'enable' or 'disable'. Blocks scrolling of the document.
