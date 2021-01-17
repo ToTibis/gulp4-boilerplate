@@ -36,24 +36,13 @@ export default function initGlobalApi(APIName = '$API') {
 		{
 			name: 'ModalController',
 			value: new ModalController({
-				overlap: true,
-				onShow(modal) {
-					//console.log('--------------');
-					//console.log('show');
-					//console.log('activeModal', this.activeModal);
-					//console.log('opened', this.opened);
-					//console.log('--------------')
-				},
-				onClose(modal) {
-					//console.log('--------------');
-					//console.log('close');
-					//console.log('activeModal', this.activeModal);
-					//console.log('opened', this.opened);
-					//console.log('--------------')
-				}
+				overlap: true
 			})
 		}
 	];
+
+	const {value: modalController} = functional.filter(item => item.name === 'ModalController')[0];
+
 
 	if (Boolean(window[APIName])) {
 		console.warn('No global front API created! Specify a unique API name as an argument to the initGlobalApi function as a string')
@@ -91,8 +80,8 @@ export function filterStringArgs(targets) {
  	return targets.toString().split(/[\s,]+/).filter(e => e.length)
 }
 
-export function convertReturnedTarget(target) {
-	return is.not.array(target) && !isElement(target) && is.string(target) ? document.querySelector(target) : target;
+export function optimizeTarget(target) {
+	return is.not.array(target) && !isElement(target) && target !== window ? document.querySelector(target) : target;
 }
 
 

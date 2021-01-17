@@ -1,11 +1,12 @@
 import {$events} from "../helpers/events";
 import {$dom} from "../helpers/dom";
 import {$style} from "../helpers/style";
+import {variables as $v} from "../variables";
 
 $dom.ready(() => {
 
 	const log = function(event) {
-		;(event.originalEvent || event).preventDefault();
+		(event.originalEvent || event).preventDefault();
 
 		console.log('event is: ', event);
 		console.log('event type is: ' + event.type);
@@ -45,23 +46,34 @@ $dom.ready(() => {
 		]
 	;
 
-	$events.delegate.once('tap click swipeRight', 'h1', log);
-	$events.add('tap swipeRight', $list, log);
+	$style.animateChain(chainOfAnimations);
 
-	//$style.animateChain(chainOfAnimations);
-
-	$events.delegate.on('click tap', '#section-toggle', function(event) {
+	$events.delegate.on('click tap', '#section-toggle', function() {
 		$style.slideToggle($section, {
-			onDown: (e) => {
-				$dom.text(this, 'Section slide up')
+			onDown: target => {
+				$dom.text(this, 'Section slide up');
+				console.log('Toggle up target: ', target);
 			},
-			onUp: () => {
-				$dom.text(this, 'Section slide down')
+			onUp: target => {
+				$dom.text(this, 'Section slide down');
+				console.log('Toggle down target: ', target);
 			}
 		})
 	});
 
 	$events.onResize(e => console.log(e.detail.originalEvent));
+
+	const {open, close, closed} = $v.customEventNames.modal;
+
+	$events.delegate
+		.on('click', $list, log)
+		.on([open, close, closed], document, event => {
+			console.log('Modal event type: ', event.type);
+			console.log('Modal element: ', event.detail.modal);
+		})
+
+		.off('click', $list, log)
+
 
 });
 

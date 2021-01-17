@@ -3,7 +3,12 @@ export const variables = {
 	resizeDebounce: 100,
 	customEventNames: {
 		resize: 'resize-done',
-		animateEnd: 'animate-end'
+		animateEnd: 'animate-end',
+		modal: {
+			open: 'modal-open',
+			close: 'modal-close',
+			closed: 'modal-close-end'
+		}
 	},
 	get windowWidth() {
 		return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth

@@ -3,7 +3,7 @@ import {$events} from "./events";
 import {variables as $v} from "../variables";
 import is from 'is_js';
 import {$data} from "./data";
-import {convertReturnedTarget, filterStringArgs} from "./_service";
+import {optimizeTarget, filterStringArgs} from "./_service";
 
 export const $style = (function () {
 
@@ -43,7 +43,7 @@ export const $style = (function () {
 		});
 
 
-		return convertReturnedTarget(target);
+		return optimizeTarget(target);
 	};
 
 	localAPIs.remove = function (target, property) {
@@ -57,7 +57,7 @@ export const $style = (function () {
 			})
 		});
 
-		return convertReturnedTarget(target)
+		return optimizeTarget(target)
 	};
 
 	localAPIs.animate = function(element, animationName, options = {}) {

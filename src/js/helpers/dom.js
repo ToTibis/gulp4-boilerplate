@@ -1,4 +1,4 @@
-import {warn, toDashesCase, isElement, isNode, filterStringArgs, convertReturnedTarget} from "./_service";
+import {warn, toDashesCase, isElement, isNode, filterStringArgs, optimizeTarget} from "./_service";
 import is from "is_js";
 
 export const $dom = (function () {
@@ -28,7 +28,7 @@ export const $dom = (function () {
 
 			localAPIs.each(className, name => localAPIs.callAll(target, el => el.classList[action](name)));
 
-			return convertReturnedTarget(target)
+			return optimizeTarget(target)
 		},
 		doWithInnerContent = (target, options) => {
 			let results = [], setMode = is.not.null(options.newContent);
@@ -50,7 +50,7 @@ export const $dom = (function () {
 
 
 
-			return setMode ? convertReturnedTarget(target) : results;
+			return setMode ? optimizeTarget(target) : results;
 		},
 		doWithInsert = (element, insertTarget, position) => {
 
@@ -201,7 +201,7 @@ export const $dom = (function () {
 			results = results[0].value
 		}
 
-		return setMode ? convertReturnedTarget(target) : results;
+		return setMode ? optimizeTarget(target) : results;
 
 	};
 

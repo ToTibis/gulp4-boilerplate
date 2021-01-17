@@ -219,17 +219,21 @@ export const $events = (function() {
 
 		processEventTypes(types, type => {
 			if (!needToExcludeEventByDevice(type)) {
-				$dom.callAll(target, elem => {
-					elem.addEventListener(type, callback, Object.assign(defaults, options))
+				$dom.callAll(target, element => {
+					element.addEventListener(type, callback, Object.assign(defaults, options))
 				})
 			}
-		})
+		});
+
+		return this;
 	};
 
 	localAPIs.remove = function(types, target, callback) {
 		processEventTypes(types, type => {
-			$dom.callAll(target, elem => elem.removeEventListener(type, callback))
-		})
+			$dom.callAll(target, element => element.removeEventListener(type, callback))
+		});
+
+		return this;
 	};
 
 	localAPIs.emit = function (type, element = window, detail = {}) {
@@ -242,6 +246,8 @@ export const $events = (function() {
 		});
 
 		element.dispatchEvent(event);
+
+		return this;
 	};
 
 	localAPIs.delegate = {
@@ -340,6 +346,8 @@ export const $events = (function() {
 					localAPIs.add(type, selector, callback)
 				}
 			});
+
+			return this
 		},
 		off(types, selector, callback) {
 			processEventTypes(types, type => {
@@ -355,7 +363,8 @@ export const $events = (function() {
 
 				if (eventIndex < 0) return;
 				this.processedEvents[type].splice(eventIndex, 1);
-			})
+			});
+			return this
 		},
 		once(types, selector, callback) {
 			localAPIs.delegate.on(types, selector, function temp (event) {
@@ -407,4 +416,3 @@ export const $events = (function() {
 	return localAPIs
 
 })();
-

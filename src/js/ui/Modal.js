@@ -2,6 +2,7 @@ import {$data} from "../helpers/data";
 import {$events} from "../helpers/events";
 import {$dom} from "../helpers/dom";
 import {$style} from "../helpers/style";
+import {variables as $v} from "../variables";
 
 export default class ModalController {
 	constructor(options = {}) {
@@ -11,11 +12,8 @@ export default class ModalController {
 			openTrigger: 'data-modal-open',
 			closeTrigger: 'data-modal-close',
 			activeClass: 'is-active',
-			overlap: false,
-			onShow: () => {},
-			onClose: () => {}
+			overlap: false
 		};
-
 
 		this.options = $data.deepAssign(this.defaults, options);
 		this.activeModal = null;
@@ -33,21 +31,23 @@ export default class ModalController {
 				$dom.attr(modal, 'aria-hidden', 'false');
 
 				this.opened.push(modal);
-				this.options.onShow.call(this, modal);
+
+				$events.emit($v.customEventNames.modal.open, modal, {modal});
 				break;
 
 			case 'hide':
 
 				$dom.attr(modal, 'aria-hidden', 'true');
 
-				$events.add('animationend', modal, () => {
-					$dom.removeClass(modal, this.options.activeClass);
-					$style.set(modal, 'display', 'none');
-
-					this.options.onClose.call(this, modal);
-				}, {
-					once: true
-				});
+				$events
+					.emit($v.customEventNames.modal.close, modal, {modal})
+					.add('animationend', modal, () => {
+						$dom.removeClass(modal, this.options.activeClass);
+						$style.set(modal, 'display', 'none');
+						$events.emit($v.customEventNames.modal.closed, modal, {modal})
+					}, {
+						once: true
+					});
 
 				this.opened = this.opened.filter(item => item !== modal);
 
@@ -90,15 +90,18 @@ export default class ModalController {
 
 	bindingEvents() {
 
-		let $self = this;
+		let
+			openSelector = `[${this.options.openTrigger}]`,
+			closeSelector = `[${this.options.closeTrigger}]`,
+			$self = this
+		;
 
-		$events.delegate.on('click tap', `[${this.options.openTrigger}]`, function () {
-			$self.open($dom.attr(this, $self.options.openTrigger))
-		});
-
-		$events.delegate.on('click tap', `[${this.options.closeTrigger}]`, function () {
-			$self.close($dom.attr(this, $self.options.closeTrigger))
-		});
+		$events.delegate
+			.on('click tap', openSelector, function () {
+				$self.open($dom.attr(this, $self.options.openTrigger))
+			})
+			.on('click tap',  closeSelector, this.close.bind(this))
+		;
 
 		return this;
 	}
