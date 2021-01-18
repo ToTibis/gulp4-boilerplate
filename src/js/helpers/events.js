@@ -213,6 +213,10 @@ export const $events = (function() {
 		})()
 	;
 
+	let resizeTimout;
+
+
+
 	localAPIs.add = function(types, target, callback, options = {}) {
 
 		const defaults = {once: false};
@@ -248,6 +252,23 @@ export const $events = (function() {
 		element.dispatchEvent(event);
 
 		return this;
+	};
+
+	localAPIs.debounce = function (targetFunction) {
+
+		let timeout;
+
+		return function () {
+			let
+				context = this,
+				args = arguments
+			;
+
+			if (timeout) window.cancelAnimationFrame(timeout);
+
+			timeout = window.requestAnimationFrame(() => targetFunction.apply(context, args));
+		}
+
 	};
 
 	localAPIs.delegate = {
@@ -393,23 +414,18 @@ export const $events = (function() {
 		}
 	};
 
-	localAPIs.onResize = (() => {
-		let resizeTimout;
+	localAPIs.delegate.on(is.mobile() ? 'orientationchange' : 'resize', window, event => {
 
-		localAPIs.delegate.on(is.mobile() ? 'orientationchange' : 'resize', window, event => {
+		clearTimeout(resizeTimout);
 
-			clearTimeout(resizeTimout);
+		resizeTimout = setTimeout(() => {
+			localAPIs.emit($v.customEventNames.resize, document.body, {
+				originalEvent: event
+			})
+		}, $v.resizeDebounce);
 
-			resizeTimout = setTimeout(() => {
-				localAPIs.emit($v.customEventNames.resize, document.body, {
-					originalEvent: event
-				})
-			}, $v.resizeDebounce);
-
-		});
-
-		return callback => localAPIs.delegate.on($v.customEventNames.resize, document.body, callback);
-	})();
+	});
+	localAPIs.onResize = callback => localAPIs.delegate.on($v.customEventNames.resize, document.body, callback);
 
 	localAPIs.touchConfigure = createTouch;
 

@@ -83,5 +83,9 @@ export function filterStringArgs(targets) {
 export function optimizeTarget(target) {
 	return is.not.array(target) && !isElement(target) && target !== window ? document.querySelector(target) : target;
 }
+export function preventDefault(event) {
+	(event.originalEvent || event).preventDefault();
+	return event;
+}
 
 

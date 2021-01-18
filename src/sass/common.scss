@@ -50,6 +50,7 @@ svg {
   max-height: 100%;
   stroke-width: 0;
   fill: currentColor;
+	pointer-events: none;
 }
 img {
   max-width: 100%;
@@ -87,8 +88,17 @@ img {
 	}
 }
 .presentation-wrapper {
-	@include background('../img/background.jpg');
 	color: map-get($colors, white);
+	position: relative;
+	overflow: hidden;
+	&-background {
+		@include background('../img/background.jpg');
+		position: absolute;
+		left: -1.25%;
+		top: -1.25%;
+		width: 102.5%;
+		height: 102.5%;
+	}
 	@include forIE {
 		.row {
 			width: 100%;
@@ -137,6 +147,18 @@ img {
 	h2 {
 		@include font-size(28)
 	}
+	.image-holder {
+		position: relative;
+		display: block;
+		padding-top: 100%;
+		.v8-image {
+			position: absolute;
+			min-width: 100%;
+			min-height: 100%;
+			top: 0;
+			left: 0;
+		}
+	}
 	.github-link {
 		@include transition;
 		@include animation('5s linear infinite jump');
@@ -184,4 +206,14 @@ img {
 /*Custom styles end*/
 
 
-
+.debug-container {
+	&:after {
+		@include pseudo;
+		width: $spacer * 2;
+		height: $spacer * 2;
+		background-color: get($colors, white);
+		left: 50%;
+		transform: translate(-50%, -50%) rotate(45deg);
+		top: 100%;
+	}
+}
