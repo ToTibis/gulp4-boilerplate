@@ -117,7 +117,6 @@ The helper library is written in a functional style and uses revealing module pa
 - **emit(type: String; element: Element, by default is Window; detail: Object)** - emit a custom event, example `$events.emit('resize-done', document.body, {originalEvent: event});`
 - **debounce(targetFunction: Function)** - debounce function for better performance. [See more]('https://gomakethings.com/debouncing-your-javascript-events/');
 
-if you need to use preventDefault - use the following to get the original event `(event.originalEvent || event).preventDefault();` or `preventDefault(event)` helper;
 #### **$events.delegate**:
 Event bubbling is an approach to listening for events that’s better for performance and gives you a bit more flexibility.
 Instead of adding event listeners to specific elements, you listen to all events on a parent element (often the document or window). Events within that element “bubble up,” and you can check to see if the element that triggered the event (the event.target) matches the selector you really care about.
@@ -127,6 +126,8 @@ Instead of adding event listeners to specific elements, you listen to all events
 - **off(types: String or Array; target: String or Element; callback: Function)** - removes event handlers of the specified types;
 - **once(types: String or Array; target: String or Element; callback: Function)** - adds an event handler, which is removed after one trigger;
 - **list** - getter, get an immutable copy of all active event listeners;
+
+if you need to use preventDefault - use the following to get the original event `(event.originalEvent || event).preventDefault();` or `preventDefault(event)` helper;
 
 #### **$style**:
 - **get(element: String or Element; property: String - by default is undefined; clean: Boolean - by default is false)** - if property is undefined method will return `getComputedStyle` of element, otherwise method will return value  of the specified property. If "clean" is true - method will return clean number, example `$style.get('h1', 'font-size', true)` will return `22.755`, but not `'22.755px'`. Returns String or Number;
