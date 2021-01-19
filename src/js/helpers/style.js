@@ -241,8 +241,10 @@ export const $style = (function () {
 
 		options = Object.assign(defaults, options);
 
+
 		callAll(target, element => {
-			if (element.offsetParent === null) {
+
+			if (localAPIs.get(element, 'display') === 'none') {
 				localAPIs.slideDown(element, {
 					duration: options.duration,
 					callback: options.onDown

@@ -18,7 +18,7 @@
 
 @mixin responsive-ratio($x,$y, $pseudo: false) {
 	$padding: unquote( ( $y / $x ) * 100 + '%' );
-	@if $pseudo { 
+	@if $pseudo {
 		&:before {
 			@include pseudo($pos: relative);
 			width: 100%;
@@ -65,7 +65,7 @@
 
 @mixin center($position) {
 	position: absolute;
-	
+
 	@if $position == 'vertical' {
 		top: 50%;
 		-webkit-transform: translateY(-50%);
@@ -88,34 +88,7 @@
 }
 /*--------------------absolute alignment--------------------*/
 
-@mixin keyframes($animation-name) {
-	@-webkit-keyframes #{$animation-name} {
-		@content;
-	}
-	@-moz-keyframes #{$animation-name} {
-		@content;
-	}  
-	@-ms-keyframes #{$animation-name} {
-		@content;
-	}
-	@-o-keyframes #{$animation-name} {
-		@content;
-	}  
-	@keyframes #{$animation-name} {
-		@content;
-	}
-}
-
-@mixin animation($str) {
-	-webkit-animation: #{$str};
-	-moz-animation: #{$str};
-	-ms-animation: #{$str};
-	-o-animation: #{$str};
-	animation: #{$str};      
-}
-/*------------------------animation------------------------*/
-
-@mixin triangle($direction, $size: 6px, $color: #222){
+@mixin triangle($direction, $size: 6px, $color: get($colors, black)){
 	content: '';
 	display: block;
 	position: absolute;
@@ -143,7 +116,7 @@
 }
 /*------------------make triangle------------------*/
 
-@mixin font-face($font-name, $file-name, $weight: normal, $style: normal) { 
+@mixin font-face($font-name, $file-name, $weight: normal, $style: normal) {
 	@font-face {
 		font-family: quote($font-name);
 		src: url($file-name + '.woff2') format('woff2'),
@@ -155,15 +128,16 @@
 }
 /*---------------------------fonts---------------------------*/
 
-@mixin forIE() { 
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { 
-		@content; 
-	} 
-} 
-@mixin forFF() { 
-	@-moz-document url-prefix() { 
-		@content; 
-	} 
+@mixin forIE() {
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		@content;
+	}
+}
+
+@mixin forFF() {
+	@-moz-document url-prefix() {
+		@content;
+	}
 }
 /*-----------------------for browsers-----------------------*/
 
@@ -174,14 +148,24 @@
 	@return $map;
 }
 /*-----------------------map get recursive-----------------------*/
-@mixin ifHoverSupport() {
-  @media screen and (hover: hover){
-    @content
-  }
+
+@mixin interaction($type) {
+	@if $type == 'mouse' {
+		@media (pointer: fine) and (any-hover: hover), (min-width:0\0) {
+			@content
+		}
+		/*
+ 			pointer: fine - Desktop/Laptop and Desktop/Laptop+Touchscreen
+ 			any-pointer: fine - Touchscreen+Mouse and Desktop/Laptop and Touchscreen and Desktop/Laptop+Touchscreen
+		*/
+	} @else if $type == 'touch' {
+		@media (pointer: coarse) and (any-pointer: fine) {
+			@content
+		}
+		/*
+ 			pointer: coarse - Touchscreen and Touchscreen+Mouse
+ 			any-pointer: fine - Touchscreen+Mouse and Desktop/Laptop and Touchscreen and Desktop/Laptop+Touchscreen
+		*/
+	}
 }
-@mixin ifHoverNotSupport() {
-  @media screen and (hover: none){
-    @content
-  }
-}
-/*-----------------------hover support-----------------------*/
+/*-----------------------interaction support-----------------------*/

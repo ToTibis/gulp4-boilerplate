@@ -16,7 +16,6 @@ function Parallax(options){
 		deep: options.deep || 'data-parallax-deep'
 	};
 
-
 	this.init = function() {
 
 		let
@@ -26,7 +25,7 @@ function Parallax(options){
 
 		$dom.each(parallaxWrappers, wrapper => {
 
-			$events.add('mousemove', wrapper, event => {
+			const debouncedFuntion = $events.debounce(event => {
 
 				let
 					x = event.clientX,
@@ -47,18 +46,20 @@ function Parallax(options){
 
 					layer.style.transform = 'translateX(' + itemX + '%) translateY(' + itemY + '%)';
 				});
-			})
+			});
+
+			$events.add('mousemove', wrapper, debouncedFuntion)
 
 		})
 
 	};
 
-	this.init();
+	if (is.not.touchDevice()) this.init();
 
 	return this;
 }
 
-const debugWindow = function() {
+const infoWindow = function() {
 
 	const {
 		append,
@@ -212,7 +213,7 @@ $dom.ready(() => {
 				element: $wrapper,
 				animationName: 'fadeIn',
 				callback(element) {
-					console.log(this);
+					console.log(element);
 					//this === element
 				}
 			},
@@ -220,7 +221,7 @@ $dom.ready(() => {
 				element: $header,
 				animationName: 'fadeInDown',
 				callback(element) {
-					console.log(this);
+					console.log(element);
 					//this === element
 				}
 			},
@@ -228,7 +229,7 @@ $dom.ready(() => {
 				element: $main,
 				animationName: 'fadeIn',
 				callback(element) {
-					console.log(this);
+					console.log(element);
 					//this === element
 				}
 			},
@@ -236,14 +237,14 @@ $dom.ready(() => {
 				element: $footer,
 				animationName: 'fadeInUp',
 				callback(element) {
-					console.log(this);
+					console.log(element);
 					//this === element
 				}
 			}
 		]
 	;
 
-	const debugContainer = debugWindow();
+	const debugContainer = infoWindow();
 
 	$style.set(debugContainer, 'opacity', '0');
 
@@ -255,9 +256,7 @@ $dom.ready(() => {
 	});
 
 	const {open, close, closed} = $v.customEventNames.modal;
-
 	$events
-
 		.add('swipeRight click tap', $list, log)
 		.add('swipeLeft click tap', $title, log)
 		.delegate
@@ -280,6 +279,7 @@ $dom.ready(() => {
 	;
 
 	new Parallax();
+
 });
 
 

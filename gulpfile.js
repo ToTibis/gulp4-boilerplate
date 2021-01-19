@@ -20,11 +20,13 @@ global.$ = {
 	webpack: require('webpack'),
 	webpackStream: require('webpack-stream'),
 	pug: require('gulp-pug'),
+	dependents: require('gulp-dependents'),
+	debug: require('gulp-debug'),
 	path: {
 		tasks: require('./gulp/config/tasks.js'),
 		src: {
 			html: 'src/html/pages/*.pug',
-			sass: 'src/sass/*.scss',
+			sass: 'src/sass/**/*.scss',
 			js: 'src/js/main.js',
 			fonts: 'src/fonts/**/*.*',
 			img: 'src/img/images/**/*.*',

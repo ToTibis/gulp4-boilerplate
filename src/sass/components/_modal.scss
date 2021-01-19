@@ -4,6 +4,7 @@ $root-class-name:         #{'.' + $prefix + 'modal'};
 $close-button-size:       50px;
 $active-class-name:       #{'.is-active'};
 
+
 #{$root-class-name} {
 	display: none;
 
