@@ -3,7 +3,7 @@ import {$events} from "./events";
 import {variables as $v} from "../variables";
 import is from 'is_js';
 import {$data} from "./data";
-import {optimizeTarget, filterStringArgs} from "./_service";
+import {optimizeTarget, filterStringArgs, toDashesCase} from "./_service";
 
 export const $style = (function () {
 
@@ -52,7 +52,7 @@ export const $style = (function () {
 
 		callAll(target, el => {
 			$dom.each(property, prop => {
-				prop = prop.trim();
+				prop = toDashesCase(prop.trim());
 				el.style.removeProperty(prop)
 			})
 		});
@@ -121,13 +121,12 @@ export const $style = (function () {
 
 				const {element, animationName, callback, hideOnEnd} = anim;
 
-				if (options.hideOnStart) localAPIs.remove(element, 'opacity, visibility');
+				if (options.hideOnStart) localAPIs.remove(element, 'opacity visibility');
 
 				localAPIs.animate(element, animationName,{
 					onComplete() {
 						i++;
-						if (is.function(callback)) callback(element);
-
+						if (is.function(callback)) callback.call(element, element);
 						if (i < l) {
 							run(animationsArray[i])
 						} else {
@@ -151,18 +150,19 @@ export const $style = (function () {
 
 		options = Object.assign(defaults, options);
 
-		callAll(target, el => {
 
-			localAPIs.set(el, {
+		callAll(target, element => {
+
+			localAPIs.set(element, {
 				transitionProperty: 'height, margin, padding',
 				transitionDuration: options.duration + 'ms',
 				boxSizing: 'border-box',
-				height: el.offsetHeight + 'px',
+				height: element.offsetHeight + 'px',
 			});
 
-			target.offsetHeight;
+			element.offsetHeight;
 
-			localAPIs.set(el, {
+			localAPIs.set(element, {
 				overflow: 'hidden',
 				height: 0,
 				paddingTop: 0,
@@ -171,11 +171,11 @@ export const $style = (function () {
 				marginBottom: 0
 			});
 
-			$events.add('transitionend', el, () => {
-				localAPIs.set(el, 'display', 'none');
-				localAPIs.remove(el, 'height, padding-top, padding-bottom, margin-top, margin-bottom, overflow, transition-duration, transition-property, box-sizing');
+			$events.add('transitionend', element, () => {
+				localAPIs.set(element, 'display', 'none');
+				localAPIs.remove(element, 'height, padding-top, padding-bottom, margin-top, margin-bottom, overflow, transition-duration, transition-property, box-sizing');
 
-				if (is.function(options.callback)) options.callback(el);
+				if (is.function(options.callback)) options.callback(element);
 			}, {
 				once: true
 			});
@@ -192,15 +192,15 @@ export const $style = (function () {
 
 		options = Object.assign(defaults, options);
 
-		callAll(target, el => {
-			localAPIs.remove(el, 'display');
+		callAll(target, element => {
+			localAPIs.remove(element, 'display');
 
-			let display = window.getComputedStyle(el).display;
+			let display = window.getComputedStyle(element).display;
 			if (display === 'none') display = 'block';
-			localAPIs.set(el, 'display', display);
-			let height = el.offsetHeight;
+			localAPIs.set(element, 'display', display);
+			let height = element.offsetHeight;
 
-			localAPIs.set(el, {
+			localAPIs.set(element, {
 				overflow: 'hidden',
 				height: 0,
 				paddingTop: 0,
@@ -209,21 +209,21 @@ export const $style = (function () {
 				marginBottom: 0
 			});
 
-			el.offsetHeight;
+			element.offsetHeight;
 
-			localAPIs.set(el, {
+			localAPIs.set(element, {
 				boxSizing: 'border-box',
 				transitionProperty: 'height, margin, padding',
 				transitionDuration: options.duration + 'ms',
 				height: height + 'px'
 			});
 
-			localAPIs.remove(el, 'padding-top, padding-bottom, margin-top, margin-bottom');
+			localAPIs.remove(element, 'padding-top, padding-bottom, margin-top, margin-bottom');
 
-			$events.add('transitionend', el, () => {
-				localAPIs.remove(el, 'height, overflow, transition-duration, transition-property');
+			$events.add('transitionend', element, () => {
+				localAPIs.remove(element, 'height, overflow, transition-duration, transition-property');
 
-				if (is.function(options.callback)) options.callback(el);
+				if (is.function(options.callback)) options.callback(element);
 			}, {
 				once: true
 			});
@@ -241,17 +241,21 @@ export const $style = (function () {
 
 		options = Object.assign(defaults, options);
 
-		if (localAPIs.get(target, 'display') === 'none') {
-			localAPIs.slideDown(target, {
-				duration: options.duration,
-				callback: options.onDown
-			})
-		} else {
-			localAPIs.slideUp(target, {
-				duration: options.duration,
-				callback: options.onUp
-			})
-		}
+		callAll(target, element => {
+			if (element.offsetParent === null) {
+				localAPIs.slideDown(element, {
+					duration: options.duration,
+					callback: options.onDown
+				})
+			} else {
+				localAPIs.slideUp(element, {
+					duration: options.duration,
+					callback: options.onUp
+				})
+			}
+		})
+
+
 	};
 
 	localAPIs.offset = function (element, relativeTo = 'document') {

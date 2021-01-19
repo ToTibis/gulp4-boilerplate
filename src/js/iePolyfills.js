@@ -42,7 +42,21 @@ if (!Array.prototype.includes) {
 		return this.indexOf(search, start) !== -1;
 	};
 }
-/*---------------------Array includes---------------------*/
+if (!String.prototype.includes) {
+	String.prototype.includes = function(search, start) {
+		'use strict';
+		if (typeof start !== 'number') {
+			start = 0;
+		}
+
+		if (start + search.length > this.length) {
+			return false;
+		} else {
+			return this.indexOf(search, start) !== -1;
+		}
+	};
+}
+/*---------------------Array and String includes---------------------*/
 
 if (typeof Object.assign !== 'function') {
 

@@ -96,11 +96,21 @@ export default class ModalController {
 			$self = this
 		;
 
+
+
 		$events.delegate
 			.on('click tap', openSelector, function () {
 				$self.open($dom.attr(this, $self.options.openTrigger))
 			})
 			.on('click tap',  closeSelector, this.close.bind(this))
+			.on('keyup', document, event => {
+				if (this.opened.length > 0) {
+					if (event.key.toLowerCase().includes('esc')) {
+						this.close()
+					}
+				}
+
+			})
 		;
 
 		return this;

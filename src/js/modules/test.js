@@ -3,6 +3,7 @@ import {$dom} from "../helpers/dom";
 import {$style} from "../helpers/style";
 import {variables as $v} from "../variables";
 import {preventDefault} from "../helpers/_service";
+import is from 'is_js';
 
 
 function Parallax(options){
@@ -164,7 +165,31 @@ const debugWindow = function() {
 	return container
 };
 
+const ieFixUi = function() {
+
+	const
+		$wrapper = $dom.get('.page__wrapper'),
+		$footer = $dom.get('.footer', $wrapper),
+		$content = $dom.get('.page__content', $wrapper)
+	;
+
+	const setSizes = () => {
+		$style.remove($content, 'min-height');
+
+		$style.set($content, {
+			minHeight: ($wrapper.offsetHeight - $footer.offsetHeight) + 'px'
+		})
+	};
+
+
+	setSizes();
+	$events.onResize(setSizes)
+
+};
+
 $dom.ready(() => {
+
+	if (is.ie()) ieFixUi();
 
 	const log = function(event) {
 		preventDefault(event);
@@ -186,22 +211,34 @@ $dom.ready(() => {
 			{
 				element: $wrapper,
 				animationName: 'fadeIn',
-				callback: console.log
+				callback(element) {
+					console.log(this);
+					//this === element
+				}
 			},
 			{
 				element: $header,
 				animationName: 'fadeInDown',
-				callback: console.log
+				callback(element) {
+					console.log(this);
+					//this === element
+				}
 			},
 			{
 				element: $main,
 				animationName: 'fadeIn',
-				callback: console.log
+				callback(element) {
+					console.log(this);
+					//this === element
+				}
 			},
 			{
 				element: $footer,
 				animationName: 'fadeInUp',
-				callback: console.log
+				callback(element) {
+					console.log(this);
+					//this === element
+				}
 			}
 		]
 	;
@@ -217,33 +254,30 @@ $dom.ready(() => {
 		}
 	});
 
-	$events.delegate.on('click tap', '#section-toggle', function() {
-		$style.slideToggle($section, {
-			onDown: target => {
-				$dom.text(this, 'Section slide up');
-				console.log('Toggle up target: ', target);
-			},
-			onUp: target => {
-				$dom.text(this, 'Section slide down');
-				console.log('Toggle down target: ', target);
-			}
-		})
-	});
-
 	const {open, close, closed} = $v.customEventNames.modal;
 
 	$events
-		.add('swipeRight', $list, log)
-		.add('swipeLeft', $title, log)
-		.delegate
 
+		.add('swipeRight click tap', $list, log)
+		.add('swipeLeft click tap', $title, log)
+		.delegate
+		.on('click tap', '#section-toggle', function() {
+			$style.slideToggle('.list', {
+				onDown: target => {
+					$dom.text(this, 'Section slide up');
+					console.log('Toggle up target: ', target);
+				},
+				onUp: target => {
+					$dom.text(this, 'Section slide down');
+					console.log('Toggle down target: ', target);
+				}
+			})
+		})
 		.on([open, close, closed], document, event => {
 			console.log('Modal event type: ', event.type);
 			console.log('Modal element: ', event.detail.modal);
 		})
 	;
-
-
 
 	new Parallax();
 });
