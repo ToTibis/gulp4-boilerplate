@@ -1,4 +1,15 @@
 {
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry",
+        "corejs": "3.8",
+        "modules" : "commonjs",
+        "debug": false
+      }
+    ]
+  ],
   "plugins": [
     ["module-resolver", {
       "alias": {
@@ -8,17 +19,6 @@
     ["@babel/plugin-transform-runtime",
       {
         "regenerator": true
-      }
-    ]
-  ],
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": "entry",
-        "corejs": "3",
-        "modules" : "commonjs",
-        "debug": false
       }
     ]
   ]
