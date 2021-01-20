@@ -35,15 +35,15 @@ Processing using [Pug.js](https://github.com/pugjs/pug):
 
 
 ### CSS:
-Processing using [Sass](https://sass-lang.com/), syntax is scss.
-- animations - css animations based on [Animate.css](https://animate.style/);
+Processing using [Sass](https://github.com/sass/sass), syntax is scss.
+- animations - css animations based on [Animate.css](https://github.com/animate-css/animate.css);
 - bootstrap - used just grid and reboot. Also used set of utilities - text, spacing, display, flex;
 - components - for ui-elements like modal, tooltips, select e.t.c.
 - utilities - some utilities like variables, mixins e.t.c.
 - common and libs - for custom styles and import libraries.
 
 ### Javascript:
-You can use Javascript ES6 modules - Javascript is processing by [Webpack 5](https://webpack.js.org/) to handle Javascript.
+You can use Javascript ES6 modules - Javascript is processing by [Webpack 5](https://github.com/webpack/webpack) to handle Javascript.
 I stopped using jquery because this tool is cumbersome, outdated and part of the functionality is already implemented native.
 
 I wrote my own "bicycle" :) - a library of helpers for working with DOM, events, styles. It works in all modern browsers and IE10+. 

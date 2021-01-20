@@ -1,4 +1,131 @@
-import WeakMap from "core-js/es/weak-map";
+(function(self) {
+	'use strict';
+
+	if (self.WeakMap) {
+		return;
+	}
+
+	let hasOwnProperty = Object.prototype.hasOwnProperty;
+	let defineProperty = function(object, name, value) {
+		if (Object.defineProperty) {
+			Object.defineProperty(object, name, {
+				configurable: true,
+				writable: true,
+				value: value
+			});
+		} else {
+			object[name] = value;
+		}
+	};
+
+	self.WeakMap = (function() {
+
+		function WeakMap() {
+			if (this === void 0) {
+				throw new TypeError("Constructor WeakMap requires 'new'");
+			}
+
+			defineProperty(this, '_id', genId('_WeakMap'));
+
+			if (arguments.length > 0) {
+				throw new TypeError('WeakMap iterable is not supported');
+			}
+		}
+
+		defineProperty(WeakMap.prototype, 'delete', function(key) {
+			checkInstance(this, 'delete');
+
+			if (!isObject(key)) {
+				return false;
+			}
+
+			let entry = key[this._id];
+			if (entry && entry[0] === key) {
+				delete key[this._id];
+				return true;
+			}
+
+			return false;
+		});
+
+		defineProperty(WeakMap.prototype, 'get', function(key) {
+			checkInstance(this, 'get');
+
+			if (!isObject(key)) {
+				return void 0;
+			}
+
+			let entry = key[this._id];
+			if (entry && entry[0] === key) {
+				return entry[1];
+			}
+
+			return void 0;
+		});
+
+		defineProperty(WeakMap.prototype, 'has', function(key) {
+			checkInstance(this, 'has');
+
+			if (!isObject(key)) {
+				return false;
+			}
+
+			let entry = key[this._id];
+
+			return !!(entry && entry[0] === key);
+		});
+
+		defineProperty(WeakMap.prototype, 'set', function(key, value) {
+			checkInstance(this, 'set');
+
+			if (!isObject(key)) {
+				throw new TypeError('Invalid value used as weak map key');
+			}
+
+			let entry = key[this._id];
+			if (entry && entry[0] === key) {
+				entry[1] = value;
+				return this;
+			}
+
+			defineProperty(key, this._id, [key, value]);
+			return this;
+		});
+
+
+		function checkInstance(x, methodName) {
+			if (!isObject(x) || !hasOwnProperty.call(x, '_id')) {
+				throw new TypeError(
+					methodName + ' method called on incompatible receiver ' +
+					typeof x
+				);
+			}
+		}
+
+		function genId(prefix) {
+			return prefix + '_' + rand() + '.' + rand();
+		}
+
+		function rand() {
+			return Math.random().toString().substring(2);
+		}
+
+
+		defineProperty(WeakMap, '_polyfill', true);
+		return WeakMap;
+	})();
+
+
+	function isObject(x) {
+		return Object(x) === x;
+	}
+
+})(
+	typeof self !== 'undefined' ? self :
+		typeof window !== 'undefined' ? window :
+			typeof global !== 'undefined' ? global : this
+);
+/*------------------------Weakmap------------------------*/
 
 if (!Object.entries) {
 	Object.entries = obj => {
@@ -366,23 +493,23 @@ if (typeof Object.assign !== 'function') {
 /*---------------------Promise---------------------*/
 
 (function (){
-	let passiveSupported = false
-	let onceSupported = false
+	let passiveSupported = false;
+	let onceSupported = false;
 	function noop() {}
 	try {
 		let options = Object.create({}, {
 			passive: {get: function() { passiveSupported = true }},
 			once: {get: function() { onceSupported = true }},
-		})
+		});
 		window.addEventListener('test', noop, options)
 		window.removeEventListener('test', noop, options)
 	} catch (e) { /* */ }
 
 	let enhance = module.exports = function enhance(proto) {
-		let originalAddEventListener = proto.addEventListener
-		let originalRemoveEventListener = proto.removeEventListener
+		let originalAddEventListener = proto.addEventListener;
+		let originalRemoveEventListener = proto.removeEventListener;
 
-		let listeners = new WeakMap()
+		let listeners = new WeakMap();
 		proto.addEventListener = function(name, originalCallback, optionsOrCapture) {
 			if (
 				optionsOrCapture === undefined ||
@@ -393,63 +520,63 @@ if (typeof Object.assign !== 'function') {
 				return originalAddEventListener.call(this, name, originalCallback, optionsOrCapture)
 			}
 
-			let callback = typeof originalCallback !== 'function' && typeof originalCallback.handleEvent === 'function' ? originalCallback.handleEvent.bind(originalCallback) : originalCallback
-			let options = typeof optionsOrCapture === 'boolean' ? {capture: optionsOrCapture} : optionsOrCapture || {}
-			let passive = Boolean(options.passive)
-			let once = Boolean(options.once)
-			let capture = Boolean(options.capture)
-			let oldCallback = callback
+			let callback = typeof originalCallback !== 'function' && typeof originalCallback.handleEvent === 'function' ? originalCallback.handleEvent.bind(originalCallback) : originalCallback;
+			let options = typeof optionsOrCapture === 'boolean' ? {capture: optionsOrCapture} : optionsOrCapture || {};
+			let passive = Boolean(options.passive);
+			let once = Boolean(options.once);
+			let capture = Boolean(options.capture);
+			let oldCallback = callback;
 
 			if (!onceSupported && once) {
 				callback = function(event) {
-					this.removeEventListener(name, originalCallback, options)
+					this.removeEventListener(name, originalCallback, options);
 					oldCallback.call(this, event)
 				}
 			}
 
 			if (!passiveSupported && passive) {
 				callback = function(event) {
-					event.preventDefault = noop
+					event.preventDefault = noop;
 					oldCallback.call(this, event)
 				}
 			}
 
-			if (!listeners.has(this)) listeners.set(this, new WeakMap())
-			let elementMap = listeners.get(this)
-			if (!elementMap.has(originalCallback)) elementMap.set(originalCallback, [])
-			let optionsOctal = (passive * 1) + (once * 2) + (capture * 4)
-			elementMap.get(originalCallback)[optionsOctal] = callback
+			if (!listeners.has(this)) listeners.set(this, new WeakMap());
+			let elementMap = listeners.get(this);
+			if (!elementMap.has(originalCallback)) elementMap.set(originalCallback, []);
+			let optionsOctal = (passive * 1) + (once * 2) + (capture * 4);
+			elementMap.get(originalCallback)[optionsOctal] = callback;
 
 			originalAddEventListener.call(this, name, callback, capture)
-		}
+		};
 
 		proto.removeEventListener = function(name, originalCallback, optionsOrCapture) {
-			let capture = Boolean(typeof optionsOrCapture === 'object' ? optionsOrCapture.capture : optionsOrCapture)
+			let capture = Boolean(typeof optionsOrCapture === 'object' ? optionsOrCapture.capture : optionsOrCapture);
 
-			let elementMap = listeners.get(this)
-			if (!elementMap) return originalRemoveEventListener.call(this, name, originalCallback, optionsOrCapture)
-			let callbacks = elementMap.get(originalCallback)
-			if (!callbacks) return originalRemoveEventListener.call(this, name, originalCallback, optionsOrCapture)
+			let elementMap = listeners.get(this);
+			if (!elementMap) return originalRemoveEventListener.call(this, name, originalCallback, optionsOrCapture);
+			let callbacks = elementMap.get(originalCallback);
+			if (!callbacks) return originalRemoveEventListener.call(this, name, originalCallback, optionsOrCapture);
 
 			for (let optionsOctal in callbacks) {
-				let callbackIsCapture = Boolean(optionsOctal & 4)
+				let callbackIsCapture = Boolean(optionsOctal & 4);
 				if (callbackIsCapture !== capture) continue // when unbinding, capture is the only option that counts
 				originalRemoveEventListener.call(this, name, callbacks[optionsOctal], callbackIsCapture)
 			}
 
 		}
 
-	}
+	};
 
 	if (!passiveSupported || !onceSupported) {
 
 		if (typeof EventTarget !== 'undefined') {
 			enhance(EventTarget.prototype)
 		} else {
-			enhance(Text.prototype)
-			enhance(HTMLElement.prototype)
-			enhance(Document.prototype)
-			enhance(Window.prototype)
+			enhance(Text.prototype);
+			enhance(HTMLElement.prototype);
+			enhance(Document.prototype);
+			enhance(Window.prototype);
 			enhance(XMLHttpRequest.prototype)
 		}
 
@@ -468,7 +595,7 @@ if (typeof Object.assign !== 'function') {
 
 				if (!('Element' in view)) return;
 
-				var
+				let
 					classListProp = "classList"
 					, protoProp = "prototype"
 					, elemCtrProto = view.Element[protoProp]
@@ -477,7 +604,7 @@ if (typeof Object.assign !== 'function') {
 						return this.replace(/^\s+|\s+$/g, "");
 					}
 					, arrIndexOf = Array[protoProp].indexOf || function (item) {
-						var
+						let
 							i = 0
 							, len = this.length
 						;
@@ -510,7 +637,7 @@ if (typeof Object.assign !== 'function') {
 						return arrIndexOf.call(classList, token);
 					}
 					, ClassList = function (elem) {
-						var
+						let
 							trimmedClasses = strTrim.call(elem.getAttribute("class") || "")
 							, classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
 							, i = 0
@@ -539,7 +666,7 @@ if (typeof Object.assign !== 'function') {
 					return checkTokenAndGetIndex(this, token) !== -1;
 				};
 				classListProto.add = function () {
-					var
+					let
 						tokens = arguments
 						, i = 0
 						, l = tokens.length
@@ -560,7 +687,7 @@ if (typeof Object.assign !== 'function') {
 					}
 				};
 				classListProto.remove = function () {
-					var
+					let
 						tokens = arguments
 						, i = 0
 						, l = tokens.length
@@ -586,7 +713,7 @@ if (typeof Object.assign !== 'function') {
 				classListProto.toggle = function (token, force) {
 					token += "";
 
-					var
+					let
 						result = this.contains(token)
 						, method = result ?
 						force !== true && "remove"
@@ -609,7 +736,7 @@ if (typeof Object.assign !== 'function') {
 				};
 
 				if (objCtr.defineProperty) {
-					var classListPropDesc = {
+					let classListPropDesc = {
 						get: classListGetter
 						, enumerable: true
 						, configurable: true

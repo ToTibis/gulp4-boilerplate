@@ -5,7 +5,6 @@ import {variables as $v} from "../variables";
 import {preventDefault} from "../helpers/_service";
 import is from 'is_js';
 
-
 function Parallax(options){
 
 	options = options || {};
