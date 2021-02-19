@@ -1,4 +1,4 @@
-import {variables as $v} from "../variables";
+import variables from "../variables";
 import {warn} from "./_service";
 import {$style} from "./style";
 
@@ -12,7 +12,7 @@ export const $ui = (function () {
 	APIs.blockScroll = function (action) {
 		switch (action) {
 			case 'enable':
-				const sbw = $v.scrollbarWidth;
+				const sbw = variables.scrollbarWidth;
 				set(document.body, {
 					overflow: 'hidden',
 					paddingRight: sbw + 'px'

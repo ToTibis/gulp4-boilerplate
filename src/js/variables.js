@@ -1,6 +1,7 @@
-export const variables = {
+const variables = {
 	gsapDefaultDuration: .25,
 	resizeDebounce: 100,
+	debugLogs: true,
 	customEventNames: {
 		resize: 'resize-done',
 		animateEnd: 'animate-end',
@@ -24,3 +25,5 @@ export const variables = {
 		xl: 1200,
 	}
 };
+
+export default variables;

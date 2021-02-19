@@ -2,7 +2,7 @@ import {$data} from "../helpers/data";
 import {$events} from "../helpers/events";
 import {$dom} from "../helpers/dom";
 import {$style} from "../helpers/style";
-import {variables as $v} from "../variables";
+import variables from "../variables";
 
 export default class ModalController {
 	constructor(options = {}) {
@@ -32,7 +32,7 @@ export default class ModalController {
 
 				this.opened.push(modal);
 
-				$events.emit($v.customEventNames.modal.open, modal, {modal});
+				$events.emit(variables.customEventNames.modal.open, modal, {modal});
 				break;
 
 			case 'hide':
@@ -40,11 +40,11 @@ export default class ModalController {
 				$dom.attr(modal, 'aria-hidden', 'true');
 
 				$events
-					.emit($v.customEventNames.modal.close, modal, {modal})
+					.emit(variables.customEventNames.modal.close, modal, {modal})
 					.add('animationend', modal, () => {
 						$dom.removeClass(modal, this.options.activeClass);
 						$style.set(modal, 'display', 'none');
-						$events.emit($v.customEventNames.modal.closed, modal, {modal})
+						$events.emit(variables.customEventNames.modal.closed, modal, {modal})
 					}, {
 						once: true
 					});

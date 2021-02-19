@@ -5,6 +5,9 @@ import {$events} from "./events";
 import {$style} from "./style";
 import {$ui} from "./ui";
 import ModalController from "../ui/Modal";
+import variables from "../variables";
+
+let apiName, debugDisabledNotified = false;
 
 export default function initGlobalApi(APIName = '$API') {
 
@@ -41,9 +44,6 @@ export default function initGlobalApi(APIName = '$API') {
 		}
 	];
 
-	const {value: modalController} = functional.filter(item => item.name === 'ModalController')[0];
-
-
 	if (Boolean(window[APIName])) {
 		console.warn('No global front API created! Specify a unique API name as an argument to the initGlobalApi function as a string')
 	} else {
@@ -51,11 +51,19 @@ export default function initGlobalApi(APIName = '$API') {
 
 		functional.forEach(item => window[APIName][item.name] = item.value);
 	}
-
+	apiName = APIName
 };
 
 export function warn(message, locationName) {
-	console.warn(message + `. Warning source - ${locationName}`)
+
+	if (variables.debugLogs) {
+		console.warn(message + `. Warning source - ${locationName}`)
+	} else {
+		if (!debugDisabledNotified) {
+			console.info('%cDebug mode is disabled. You will not see any error messages from "$helpers"', 'color: orange;');
+			debugDisabledNotified = true;
+		}
+	}
 }
 
 export function toDashesCase(string) {
@@ -77,15 +85,25 @@ export function isNode(target){
 }
 
 export function filterStringArgs(targets) {
- 	return targets.toString().split(/[\s,]+/).filter(e => e.length)
+	return targets.toString().split(/[\s,]+/).filter(e => e.length)
 }
 
 export function optimizeTarget(target) {
 	return is.not.array(target) && !isElement(target) && target !== window ? document.querySelector(target) : target;
 }
+
 export function preventDefault(event) {
 	(event.originalEvent || event).preventDefault();
 	return event;
 }
 
+export function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+export function checkAndRunCallback(fn, ...args) {
+
+	if(is.function(fn) && args.length > 0) {
+		fn(...args)
+	}
+}

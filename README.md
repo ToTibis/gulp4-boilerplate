@@ -98,7 +98,21 @@ The helper library is written in a functional style and uses revealing module pa
 - **prepend(prependTarget: Element or String; element: Element or String)** - append an element to the beginning of prependTarget content. Returns Element;
 - **clone(element: Element)** - create a deep copy of an element. Returns Element;
 - **ready(callback: Function)** - is the equivalent of jQuery's `$(document).ready()` method.
-- **onResize(callback: Function)** - an optimized version of the resize event. Depending on the device: on mobile - the callback is called after changing the screen orientation, on others - after changing the window size. The default callback debounce is 100 milliseconds (can be changed in the `js/variables.js`);
+- **resize(action: String - can be only two values: "on" or "off"; callback: Function)** an optimized version of the resize event. Depending on the device: on mobile - the callback is called after changing the screen orientation, on others - after changing the window size. The default callback debounce is 100 milliseconds (can be changed in the `js/variables.js`). Example:
+    ```
+        import {sleep} from "../helpers/_service";
+  
+        function byResize() {
+            // do something by resize
+        }
+        
+        $events.resize('on', byResize);
+    
+        sleep(2000)
+            .then(() => {
+                $events.resize('off', byResize)
+            });
+    ```
 - **touchConfigure(Object or undefined)** - configure the touch support. If undefined - returns defaults options.
     Defaults options: 
     ```
@@ -135,10 +149,16 @@ if you need to use preventDefault - use the following to get the original event 
 - **remove(target: Array of Elements or String or Element; property: String or Array)** - removes the specified properties from the element. Properties can be transmitted in the following ways - `'font-size color'` or `'font-size, color'` or `["font-size", "color"]`. Example `$style.remove('.section', 'font-size, color')`. Return Element or Array of Elements;
 - **animate(element: Element or String; animationName: String; options: Object)** - method for animation uses css-animations(`@keyframes`) respectively as "animationName" parameter can be use classes such as `fadeIn, fadeOut, zoomIn` e.t.c. The default options object looks like this `{onComplete: null, animateInitClassName: 'animated', hideOnEnd: false}` - onComplete is Function - provide target element as argument, animateInitClassName is String - default is `animated`, hideOnEnd is Boolean - hide element after animation end;
 - **animateChain(animationsArray: Array; options: Object)** - execution of animations sequentially, in a chain. Target for this method is Array with objects inside, object looks like this - `{element: $dom.get('#wrapper'), animationName: 'fadeIn', callback: elem => console.log(elem)}`; The default options object looks like this `{onComplete: null, hideOnStart: true}` - onComplete is Function - provide target Array of elements as argument, hideOnStart - is Boolean, true by default - hide element before separate animation start;
-- **slideUp(target: Array of Elements or String or Element; options: Object)** - is the equivalent of jQuery's `.slideUp()` method. Hide the target with a sliding motion. The default options object looks like this `{duration: 500, callback: null}` - duration - animation duration in milliseconds, callback is Function - provide target element as argument;
+- **slideUp(target: Array of Elements or String or Element; options: Object)** - is the equivalent of jQuery's `.slideUp()` method. Hide the target with a sliding motion. The default options object looks like this `{duration: 500, onStart: null, onEnd: null}` - duration - animation duration in milliseconds, onStart and onEnd is Functions - provide target element as argument;
 - **slideDown(target: Array of Elements or String or Element; options: Object)** - is the equivalent of jQuery's `.slideDown()`method. Similar to "slideUp" method, but displays an element;
-- **slideToggle(target: Array of Elements or String or Element; options: Object)** - toggles the visibility of an element. The default options object looks like this `{duration: 500, onDown: null, onUp: null}` - duration - animation duration in milliseconds, onDown - Function - called when the element is shown, onUp - Function - called when the element is hide;
-- **offset(element: Element or String; relativeTo: String - can be only two values: "document"(by default) or "parent" )** - is the equivalent of jQuery's `.offset()`. Returns Object, example `{left: number, top: number}`. If "relativeTo" parameter not provide - returns coordinates relative to the document, If "relativeTo" equal "parent", then returns coordinates relative to the `offsetParent`;
+- **slideToggle(target: Array of Elements or String or Element; options: Object)** - toggles the visibility of an element. The default options object looks like this `{duration: 500, onDownStart: null, onDownEnd: null, onUpStart: null, onUpEnd: null}` - duration - animation duration in milliseconds and callbacks;
+- **offset(element: Element or String; relativeTo: String - can be only two values: "document"(by default) or "parent")** - is the equivalent of jQuery's `.offset()`. Returns Object, example `{left: number, top: number}`. If "relativeTo" parameter not provide - returns coordinates relative to the document, If "relativeTo" equal "parent", then returns coordinates relative to the `offsetParent`;
 
 #### **$ui**:
 - **blockedScroll(action: String)** - the action argument can be 'enable' or 'disable'. Blocks scrolling of the document.
+
+
+
+
+
+

@@ -10,7 +10,7 @@ export const $dom = (function () {
 			let value = null;
 
 			if (is.string(context)) {
-				value = document.querySelector(context)
+				value = document.querySelector(context);
 			} else if (is.domNode(context)) {
 				value = context
 			} else if (is.undefined(context) || is.null(context)) {
@@ -96,9 +96,15 @@ export const $dom = (function () {
 
 		context = defineContext(context);
 
-		let target = context.querySelector(selector);
+		let target = null;
 
-		if (!isElement(target)) warn(`Method get - element by selector "${selector}" not found`, '$dom-helper');
+		try {
+			target = context.querySelector(selector);
+		} catch (e) {
+			warn(`Could not find element by selector "${selector}" within context "${context}". A description of the original error follows`, e);
+		}
+
+		if (!isElement(target)) warn(`Method "get" - element by selector "${selector}" not found`, '$dom-helper');
 
 		return target;
 	};
@@ -107,11 +113,17 @@ export const $dom = (function () {
 
 		context = defineContext(context);
 
-		let arr = Array.prototype.slice.call(context.querySelectorAll(selector));
+		let target = [];
 
-		if (arr.length === 0) warn(`Method getAll - array of elements by selector "${selector}" is empty`, '$dom-helper');
+		try {
+			target = Array.prototype.slice.call(context.querySelectorAll(selector))
+		} catch (e) {
+			warn(`Failed to execute array of elements by selector "${selector}" within context "${context}"". A description of the original error follows`, e);
+		}
 
-		return arr;
+		if (target.length === 0) warn(`Method "getAll" - array of elements by selector "${selector}" is empty`, '$dom-helper');
+
+		return target;
 	};
 
 	localAPIs.each = function(collection, callback) {
@@ -144,7 +156,7 @@ export const $dom = (function () {
 		if (is.string(target)) target = localAPIs.getAll(target, defineContext(context));
 
 		if (is.array(target) && target.length > 0) {
-			localAPIs.each(target, t => callback(t));
+			localAPIs.each(target, callback);
 
 			return target;
 		}

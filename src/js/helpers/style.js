@@ -1,9 +1,9 @@
 import {$dom} from "./dom";
 import {$events} from "./events";
-import {variables as $v} from "../variables";
+import variables from "../variables";
 import is from 'is_js';
 import {$data} from "./data";
-import {optimizeTarget, filterStringArgs, toDashesCase} from "./_service";
+import {optimizeTarget, filterStringArgs, toDashesCase, checkAndRunCallback} from "./_service";
 
 export const $style = (function () {
 
@@ -85,7 +85,7 @@ export const $style = (function () {
 			if (options.hideOnEnd) $dom.attr(element, 'hidden', 'true');
 
 			if (is.function(options.onComplete)) options.onComplete(element);
-			emit($v.customEventNames.animateEnd, window, {element});
+			emit(variables.customEventNames.animateEnd, window, {element});
 		}, {
 			once: true
 		});
@@ -145,13 +145,15 @@ export const $style = (function () {
 
 		let defaults = {
 			duration: slideAnimationDuration,
-			callback: null
+			onStart: null,
+			onEnd: null
 		};
 
 		options = Object.assign(defaults, options);
 
-
 		callAll(target, element => {
+
+			checkAndRunCallback(options.onStart, element);
 
 			localAPIs.set(element, {
 				transitionProperty: 'height, margin, padding',
@@ -175,7 +177,7 @@ export const $style = (function () {
 				localAPIs.set(element, 'display', 'none');
 				localAPIs.remove(element, 'height, padding-top, padding-bottom, margin-top, margin-bottom, overflow, transition-duration, transition-property, box-sizing');
 
-				if (is.function(options.callback)) options.callback(element);
+				checkAndRunCallback(options.onEnd, element);
 			}, {
 				once: true
 			});
@@ -187,12 +189,16 @@ export const $style = (function () {
 
 		let defaults = {
 			duration: slideAnimationDuration,
-			callback: null
+			onStart: null,
+			onEnd: null
 		};
 
 		options = Object.assign(defaults, options);
 
 		callAll(target, element => {
+
+			checkAndRunCallback(options.onStart, element);
+
 			localAPIs.remove(element, 'display');
 
 			let display = window.getComputedStyle(element).display;
@@ -223,7 +229,8 @@ export const $style = (function () {
 			$events.add('transitionend', element, () => {
 				localAPIs.remove(element, 'height, overflow, transition-duration, transition-property');
 
-				if (is.function(options.callback)) options.callback(element);
+				checkAndRunCallback(options.onEnd, element);
+
 			}, {
 				once: true
 			});
@@ -235,8 +242,11 @@ export const $style = (function () {
 
 		let defaults = {
 			duration: slideAnimationDuration,
-			onDown: null,
-			onUp: null
+			onDownStart: null,
+			onDownEnd: null,
+
+			onUpStart: null,
+			onUpEnd: null
 		};
 
 		options = Object.assign(defaults, options);
@@ -245,14 +255,17 @@ export const $style = (function () {
 		callAll(target, element => {
 
 			if (localAPIs.get(element, 'display') === 'none') {
+
 				localAPIs.slideDown(element, {
 					duration: options.duration,
-					callback: options.onDown
+					onStart: options.onDownStart,
+					onEnd: options.onDownEnd
 				})
 			} else {
 				localAPIs.slideUp(element, {
 					duration: options.duration,
-					callback: options.onUp
+					onStart: options.onUpStart,
+					onEnd: options.onUpEnd
 				})
 			}
 		})

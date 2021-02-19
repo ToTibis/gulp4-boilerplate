@@ -1,7 +1,7 @@
 import {$dom} from "./dom";
 import {filterStringArgs, isElement, warn} from "./_service";
 import is from 'is_js';
-import {variables as $v} from "../variables";
+import variables from "../variables";
 
 export const $events = (function() {
 
@@ -419,13 +419,21 @@ export const $events = (function() {
 		clearTimeout(resizeTimout);
 
 		resizeTimout = setTimeout(() => {
-			localAPIs.emit($v.customEventNames.resize, document.body, {
+			localAPIs.emit(variables.customEventNames.resize, document.body, {
 				originalEvent: event
 			})
-		}, $v.resizeDebounce);
+		}, variables.resizeDebounce);
 
 	});
-	localAPIs.onResize = callback => localAPIs.delegate.on($v.customEventNames.resize, document.body, callback);
+
+	localAPIs.resize = (action, callback) => {
+		action = action.trim();
+		if (action === 'on' || action === 'off') {
+			localAPIs.delegate[action](variables.customEventNames.resize, document.body, callback)
+		} else {
+			warn('Action for resize-callback not specified or specified incorrectly', '$events-helper')
+		}
+	};
 
 	localAPIs.touchConfigure = createTouch;
 

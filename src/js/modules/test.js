@@ -1,8 +1,8 @@
 import {$events} from "../helpers/events";
 import {$dom} from "../helpers/dom";
 import {$style} from "../helpers/style";
-import {variables as $v} from "../variables";
-import {preventDefault} from "../helpers/_service";
+import variables from "../variables";
+import {preventDefault, sleep} from "../helpers/_service";
 import is from 'is_js';
 
 function Parallax(options){
@@ -157,7 +157,7 @@ const infoWindow = function() {
 				}
 			})
 		}, {once: true})
-		.onResize(() => {
+		.resize( 'on', () => {
 			text(screenSizeOutput, printScreenSizes());
 			setBoxPosition();
 		});
@@ -254,20 +254,28 @@ $dom.ready(() => {
 		}
 	});
 
-	const {open, close, closed} = $v.customEventNames.modal;
+	const {open, close, closed} = variables.customEventNames.modal;
+
 	$events
 		.add('swipeRight click tap', $list, log)
 		.add('swipeLeft click tap', $title, log)
 		.delegate
 		.on('click tap', '#section-toggle', function() {
 			$style.slideToggle('.list', {
-				onDown: target => {
-					$dom.text(this, 'Section slide up');
-					console.log('Toggle up target: ', target);
-				},
-				onUp: target => {
+				onUpEnd(el) {
 					$dom.text(this, 'Section slide down');
-					console.log('Toggle down target: ', target);
+					console.log('SlideToggle onUpEnd target: ', el);
+				},
+				onUpStart(el) {
+					console.log('SlideToggle onUpStart target: ', el);
+				},
+
+				onDownEnd(el) {
+					$dom.text(this, 'Section slide up');
+					console.log('SlideToggle onDownEnd target: ', el);
+				},
+				onDownStart(el) {
+					console.log('SlideToggle onDownStart target: ', el);
 				}
 			})
 		})
