@@ -44,5 +44,11 @@ export function preventDefault(event) {
 }
 
 export function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
+	let tm = null;
+	return new Promise(resolve => {
+		tm = setTimeout(resolve, ms);
+	}).then(() => {
+		clearTimeout(tm);
+		tm = null;
+	});
 }
