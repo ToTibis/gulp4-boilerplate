@@ -1,5 +1,5 @@
 import {$dom} from "./dom";
-import {filterStringArgs, isElement, warn} from "./_service";
+import {filterStringArgs, isElement, warn} from "./_utilities";
 import is from 'is_js';
 import variables from "../variables";
 
@@ -299,7 +299,7 @@ export const $events = (function() {
 
 			if (this.exceptionElement(selector)) return true;
 
-			if (typeof selector !== 'string' && selector.contains) {
+			if (typeof selector !== 'string' && isElement(selector) && selector.contains) {
 				return selector === target || selector.contains(target);
 			}
 

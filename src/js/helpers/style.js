@@ -3,7 +3,7 @@ import {$events} from "./events";
 import variables from "../variables";
 import is from 'is_js';
 import {$data} from "./data";
-import {optimizeTarget, filterStringArgs, toDashesCase, checkAndRunCallback} from "./_service";
+import {optimizeTarget, filterStringArgs, toDashesCase} from "./_utilities";
 
 export const $style = (function () {
 
@@ -16,8 +16,14 @@ export const $style = (function () {
 			return string.replace( /-([a-z])/g, function( _all, letter ) {
 				return letter.toUpperCase();
 			});
+		},
+		checkAndRunCallback = (fn, ...args) => {
+			if(is.function(fn) && args.length > 0) {
+				fn(...args)
+			}
 		}
 	;
+
 
 	localAPIs.get = function (element, property = undefined, clean = false) {
 

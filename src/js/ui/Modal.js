@@ -3,6 +3,7 @@ import {$events} from "../helpers/events";
 import {$dom} from "../helpers/dom";
 import {$style} from "../helpers/style";
 import variables from "../variables";
+import is from "is_js";
 
 export default class ModalController {
 	constructor(options = {}) {
@@ -23,7 +24,11 @@ export default class ModalController {
 		this.bindingEvents();
 	}
 
-	_change(action, modal) {
+	_checkChangeStateCallback(cbObj, callbackName, payload) {
+		if (is.object(cbObj) && is.function(cbObj[callbackName])) cbObj[callbackName](payload);
+	}
+
+	_change(action, modal, callbacks) {
 		switch (action) {
 			case 'show':
 				$dom.addClass(modal, this.options.activeClass);
@@ -32,19 +37,30 @@ export default class ModalController {
 
 				this.opened.push(modal);
 
-				$events.emit(variables.customEventNames.modal.open, modal, {modal});
+				this._checkChangeStateCallback(callbacks, 'onStart', modal);
+				$events
+					.emit(variables.customEventNames.modal.open, modal, {modal})
+					.add('animationend', modal, () => {
+						$events.emit(variables.customEventNames.modal.opened, modal, {modal});
+						this._checkChangeStateCallback(callbacks, 'onEnd', modal);
+					}, {
+						once: true
+					})
+				;
 				break;
 
 			case 'hide':
 
 				$dom.attr(modal, 'aria-hidden', 'true');
 
+				this._checkChangeStateCallback(callbacks, 'onStart', modal);
 				$events
 					.emit(variables.customEventNames.modal.close, modal, {modal})
 					.add('animationend', modal, () => {
 						$dom.removeClass(modal, this.options.activeClass);
 						$style.set(modal, 'display', 'none');
-						$events.emit(variables.customEventNames.modal.closed, modal, {modal})
+						$events.emit(variables.customEventNames.modal.closed, modal, {modal});
+						this._checkChangeStateCallback(callbacks, 'onEnd', modal);
 					}, {
 						once: true
 					});
@@ -55,13 +71,13 @@ export default class ModalController {
 		}
 	}
 
-	open(modalId) {
+	open(modalId, callbacks = {}) {
 
 		this.activeModal = $dom.get('#' + modalId);
 
-		if (this.opened.length > 0 && !this.overlap) this._change('hide', this.opened[0]);
+		if (this.opened.length > 0 && !this.overlap) this._change('hide', this.opened[0], callbacks);
 
-		this._change('show', this.activeModal);
+		this._change('show', this.activeModal, callbacks);
 
 		if (this.opened.length > 1 && this.overlap) {
 			let activeModals = $dom.getAll(this.options.modalsSelector).filter(modal => {
@@ -72,7 +88,7 @@ export default class ModalController {
 
 	}
 
-	close() {
+	close(callbacks) {
 
 		if (this.opened.length > 0) {
 
@@ -82,7 +98,7 @@ export default class ModalController {
 				this.activeModal = this.opened[0];
 			}
 
-			this._change('hide', this.activeModal);
+			this._change('hide', this.activeModal, callbacks);
 
 		}
 

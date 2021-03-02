@@ -2,7 +2,7 @@ import {$events} from "../helpers/events";
 import {$dom} from "../helpers/dom";
 import {$style} from "../helpers/style";
 import variables from "../variables";
-import {preventDefault, sleep} from "../helpers/_service";
+import {preventDefault} from "../helpers/_utilities";
 import is from 'is_js';
 
 function Parallax(options){
@@ -254,7 +254,7 @@ $dom.ready(() => {
 		}
 	});
 
-	const {open, close, closed} = variables.customEventNames.modal;
+	const {open, close, closed, opened} = variables.customEventNames.modal;
 
 	$events
 		.add('swipeRight click tap', $list, log)
@@ -279,7 +279,7 @@ $dom.ready(() => {
 				}
 			})
 		})
-		.on([open, close, closed], document, event => {
+		.on([open, close, closed, opened], document, event => {
 			console.log('Modal event type: ', event.type);
 			console.log('Modal element: ', event.detail.modal);
 		})

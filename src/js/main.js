@@ -1,6 +1,3 @@
 import 'svgxuse';
-import initGlobalApi from "./helpers/_service";
-
-initGlobalApi();
-
+import './helpers/_service';
 import './modules/test';

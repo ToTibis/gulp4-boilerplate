@@ -1,5 +1,5 @@
 import variables from "../variables";
-import {warn} from "./_service";
+import {warn} from "./_utilities";
 import {$style} from "./style";
 
 export const $ui = (function () {

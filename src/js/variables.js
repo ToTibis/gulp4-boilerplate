@@ -1,12 +1,15 @@
 const variables = {
+	$EXTERNAL_API_NAME: '$API',
 	gsapDefaultDuration: .25,
 	resizeDebounce: 100,
 	debugLogs: true,
+	debugLogsDisabledNotify: true,
 	customEventNames: {
 		resize: 'resize-done',
 		animateEnd: 'animate-end',
 		modal: {
 			open: 'modal-open',
+			opened: 'modal-opened',
 			close: 'modal-close',
 			closed: 'modal-close-end'
 		}

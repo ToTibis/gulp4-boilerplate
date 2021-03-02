@@ -1,4 +1,4 @@
-import {warn, toDashesCase, isElement, isNode, filterStringArgs, optimizeTarget} from "./_service";
+import {warn, toDashesCase, isElement, isNode, filterStringArgs, optimizeTarget} from "./_utilities";
 import is from "is_js";
 
 export const $dom = (function () {
