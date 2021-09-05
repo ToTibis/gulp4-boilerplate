@@ -1,0 +1,21 @@
+block offcanvasContentVariables
+
+div(
+	class=[
+		'offcanvas',
+		offcanvasClasses || null
+	]
+	id=offcanvasId
+	aria-hidden='true'
+	data-bs-backdrop=(offcanvasBackdrop ? 'true' : null)
+)
+	.offcanvas-header
+		+title({
+			tag: 'h4',
+			content: 'Offcanvas menu',
+			classes: 'mb-0'
+		})
+		button(type='button' data-bs-dismiss='offcanvas' aria-label='Close')
+			+icon('close', '', '20px', '20px')
+	.offcanvas-body
+		block offcanvasContent

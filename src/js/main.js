@@ -1,3 +1,4 @@
 import 'svgxuse';
 import './helpers/_service';
-import './modules/test';
+import './modules/run';
+import './modules/backend';

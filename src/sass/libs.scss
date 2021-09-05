@@ -1,23 +1,108 @@
 @import 'utilites/variables';
 @import 'utilites/fonts';
-@import 'utilites/media-queries';
 
 @import 'node_modules/bootstrap/scss/functions';
 @import 'node_modules/bootstrap/scss/variables';
 @import 'node_modules/bootstrap/scss/mixins';
+@import 'node_modules/bootstrap/scss/utilities';
+@import 'node_modules/bootstrap/scss/transitions';
 
-@import 'bootstrap/reboot';
-@import 'bootstrap/utilities/text';
-@import 'bootstrap/utilities/spacing';
-@import 'bootstrap/utilities/display';
-@import 'bootstrap/utilities/flex';
-@import 'bootstrap/grid';
+@import 'node_modules/bootstrap/scss/grid';
+@import 'node_modules/bootstrap/scss/containers';
+@import 'node_modules/bootstrap/scss/spinners';
+@import 'node_modules/bootstrap/scss/helpers/stretched-link';
+@import 'node_modules/bootstrap/scss/helpers/visually-hidden';
+@import 'node_modules/bootstrap/scss/helpers/ratio';
 
-@import 'animations/index';
-@import 'components/modal';
 
-html {
-	@include mediaToDown($lg) {
-		font-size: 15px;
-	}
-}
+$utilities: map-merge(
+		$utilities,
+		(
+			"align": null,
+			"shadow": null,
+			"top": null,
+			"bottom": null,
+			"start": null,
+			"end": null,
+			"translate-middle": null,
+			"border": map-get($utilities, "border"),
+			"border-top": null,
+			"border-end": null,
+			"border-bottom": null,
+			"border-start": null,
+			"border-color": null,
+			"border-width": null,
+			"max-width": (
+				property: max-width,
+				class: mw,
+				values: (25: 25%, 50: 50%, 75: 75%, 100: 100%)
+			),
+			"viewport-width": null,
+			"min-viewport-width": null,
+			"max-height": null,
+			"viewport-height": null,
+			"min-viewport-height": null,
+			"gap": null,
+			"font-size": null,
+			"font-style": null,
+			"font-weight": null,
+			"white-space": null,
+			"word-wrap": null,
+			"color": map-get($utilities, "color"),
+			"gradient": null,
+			"rounded": map-get($utilities, "rounded"),
+			"rounded-top": null,
+			"rounded-end": null,
+			"rounded-bottom": null,
+			"rounded-start": null,
+			"font-family": null,
+			"display": map-merge(
+					map-get($utilities, "display"),
+					(
+						print: false,
+						values: inline inline-block block flex inline-flex none
+					)
+			),
+			"align-items": map-merge(
+					map-get($utilities, "align-items"),
+					(
+						values: (
+							start: flex-start,
+							end: flex-end,
+							center: center
+						)
+					)
+			),
+			"align-content": map-merge(
+					map-get($utilities, "align-content"),
+					(
+						values: (
+							start: flex-start,
+							end: flex-end,
+							center: center,
+							between: space-between,
+							around: space-around,
+						)
+					)
+			),
+			"align-self": map-merge(
+					map-get($utilities, "align-self"),
+					(
+						values: (
+							start: flex-start,
+							end: flex-end,
+							center: center
+						)
+					)
+			),
+			"padding-top": map-get($utilities, "padding-top"),
+			"padding-bottom": map-get($utilities, "padding-bottom"),
+			"margin-top": map-get($utilities, "margin-top"),
+			"margin-bottom": map-get($utilities, "margin-bottom")
+		)
+);
+
+@import 'node_modules/bootstrap/scss/utilities/api';
+
+@import 'node_modules/bootstrap/scss/modal';
+@import 'node_modules/bootstrap/scss/offcanvas';

@@ -1,44 +1,36 @@
 extends ../layout/main
 
 block mainVariables
-	- pageTitle = 'Главная'
+	- pageTitle = 'Навигатор по страницам'
+	- pageRootClass = null
+	- activeNavIndex = 2
 
 block mainContent
+	.container-fluid.py-5
+		.row
+			.col-md-6.mx-auto
+				h1.title.title--normal.pb-4 Навигатор по станицам
+				ul.d-flex.flex-column
+					-
+						pages = [
+							{
+								href: 'ui.html',
+								name: 'Ui kit',
+								done: false,
+								adaptive: false
+							},
+							{
+								href: 'home.html',
+								name: 'Главная',
+								done: true,
+								adaptive: true
+							}
+						]
+					each page in pages
+						- color = (page.done && page.adaptive) ? '#81c784' : '#EE8732'
 
-	- listClass = ['list'];
-	- imageAttributes = {"src": "img/v8.png", "alt": "Alternative description", 'class': 'v8-image'};
-	-
-		listItems  = [
-			'- HTML - processing using Pug.js;',
-			'- Sass - Bootstrap 4 - used just grid and reboot. Also used set of utilities - text, spacing, display, flex;',
-			'- Javascript ES6 Modules - processing using Webpack 5;',
-			'- Without jQuery - instead in this template included set of helpers-functions written on vanilla javascript;',
-			'- SVG-sprites.'
-		];
-
-	.container.pt-5
-		.row.align-items-center
-			.col-md-4.col-xl-3
-				a(href='https://github.com/ToTibis' target='_blank', class='github-link').mx-auto
-					+icon('github')
-			.col-md-8.col-xl-6
-				section(class='section')
-					h1 In this boilerplate you can use:
-					ul(class=listClass)
-						each item, index in listItems
-							li(class=[index === 0 ? 'active active2' : ''] data-index=index)
-								span.d-block !{item}
-				.row.mt-4
-					.col-md-auto.mb-3.mb-md-0
-						button(type='button' class=['button'] data-modal-open='example-static-first')
-							span.d-block First modal
-					.col-md-auto.mb-3.mb-md-0
-						button(type='button' class=['button'] data-modal-open='example-static-second')
-							span.d-block Second modal
-					.col-md-auto.mb-3.mb-md-0
-						button(type='button' class=['button'])#section-toggle
-							span.d-block Section slide toggle
-
-			.col-3.d-none.d-xl-block
-				span.image-holder(data-parallax-deep='100').parallax-layer
-					img&attributes(imageAttributes)
+						li(style=`background-color: ${page.done ? color : '#e57373'};`).mb-3
+							a(
+								href=page.href
+								style='padding: 10px 15px; color: white;'
+							).py-2.d-inline-block.page__text--large.d-block #{page.name}#{!page.adaptive && ' - без адаптивности' || null}

@@ -1,0 +1,442 @@
+@import '../utilites/variables';
+@import 'node_modules/bootstrap/scss/vendor/rfs';
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
+// Document
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+
+// Body
+body {
+	@include font-size($body-font-size);
+	margin: 0;
+	font-family: $body-font-family;
+	font-weight: $font-weight-base;
+	line-height: $line-height-base;
+	color: $body-color;
+	text-align: $body-text-align;
+	background-color: $body-bg;
+	-webkit-text-size-adjust: 100%;
+	-webkit-tap-highlight-color: rgba($body-color, 0);
+}
+
+
+// Content grouping
+hr {
+	margin: $hr-margin-y 0;
+	color: $hr-color;
+	background-color: currentColor;
+	border: 0;
+	&:not([size]) {
+		height: $hr-height;
+	}
+}
+
+
+// Typography
+%heading {
+	margin-top: 0;
+	margin-bottom: $headings-margin-bottom;
+	font-family: $headings-font-family;
+	font-style: $headings-font-style;
+	font-weight: $headings-font-weight;
+	line-height: $headings-line-height;
+	color: $headings-color;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	@extend %heading;
+}
+
+h1 {
+	@include font-size($h1-font-size);
+}
+
+h2 {
+	@include font-size($h2-font-size);
+}
+
+h3 {
+	@include font-size($h3-font-size);
+}
+
+h4 {
+	@include font-size($h4-font-size);
+}
+
+h5 {
+	@include font-size($h5-font-size);
+}
+
+h6 {
+	@include font-size($h6-font-size);
+}
+
+p {
+	margin-top: 0;
+	margin-bottom: $paragraph-margin-bottom;
+}
+
+
+// Abbreviations
+abbr[title],
+abbr[data-bs-original-title] {
+	text-decoration: underline dotted;
+	cursor: help;
+	text-decoration-skip-ink: none;
+}
+
+
+// Address
+address {
+	margin-bottom: $paragraph-margin-bottom;
+	font-style: normal;
+	line-height: inherit;
+}
+
+
+// Lists
+ul, ol, li {
+	padding: 0;
+	list-style: none;
+}
+
+ol,
+ul,
+dl {
+	margin-top: 0;
+	margin-bottom: $spacer * 1.5;
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+	margin-bottom: 0;
+}
+
+dt {
+	font-weight: $font-weight-bold;
+}
+
+dd {
+	margin-bottom: $spacer * .5;
+	margin-left: 0;
+}
+
+
+// Blockquote
+blockquote {
+	margin: 0 0 $spacer * 1.5;
+}
+
+
+// Strong
+b,
+strong {
+	font-weight: $font-weight-bold;
+}
+
+
+// Small
+small {
+	@include font-size($small-font-size);
+}
+
+
+// Mark
+mark {
+	padding: $mark-padding;
+	background-color: $mark-bg;
+}
+
+
+// Sub and Sup
+sub,
+sup {
+	@include font-size($sub-sup-font-size);
+	position: relative;
+	line-height: 0;
+	vertical-align: baseline;
+}
+
+sub { bottom: -.25em; }
+sup { top: -.5em; }
+
+
+// Links
+a {
+	color: $link-color;
+	text-decoration: $link-decoration;
+	&:hover {
+		color: $link-hover-color;
+		text-decoration: $link-hover-decoration;
+	}
+	&:not([href]):not([class]) {
+		&,
+		&:hover {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
+}
+
+
+// Code
+pre,
+code,
+kbd,
+samp {
+	@include font-size(1em);
+	font-family: $font-family-code;
+	direction: ltr #{"/* rtl:ignore */"};
+	unicode-bidi: bidi-override;
+}
+
+pre {
+	@include font-size($code-font-size);
+	display: block;
+	margin-top: 0;
+	margin-bottom: $spacer * 1.5;
+	overflow: auto;
+	color: $pre-color;
+	code {
+		@include font-size(inherit);
+		color: inherit;
+		word-break: normal;
+	}
+}
+
+code {
+	@include font-size($code-font-size);
+	color: $code-color;
+	word-wrap: break-word;
+	a > & {
+		color: inherit;
+	}
+}
+
+kbd {
+	padding: $kbd-padding-y $kbd-padding-x;
+	@include font-size($kbd-font-size);
+	color: $kbd-color;
+	background-color: $kbd-bg;
+	@include border-radius($border-radius-sm);
+
+	kbd {
+		@include font-size(1em);
+		padding: 0;
+		font-weight: $nested-kbd-font-weight;
+	}
+}
+
+
+// Figures
+figure {
+	margin: 0 0 $spacer * 1.5;
+}
+
+
+// Images and content
+img {
+	max-width: 100%;
+}
+
+svg {
+	max-width: 100%;
+	max-height: 100%;
+	stroke-width: 0;
+	fill: currentColor;
+	pointer-events: none;
+}
+
+img,
+svg {
+	vertical-align: middle;
+}
+
+
+// Tables
+table {
+	caption-side: bottom;
+	border-collapse: collapse;
+}
+
+caption {
+	padding-top: $table-cell-padding-y;
+	padding-bottom: $table-cell-padding-y;
+	color: $table-caption-color;
+	text-align: left;
+}
+
+th {
+	font-weight: $table-th-font-weight;
+	text-align: inherit;
+	text-align: -webkit-match-parent;
+}
+
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+	border-color: inherit;
+	border-style: solid;
+	border-width: 0;
+}
+
+
+// Forms
+label {
+	display: inline-block;
+}
+
+button {
+	border-radius: 0;
+	border: none;
+	padding: 0;
+	margin: 0;
+	background-color: transparent;
+	color: $link-color;
+	display: inline-block;
+	&:focus:not(:focus-visible) {
+		outline: 0;
+	}
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+	@include font-size(inherit);
+	margin: 0;
+	font-family: inherit;
+	line-height: inherit;
+}
+
+input[type='number'] {
+	-moz-appearance: textfield;
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+}
+
+button,
+select {
+	text-transform: none;
+}
+
+[role='button'] {
+	cursor: pointer;
+}
+
+select {
+	word-wrap: normal;
+	&:disabled {
+		opacity: 1;
+	}
+}
+
+[list]::-webkit-calendar-picker-indicator {
+	display: none;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+	-webkit-appearance: button;
+	@if $enable-button-pointers {
+		&:not(:disabled) {
+			cursor: pointer;
+		}
+	}
+}
+
+::-moz-focus-inner {
+	padding: 0;
+	border-style: none;
+}
+
+textarea {
+	resize: none;
+}
+
+fieldset {
+	min-width: 0;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+legend {
+	float: left;
+	width: 100%;
+	padding: 0;
+	margin-bottom: $legend-margin-bottom;
+	@include font-size($legend-font-size);
+	font-weight: $legend-font-weight;
+	line-height: inherit;
+	+ * {
+		clear: left;
+	}
+}
+
+::-webkit-inner-spin-button {
+	height: auto;
+}
+
+[type='search'] {
+	outline-offset: -2px;
+	-webkit-appearance: textfield;
+}
+
+::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+
+::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+::-webkit-file-upload-button {
+	font: inherit;
+	-webkit-appearance: button;
+}
+
+output {
+	display: inline-block;
+}
+
+iframe {
+	border: 0;
+}
+
+summary {
+	display: list-item;
+	cursor: pointer;
+}
+
+progress {
+	vertical-align: baseline;
+}
+
+[hidden] {
+	display: none !important;
+}
+

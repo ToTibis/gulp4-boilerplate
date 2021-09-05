@@ -35,12 +35,12 @@ Processing using [Pug.js](https://github.com/pugjs/pug):
 
 
 ### CSS:
-Processing using [Sass](https://github.com/sass/sass), syntax is scss.
-- animations - css animations based on [Animate.css](https://github.com/animate-css/animate.css);
-- bootstrap - used just grid and reboot. Also used set of utilities - text, spacing, display, flex;
-- components - for ui-elements like modal, tooltips, select e.t.c.
-- utilities - some utilities like variables, mixins e.t.c.
-- common and libs - for custom styles and import libraries.
+Processing using [Sass](https://github.com/sass/sass), scss syntax.
+- base - setting root css-variables and reset default browser styles;
+- components - for ui-elements like form, button, select e.t.c.
+- pages - styles for different pages
+- utilities - some utilities like variables, mixins, including fonts e.t.c.
+- common and libs - imported there custom styles and libraries.
 
 ### Javascript:
 You can use Javascript ES6 modules - Javascript is processing by [Webpack 5](https://github.com/webpack/webpack) to handle Javascript.
@@ -55,64 +55,261 @@ The helper library is written in a functional style and uses revealing module pa
 - [Events](https://github.com/cferdinandi/events) - Event delegation helper library;
 - [Tocca.js](https://github.com/GianlucaGuarini/Tocca.js/) - Script to detect via Javascript events like 'tap' 'longtap' 'dbltap' 'swipeup' 'swipedown' 'swipeleft' 'swiperight' on any kind of device.
 
-#### The following plugins are used in the js-component of the boilerplate:
+#### The following plugins are used in the js-side of the boilerplate:
 - [is.js](https://github.com/arasatasaygin/is.js) - multi-purpose check library.
 - [svgxuse](https://github.com/Keyamoon/svgxuse) - simple polyfill that fetches external SVGs referenced in <use> elements when the browser itself fails to do so.
+- [validator](https://github.com/yairEO/validator) - forms validation.
+- [deepmerge](https://github.com/TehShrike/deepmerge) - merges the enumerable properties of two or more objects deeply.
+- [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) - load images, videos and iframes to when they will enter the viewport.
 
 *Of course, you can remove my "bicycle", include jQuery and use it as you like.*
 
 ### All helpers are divided into the following modules:
 
 #### **$data**:
-- deepAssign(Object, Object, ....) - deep merge two or more objects into the first. Returns Object.
+- merge(Object, Object, ....) - Merges the enumerable properties of two or more objects deeply. [See more]('https://github.com/TehShrike/deepmerge');
+- cloneObject(Object) - clone object. Returns new Object.
 
 #### **$dom**:
 - **get(selector: String; context: String or Element or undefined)** - search of Element by provided selector in a given context. Returns Element;
+
+  ```javascript
+  const {get} = $dom;
+  
+  get('div'); // will return the first div on page
+  get('span.error__output', '.page__wrapper') // will return the first span-element with class error__output of the parent with the selector '.page__wrapper'
+  ```
+  
 - **getAll(selector: String; context: String or Element or undefined)** - search of Elements by provided selector in a given context. Returns array of Elements;
+
+  ```javascript
+  const {getAll} = $dom;
+  
+  getAll('div'); // will return all div's on page as an array
+  getAll('li.list__item', 'ul.list') // will return all li-elements in ul-element with class 'list'
+  ```
+  
 - **each(collection: Array of Elements; callback: Function)** - at each iteration supplies a separate item and item index to callback. Returns provided collection;
+
+  ```javascript
+  const {each, getAll} = $dom;
+  
+  each(getAll('li'), (liElem, index) => {
+    // liElem - item of array
+    // index - current index of loop
+    // if use 'function' keyword as callback this will be item of array
+  })
+  ```
+  
 - **callAll(target: Array of Elements or String or Element; callback: Function, context: String, Element - by default is document)** - similar to "each" method, but this method can accept as first argument almost any value - like as String (method convert String to Array of Elements with used method "getAll"), Element, Array of Elements, Document. If the argument "target" is a String, then the third argument can be used as the context for searching elements by provided selector (target in that case). At each iteration this method supplies a separate item to callback. Returns target;
+
+  ```javascript
+  const {callAll} = $dom;
+  
+  callAll('li', liElem => {
+    // liElem - item of array
+  }, 'ul.list') // search an element in ul-element with class 'list'
+  ```
+  
 - **addClass(target: Array of Elements or String or Element; className: String)** - add the class to specified target, under-the-hood works "callAll" method. "className" can be transmitted in the following ways - `'newClassName newClassName'` or `'newClassName, newClassName'` or `["newClassName", "newClassName"]`. Returns target;
+
+  ```javascript
+  const {addClass} = $dom;
+  
+  addClass('.title', 'is-active');
+  // or
+  addClass(get('.title'), 'is-active');
+  // or
+  addClass(getAll('li', '.list'), 'is-active');
+  ```
+  
 - **removeClass(target: Array of Elements or String or Element; className: String)** - similar to "addClass" method, but the class is removed. Returns target;
+
+    ```javascript
+    const {removeClass} = $dom;
+    
+    removeClass('.title', 'is-active');
+    // or
+    removeClass(get('.title'), 'is-active');
+    // or
+    removeClass(getAll('li', '.list'), 'is-active');
+    ```
+  
 - **hasClass(element: Element; className: String)** - checks if an element has the specified class. Returns Boolean;
+
+  ```javascript
+  const {hasClass} = $dom;
+  
+  hasClass(get('.list'), 'is-active')
+  ```
+  
 - **toggleClass(target: Array of Elements or String or Element; className: String)** - if the specified class (classes) is present - removes them, otherwise - adds. "className" can be transmitted in the following ways - `'newClassName newClassName'` or `'newClassName, newClassName'` or `["newClassName", "newClassName"]`. Returns target;
+
+  ```javascript
+  const {toggleClass} = $dom;
+    
+  toggleClass('.title', 'is-active');
+  // or
+  toggleClass(get('.title'), 'is-active');
+  // or
+  toggleClass(getAll('li', '.list'), 'is-active');
+   ```
+  
 - **getParent(element: Element, selector: String - by default is null)** - returns the parent of the specified element. If selector provided, then method returns parent which matches the specified selector, otherwise method returns closest parent `(element.parentNode)`. Returns Element or null;
+
+  ```javascript
+  const {getParent} = $dom;
+  
+  getParent(get('.title'))
+  ```
+     
 - **attr(target: Array of Elements or String or Element; property: String or Object; value: String - by default is null)** - if the second argument (property) is passed and it is a String and the third argument (value) is null, then method will return the value of the passed attribute;
     if the property is an object and value is null, then method will set each attribute and its value passed by a key-value pair, for example:
-
-    ```$dom.attr('.section', {dataCounter: '1', title: 'Example title'})```
- 
+    ```javascript
+    const {attr} = $dom;
+  
+    attr('.section', {dataCounter: '1', title: 'Example title'})
+    ```
+    
     if value argument passed, then method set property and value, example:
-
-    ```$dom.attr('.section', 'data-counter', '1')```
+   
+    ```javascript      
+    attr('.section', 'data-counter', '1')
+    ```
 
     if method set property, then method will return target, otherwise: if target is single element - method will return property value, if target is Array - method will return an Array with objects, each object has two elements - an element and the value of the required attribute;
 - **html(target: Array of Elements or String or Element; newHtml: content that should be parsed as html)** - if no second argument(newHtml) is passed, the method will return target.innerHTML, if target it is Array - the method will return an Array with objects, each object has two elements - element and html; if the second argument is passed, the method will set a new innerHTML to each target. If newHTML passed method will return target, otherwise method will return innerHTML or Array of results;
-- **text(target: Array of Elements or String or Element; newText: content that should be parsed as text)** - similar to html method, but works with textContent;
-- **createElement(tagName: String; attrs: Object - by default is null; isSVG: Boolean - by default is false)** - create new Element. If an "attrs" is passed, the method sets the specified attributes and their values to the created Element. If isSVG is true, then will be created SVG Element. Returns Element;
-- **replace(element: Element; newElement: Element)** - remove an element from the DOM tree and insert a new one in its place. Returns new Element;
-- **wrap(element: Element; wrapperElement: Element)** - wrap a given element in a new container element. Returns wrapper Element;
-- **remove(target: Array of Elements or String or Element)** - remove an element from the DOM tree;
-- **insertAfter(element: Element or String; insertTarget: Element or String)** - insert an element after an insertTarget in the DOM tree. Returns Element;
-- **insertBefore(element: Element or String; insertTarget: Element or String)** - insert an element before an insertTarget in the DOM tree. Returns Element;
-- **append(appendTarget: Element or String; element: Element or String)** - append an element to the end of appendTarget content. Returns Element;
-- **prepend(prependTarget: Element or String; element: Element or String)** - append an element to the beginning of prependTarget content. Returns Element;
-- **clone(element: Element)** - create a deep copy of an element. Returns Element;
-- **ready(callback: Function)** - is the equivalent of jQuery's `$(document).ready()` method.
-- **resize(action: String - can be only two values: "on" or "off"; callback: Function)** an optimized version of the resize event. Depending on the device: on mobile - the callback is called after changing the screen orientation, on others - after changing the window size. The default callback debounce is 100 milliseconds (can be changed in the `js/variables.js`). Example:
-    ```
-        import {sleep} from "../helpers/_service";
+
+  ```javascript
+  const {html} = $dom;
   
-        function byResize() {
-            // do something by resize
-        }
-        
-        $events.resize('on', byResize);
+  html('.title', '<p>Text paragraph</p>');
+  // or
+  html(get('.title'), '<p>Text paragraph</p>');
+  // or
+  html(getAll('li', '.list'), '<p>Text paragraph</p>');
+  ```
+  
+- **text(target: Array of Elements or String or Element; newText: content that should be parsed as text)** - similar to html method, but works with textContent;
+  
+  ```javascript
+  const {text} = $dom;
     
-        sleep(2000)
-            .then(() => {
-                $events.resize('off', byResize)
-            });
-    ```
+  text('.title', 'Text example');
+  // or
+  text(get('.title'), 'Text example');
+  // or
+  text(getAll('li', '.list'), 'Text example');
+  ```
+  
+- **createElement(tagName: String; attrs: Object - by default is null; isSVG: Boolean - by default is false)** - create new Element. If an "attrs" is passed, the method sets the specified attributes and their values to the created Element. If isSVG is true, then will be created SVG Element. Returns Element;
+
+  ```javascript
+  const {createElement} = $dom;
+    
+  createElement('img', {
+    class: 'user__image',
+    alt: 'Alternate description'
+  })
+  ```
+
+- **replace(element: Element; newElement: Element)** - remove an element from the DOM tree and insert a new one in its place. Returns new Element;
+
+  ```javascript
+  const {createElement, replace, get} = $dom;
+      
+  replace(get('ul'), createElement('div')) // the newly created item will be replace first ul on page
+  ```
+
+- **wrap(element: Element; wrapperElement: Element)** - wrap a given element in a new container element. Returns wrapper Element;
+  
+  ```javascript
+  const {wrap, createElement, get} = $dom;
+  
+  wrap(get('ul'), createElement('div', {class: 'py-5'}));
+  ```
+  
+- **remove(target: Element or String or Array)** - remove an element from the DOM tree;
+  
+  ```javascript
+  const {remove, get, getAll} = $dom;
+  
+  remove('.title');
+  // or
+  remove(get('.title'));
+  // or
+  remove(getAll('li', 'ul'));
+  ```
+
+- **insertAfter(element: Element or String; insertTarget: Element or String)** - insert an element after an insertTarget in the DOM tree. Returns Element;
+  
+  ```javascript
+  const {insertAfter, text, createElement, get} = $dom;
+  
+  insertAfter(text(createElement('p'), 'Paragraph'), 'ul.row');
+  // or
+  insertAfter(text(createElement('p'), 'Paragraph'), get('ul.row'))
+  ```
+
+- **insertBefore(element: Element or String; insertTarget: Element or String)** - insert an element before an insertTarget in the DOM tree. Returns Element;
+  
+  ```javascript
+  const {insertBefore, text, createElement, get} = $dom;
+    
+  insertBefore(text(createElement('p'), 'Paragraph'), 'ul.row');
+  // or
+  insertBefore(text(createElement('p'), 'Paragraph'), get('ul.row'))
+  ```
+
+- **append(appendTarget: Element or String; element: Element or String)** - append an element to the end of appendTarget content. Returns Element;
+  
+  ```javascript
+  const {append, text, createElement, get} = $dom;
+  
+  append('section', text(createElement('p'), 'Paragraph'))
+  ```
+
+- **prepend(prependTarget: Element or String; element: Element or String)** - append an element to the beginning of prependTarget content. Returns Element;
+  
+  ```javascript
+  const {prepend, text, createElement, get} = $dom;
+  
+  prepend('section', text(createElement('p'), 'Paragraph'))
+  ```
+
+- **clone(element: Element)** - create a deep copy of an element. Returns Element;
+  
+  ```javascript
+  const {clone, get} = $dom;
+  
+  clone(get('ul'))
+  ```
+
+- **ready(callback: Function)** - is the equivalent of jQuery's `$(document).ready()` method.
+  
+  ```javascript
+  const {ready} = $dom;
+  
+  ready(() => {
+    // do stuff when document is ready
+    // if use 'function' keyword as callback this will be 'document'
+  })
+  ```
+
+- **resize(action: String - can be only two values: "on" or "off"; callback: Function)** an optimized version of the resize event. Depending on the device: on mobile - the callback is called after changing the screen orientation, on others - after changing the window size. The default callback debounce is 100 milliseconds (can be changed in the `js/variables.js`). Example:
+
+  ```javascript    
+  function byResize() {
+      // do something by resize
+  }
+          
+  $events.resize('on', byResize);
+      
+  // some code ....
+  
+  $events.resize('off', byResize)
+  ```
+  
 - **touchConfigure(Object or undefined)** - configure the touch support. If undefined - returns defaults options.
     Defaults options: 
     ```
@@ -127,9 +324,66 @@ The helper library is written in a functional style and uses revealing module pa
 
 #### **$events**:
 - **add(types: String or Array; target: Array of Elements or String or Element; callback: Function; options: Object)** - add event listeners to target. "Types" can be transmitted in the following ways - `'click touch'` or `'click, touch, mouseenter'` or `["mouseenter", "swipeLeft"]`. `this` in callback is target element(if you don't use arrow function). This method delivers to the callback event. "Options" - is a native addEventListener options object(like capture, once, passive); that is, if you want to call the listener once - you must specify it like this `$events.add('tap click swipeRight', 'h1', log, {once: true});`;
+
+  ```javascript
+  const {add} = $events;
+  const {getAll, get} = $dom;
+  
+  add('click tap', getAll('ul li'), event => {
+    // event.target is current element
+  });
+  // or
+  add('click tap', 'ul li', function() {
+    // this is current element
+  });
+  // or
+  add('click tap', get('ul li'), function() {
+    // this is current element
+  })
+  ```
+  
 - **remove(types: String or Array; target: Array of Elements or String or Element; callback: Function)** - removes event handlers of the specified types;
-- **emit(type: String; element: Element, by default is Window; detail: Object)** - emit a custom event, example `$events.emit('resize-done', document.body, {originalEvent: event});`
+
+  ```javascript
+  const {remove} = $events;
+  const {getAll, get} = $dom;
+    
+  remove('click tap', getAll('ul li'), event => {
+    // event.target is current element
+  });
+  // or
+  remove('click tap', 'ul li', function() {
+    // this is current element
+  });
+  // or
+  remove('click tap', get('ul li'), function() {
+    // this is current element
+  })
+  ```
+  
+- **emit(type: String; detail: Object; element: Element, by default is Window;)** - emit a custom event, example `$events.emit('resize-done', document.body, {originalEvent: event});`
+  
+  ```javascript
+  const {emit, delegate} = $events;
+  
+  delegate.on('some-custom-event-name', document, ({detail}) => {
+    // detail.payload is a payload
+  });
+  
+  emit('some-custom-event-name', {
+    payload: 'some-payload'
+  }, document)
+  ```
+  
 - **debounce(targetFunction: Function)** - debounce function for better performance. [See more]('https://gomakethings.com/debouncing-your-javascript-events/');
+
+  ```javascript
+  const {debounce} = $events;
+  
+  const debouncedFn = debounce(() => {
+    // do some stuff by requestAnimationFrame
+  })
+  ```
 
 #### **$events.delegate**:
 Event bubbling is an approach to listening for events that’s better for performance and gives you a bit more flexibility.
@@ -137,25 +391,143 @@ Instead of adding event listeners to specific elements, you listen to all events
 
 **Attention!** Using the following methods does not work with the following events: *blur, error, focus, mouseenter, mouseleave, scroll* - to handle these events use "add" and "remove" methods.
 - **on(types: String or Array; target: String or Element; callback: Function)** - add event listeners to target, target can be only String or Element. "Types" can be transmitted in the following ways - `'click touch'` or `'click, touch, mouseenter'` or `["mouseenter", "swipeLeft"]`. `this` in callback is target element(if you don't use arrow function);
+
+  ```javascript
+  const {delegate} = $events;
+  const {get} = $dom;
+  
+  delegate.on('click tap', '.some-selector', event => {
+    if (event.target.closest('.some-selector')) {
+      // do stuff with event.target
+    }
+  });
+  // or
+  delegate.on('click tap', 'ul', function() {
+    // if use 'function' keyword as callback this will be ul-element
+  });
+  //or
+  delegate.on('click tap', get('ul'), function() {
+    // if use 'function' keyword as callback this will be ul-element
+  })
+  ```
+
 - **off(types: String or Array; target: String or Element; callback: Function)** - removes event handlers of the specified types;
+
+  ```javascript
+  const {delegate} = $events;
+  const {get} = $dom;
+    
+  delegate.off('click tap', '.some-selector', event => {
+    if (event.target.closest('.some-selector')) {
+      // do stuff with event.target
+    }
+  });
+  // or
+  delegate.off('click tap', 'ul', function() {
+    // if use 'function' keyword as callback this will be ul-element
+  });
+  //or
+  delegate.off('click tap', get('ul'), function() {
+    // if use 'function' keyword as callback this will be ul-element
+  })
+  ```
+
 - **once(types: String or Array; target: String or Element; callback: Function)** - adds an event handler, which is removed after one trigger;
+
+  ```javascript
+  const {delegate} = $events;
+  const {get} = $dom;
+    
+  delegate.once('click tap', '.some-selector', event => {
+    if (event.target.closest('.some-selector')) {
+      // do stuff with event.target
+    }
+  });
+  // or
+  delegate.once('click tap', 'ul', function() {
+    // if use 'function' keyword as callback this will be ul-element
+  });
+  //or
+  delegate.once('click tap', get('ul'), function() {
+    // if use 'function' keyword as callback this will be ul-element
+  })
+  ```
+
 - **list** - getter, get an immutable copy of all active event listeners;
+
+  ```javascript
+  const {delegate} = $events;
+  
+  console.log(delegate.list) // {resize: Array(1), hidden.bs.modal: Array(1), click: Array(1)}
+  ```
 
 if you need to use preventDefault - use the following to get the original event `(event.originalEvent || event).preventDefault();` or `preventDefault(event)` helper;
 
 #### **$style**:
 - **get(element: String or Element; property: String - by default is undefined; clean: Boolean - by default is false)** - if property is undefined method will return `getComputedStyle` of element, otherwise method will return value  of the specified property. If "clean" is true - method will return clean number, example `$style.get('h1', 'font-size', true)` will return `22.755`, but not `'22.755px'`. Returns String or Number;
+  
+  ```javascript
+  const {get: domGet} = $dom;
+  const {get} = $style;
+  
+  get(domGet('ul'));
+  //or
+  get('ul');
+  // or
+  get('ul', 'padding');
+  // or
+  get(domGet('ul'), 'padding'); // '0px'
+  //or 
+  get('ul', 'padding', true) // 0
+  ```
+  
 - **set(target: Array of Elements or String or Element; property: String or Object; value: String - by default is null)** - sets the specified styles. If the property is an object and value is null, then method will set each property and its value passed by a key-value pair, for example `$style.set('h1', {fontSize: '50px', color: 'red'})`; if value argument passed, then method set property and value, example `$style.set('h1', 'font-size', '50px')`. Return Element or Array of Elements;
+
+  ```javascript
+  const {get: domGet, getAll: domGetAll} = $dom;
+  const {set} = $style;
+  
+  set(domGet('ul'), 'padding-right', '15px');
+  // or
+  set(domGetAll('li'), 'padding-right', '15px');
+  // or
+  set('ul', {
+    paddingRight: '15px'
+  })
+  ```
+
 - **remove(target: Array of Elements or String or Element; property: String or Array)** - removes the specified properties from the element. Properties can be transmitted in the following ways - `'font-size color'` or `'font-size, color'` or `["font-size", "color"]`. Example `$style.remove('.section', 'font-size, color')`. Return Element or Array of Elements;
-- **animate(element: Element or String; animationName: String; options: Object)** - method for animation uses css-animations(`@keyframes`) respectively as "animationName" parameter can be use classes such as `fadeIn, fadeOut, zoomIn` e.t.c. The default options object looks like this `{onComplete: null, animateInitClassName: 'animated', hideOnEnd: false}` - onComplete is Function - provide target element as argument, animateInitClassName is String - default is `animated`, hideOnEnd is Boolean - hide element after animation end;
-- **animateChain(animationsArray: Array; options: Object)** - execution of animations sequentially, in a chain. Target for this method is Array with objects inside, object looks like this - `{element: $dom.get('#wrapper'), animationName: 'fadeIn', callback: elem => console.log(elem)}`; The default options object looks like this `{onComplete: null, hideOnStart: true}` - onComplete is Function - provide target Array of elements as argument, hideOnStart - is Boolean, true by default - hide element before separate animation start;
-- **slideUp(target: Array of Elements or String or Element; options: Object)** - is the equivalent of jQuery's `.slideUp()` method. Hide the target with a sliding motion. The default options object looks like this `{duration: 500, onStart: null, onEnd: null}` - duration - animation duration in milliseconds, onStart and onEnd is Functions - provide target element as argument;
-- **slideDown(target: Array of Elements or String or Element; options: Object)** - is the equivalent of jQuery's `.slideDown()`method. Similar to "slideUp" method, but displays an element;
-- **slideToggle(target: Array of Elements or String or Element; options: Object)** - toggles the visibility of an element. The default options object looks like this `{duration: 500, onDownStart: null, onDownEnd: null, onUpStart: null, onUpEnd: null}` - duration - animation duration in milliseconds and callbacks;
+
+  ```javascript
+  const {get: domGet, getAll: domGetAll} = $dom;
+  const {remove} = $style;
+  
+  remove(domGet('ul'), 'padding-right');
+  // or
+  remove(domGetAll('li'), 'padding-right', '15px');
+  // or
+  remove('ul', ['padding-right', 'padding-left']);
+  ```
+
 - **offset(element: Element or String; relativeTo: String - can be only two values: "document"(by default) or "parent")** - is the equivalent of jQuery's `.offset()`. Returns Object, example `{left: number, top: number}`. If "relativeTo" parameter not provide - returns coordinates relative to the document, If "relativeTo" equal "parent", then returns coordinates relative to the `offsetParent`;
 
+  ```javascript
+  const {get} = $dom;
+  const {offset} = $style;
+  
+  console.log(offset(get('ul'))) // {left: 637.5, top: 312}
+  ```
+
 #### **$ui**:
-- **blockedScroll(action: String)** - the action argument can be 'enable' or 'disable'. Blocks scrolling of the document.
+- **blockScroll(action: String)** - the action argument can be 'enable' or 'disable'. Blocks scrolling of the document.
+
+  ```javascript
+  const {blockScroll} = $ui;
+  
+  blockScroll('enable');
+  // some code
+  blockScroll('disable');
+  ```
 
 
 

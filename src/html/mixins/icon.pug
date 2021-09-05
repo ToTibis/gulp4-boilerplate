@@ -1,4 +1,8 @@
-mixin icon(name, className)
+mixin icon(name, className, width, height)
 
-	svg.svg-icon(class=[className])
+	svg(
+		class=['svg-icon', className]
+		width=width || null
+		height=height || null
+	)
 		use(xlink:href='img/sprite.svg#' + name)

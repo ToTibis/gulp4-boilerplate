@@ -1,0 +1,39 @@
+@import '../utilites/variables';
+
+:root {
+
+	@each $color, $value in $colors {
+		--#{$variable-prefix}#{$color}: #{$value};
+	}
+
+	@each $color, $value in $theme-colors-rgb {
+		--#{$variable-prefix}#{$color}-rgb: #{$value};
+	}
+
+	@if $font-size-root != null {
+		font-size: var(--#{$variable-prefix}-root-font-size);
+	}
+
+	@if $enable-smooth-scroll {
+		@media (prefers-reduced-motion: no-preference) {
+			scroll-behavior: smooth;
+		}
+	}
+}
+
+.page {
+	@include media-breakpoint-up(sm) {
+		height: 100%;
+	}
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+		.footer {
+			flex: 0 0 auto;
+		}
+	}
+	&__content {
+		flex: 1 0 auto;
+	}
+}

@@ -1,0 +1,34 @@
+mixin button(data)
+	- buttonTag = data.tag || 'button';
+
+	if data.link
+		a(
+			href=data.link.href || '#'
+			download=data.download || null
+			class=[
+				'button',
+				`button--${data.type}`,
+				data.classes || null,
+				data.disabled && 'is-disabled'
+			]
+			id=data.id || null
+			data-bs-toggle=data.bsToggle
+			data-bs-target=data.bsTarget
+		)
+			span(class=['button__content']) !{data.content}
+
+	else
+		#{buttonTag}(
+			type=(buttonTag === 'button' ? data.buttonType || 'button' : null)
+			class=[
+				'button',
+				`button--${data.type}`,
+				data.classes || null
+			]
+			disabled=data.disabled || null
+			id=data.id || null
+			data-bs-toggle=data.bsToggle
+			data-bs-target=data.bsTarget
+		)
+			span(class=['button__content']) !{data.content}
+

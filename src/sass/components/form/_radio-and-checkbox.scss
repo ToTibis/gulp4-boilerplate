@@ -1,0 +1,75 @@
+@import '../../utilites/variables';
+@import '../../utilites/mixins';
+
+$radio-size:        16px;
+$checkbox-size:     16px;
+
+.radio__content, .checkbox__content {
+	position: relative;
+	user-select: none;
+	&:before, &:after {
+		@include pseudo;
+	}
+	&:before {
+		border: $border-width solid get($colors, secondary);
+		left: 0;
+		top: $border-width * 2;
+	}
+	&:after {
+		@include transition(transform);
+		background-color: get($colors, secondary);
+		transform: scale3d(0,0,0);
+	}
+}
+
+.form {
+	&__radio, &__checkbox {
+		cursor: pointer;
+		input {
+			&:checked {
+				& + .radio__content, & + .checkbox__content {
+					&:after {
+						transform: scale3d(1,1,1);
+					}
+				}
+			}
+		}
+	}
+	&__radio {
+		.radio__content {
+			padding-left: $radio-size * 1.5;
+			&:before, &:after {
+				border-radius: 50%;
+			}
+			&:before {
+				width: $radio-size;
+				height: $radio-size;
+
+			}
+			&:after {
+				width: $radio-size / 2;
+				height: $radio-size / 2;
+				top: calc(#{$radio-size / 4} + #{$border-width * 2});
+				left: $radio-size / 4;
+			}
+		}
+	}
+	&__checkbox {
+		.checkbox__content {
+			padding-left: $checkbox-size * 1.5;
+			&:before, &:after {
+				border-radius: $border-radius;
+			}
+			&:before {
+				width: $checkbox-size;
+				height: $checkbox-size;
+			}
+			&:after {
+				width: $checkbox-size / 2;
+				height: $checkbox-size / 2;
+				top: calc(#{$checkbox-size / 4} + #{$border-width * 2});
+				left: $checkbox-size / 4;
+			}
+		}
+	}
+}

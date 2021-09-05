@@ -1,10 +1,20 @@
 block modalVariables
 
-div(id=modalId, class=['page__modal', modalClassName || null], aria-hidden='true')
-
-	div(class=['page__modal-wrapper'])
-		div(class=['page__modal-overlay'], data-modal-close)
-		div(class=['page__modal-container'], role='dialog' aria-modal='true')
-			button(class=['page__modal-close'], aria-label='Close modal', data-modal-close)
+div(
+	class=['modal js-modal fade', modalClasses || null]
+	id=modalId
+	aria-hidden='true'
+)
+	div(class=['modal-dialog', 'modal-dialog-centered', 'modal-dialog-scrollable'])
+		div(class='modal-content')
+			button(
+				class=['modal-close', 'ms-auto d-flex align-items-center']
+				type='button'
+				data-bs-dismiss='modal'
+				aria-label='Закрыть'
+			)
+				span.me-3 Закрыть
 				+icon('close')
-			block modalContent
+
+			div(class='modal-body')
+				block modalContent

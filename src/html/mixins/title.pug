@@ -1,0 +1,12 @@
+mixin title(data)
+
+	- tag = data.tag || 'h2';
+
+	#{tag}(
+		href=data.tag === 'a' ? data.href || '#' : null
+		class=[
+			'title',
+			data.type && `title--${data.type}`,
+			data.classes || null
+		]
+	) !{data.content}

@@ -14,18 +14,26 @@ html(lang='ru')
 
 		include ../mixins/icon
 		include ../mixins/breadcrumbs
+		include ../mixins/title
+		include ../mixins/button
+		include ../mixins/field
+		include ../mixins/lazyImage
 
-	.presentation-wrapper#wrapper.parallax
-		.presentation-wrapper-background(data-parallax-deep='2500').parallax-layer
-		.page__wrapper
-			.page__content
+	div(
+		class=[
+			'page',
+			pageRootClass && `page--${pageRootClass}`
+		]
+		id=pageId || 'js-page-regular'
+	)
+		div(class='page__wrapper' id='js-page-wrapper')
+			div(class='page__content')
 				include ../components/header
-				main#main
+				main.py-5
 					block mainContent
 			include ../components/footer
-	include ../components/example/modal-static-first
-	include ../components/example/modal-static-second
-	include ../components/example/modal-static-thid
+	include ../components/modal/example
+	include ../components/menu
 	script(src='js/iePolyfills.js')
 	script(src='js/vendors.js')
 	script(src='js/main.js')

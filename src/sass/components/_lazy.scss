@@ -1,0 +1,56 @@
+@import '../utilites/mixins';
+@import '../utilites/variables';
+@import 'node_modules/bootstrap/scss/vendor/rfs';
+
+.ratio {
+	.lazy__image {
+		position: absolute;
+	}
+}
+
+.lazy {
+	&__image {
+		position: relative;
+		&-element {
+			@include transition(opacity, #{$transition-duration * 2}s);
+			opacity: 0;
+			&.is-loaded {
+				opacity: 1;
+			}
+			&.is-error {
+				&:before {
+					@include pseudo-wrapper;
+					background-color: get($colors, light);
+				}
+				&:after {
+					@include font-size($font-size-sm);
+					font-family: $font-family-base;
+					content: attr(data-error);
+					display: block;
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%);
+					white-space: nowrap;
+					font-style: italic;
+				}
+				& + .lazy__image-loader {
+					.spinner-border {
+						animation: none;
+						border: 0 none;
+					}
+				}
+			}
+			&[style^='background-image'] {
+				background-position: center center;
+				background-size: cover;
+				background-repeat: no-repeat;
+			}
+		}
+		&-loader {
+			@include center('both');
+			max-width: $spinner-width;
+			max-height: $spinner-height;
+		}
+	}
+}

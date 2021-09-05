@@ -1,72 +1,35 @@
-$prefix:                  'page__';
-$transition-time:         #{$transition-duration * 2}s;
-$root-class-name:         #{'.' + $prefix + 'modal'};
-$close-button-size:       50px;
-$active-class-name:       #{'.is-active'};
+@import '../utilites/variables';
 
+[data-bs-toggle='modal'] {
+	cursor: pointer;
 
-#{$root-class-name} {
-	display: none;
-
-	&[aria-hidden='false'] {
-		#{$root-class-name} {
-			&-wrapper {
-				animation-name: fadeIn;
-			}
-			&-container {
-				animation-name: zoomIn;
-			}
+	@include interaction('mouse') {
+		&:hover {
+			color: get($colors, pink)
 		}
-	}
-	&[aria-hidden='true'] {
-		#{$root-class-name} {
-			&-wrapper {
-				animation-name: fadeOut;
-			}
-			&-container {
-				animation-name: zoomOut;
-			}
-		}
-	}
-	&-wrapper, &-container {
-		animation-duration: $transition-time;
-		will-change: transform;
-	}
-
-	&#{$active-class-name} {
-		display: block;
-	}
-	&-wrapper, &-overlay {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
-	&-wrapper {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		z-index: get($index, xl);
-	}
-	&-overlay {
-		background: rgba(get($colors, black), .65);
-	}
-	&-container {
-		width: 100%;
-		max-width: calc(100% - #{$grid-gutter-width * 2});
-		background-color: get($colors, white);
-		max-height: 100%;
-		overflow: auto;
-		position: relative;
-		z-index: get($index, default);
-	}
-	&-close {
-		width: $close-button-size;
-		height: $close-button-size;
-		padding: $close-button-size * .25;
-		display: flex;
-		margin-left: auto;
 	}
 }
+.modal {
+	user-select: none;
 
+	&-content {
+		padding: $spacer * 2 $spacer * 3 $spacer * 3 $spacer * 3;
+	}
+	&-body {
+		padding: $spacer * 3 0 0 0;
+		overflow-x: hidden;
+	}
+	&-close {
+		@include transition(color);
+
+		svg {
+			width: $spacer * 2;
+			height: $spacer * 2;
+		}
+		@include interaction('mouse') {
+			&:hover {
+				color: get($colors, pink)
+			}
+		}
+	}
+}

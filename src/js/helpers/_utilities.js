@@ -52,3 +52,21 @@ export function sleep(ms) {
 		tm = null;
 	});
 }
+
+export function loop(arr, cb) {
+  if (is.not.array(arr) || is.not.function(cb)) return;
+
+  for (let i = 0; i < arr.length; i++) {
+    cb.call(arr[i], arr[i], i)
+  }
+}
+
+export function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+}
+
+export function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}

@@ -2,17 +2,14 @@
 
 global.$ = {
 	gulp: require('gulp'),
-	sass: require('gulp-sass'),
+	sass: require('gulp-sass')(require('node-sass')),
 	sourcemaps: require('gulp-sourcemaps'),
 	autoprefixer: require('gulp-autoprefixer'),
 	browserSync: require('browser-sync').create(),
 	uglify: require('gulp-uglify'),
 	del: require('del'),
 	stripCss: require('gulp-strip-css-comments'),
-	imagemin: require('gulp-imagemin'),
 	cache: require('gulp-cache'),
-	jpegRecompress: require('imagemin-jpeg-recompress'),
-	pngQuant: require('imagemin-pngquant'),
 	svgStore: require('gulp-svgstore'),
 	svgmin: require('gulp-svgmin'),
 	webpack: require('webpack'),
@@ -20,6 +17,7 @@ global.$ = {
 	pug: require('gulp-pug'),
 	dependents: require('gulp-dependents'),
 	debug: require('gulp-debug'),
+  image: require('gulp-image'),
 	path: {
 		tasks: require('./gulp/config/tasks.js'),
 		src: {
@@ -48,15 +46,13 @@ global.$ = {
 	}
 };
 
-$.sass.compiler = require('node-sass');
-
-$.path.tasks.forEach((taskPath) => require(taskPath)());
+$.path.tasks.forEach(taskPath => require(taskPath)());
 
 $.gulp.task('common', $.gulp.series('clean', $.gulp.parallel('html', 'fonts', 'svg')));
 
-$.gulp.task('dev', $.gulp.series('sass:development', 'js:development', 'img:development',));
+$.gulp.task('dev', $.gulp.series('sass:development', 'js:development', 'images:development',));
 
-$.gulp.task('build', $.gulp.series('common', $.gulp.parallel('sass:production', 'js:production', 'img:production'),
+$.gulp.task('build', $.gulp.series('common', $.gulp.parallel('sass:production', 'js:production', 'images:production'),
 	function completion(done) {
 		done();
 		process.exit();

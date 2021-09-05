@@ -1,0 +1,21 @@
+extends ../layout/offcanvas
+
+block offcanvasContentVariables
+	- offcanvasId = 'js-offcanvas-menu'
+	- offcanvasClasses = 'offcanvas-end'
+	- offcanvasBackdrop = true
+
+block offcanvasContent
+
+
+	nav.row.g-3.text-center
+		each item, index in nav
+			.col-12
+				+button({
+					link: {
+						href: item.href || '#'
+					},
+					type: 'default',
+					content: item.name,
+					classes: `w-100 border rounded px-4 py-2 ${activeNavIndex === index && ' text-decoration-underline'}`
+				})

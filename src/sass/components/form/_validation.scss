@@ -1,0 +1,19 @@
+@import '../../utilites/variables';
+@import '../../utilites/mixins';
+
+.form__group {
+	position: relative;
+	&.is-need-validate {
+		padding-bottom: $spacer * 1.5;
+		.form__group {
+			&-notify {
+				@include font-size($font-size-sm);
+				white-space: nowrap;
+				position: absolute;
+				color: get($colors, danger);
+				left: 0;
+				bottom: 0;
+			}
+		}
+	}
+}

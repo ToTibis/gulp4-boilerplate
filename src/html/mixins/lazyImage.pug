@@ -1,0 +1,19 @@
+mixin lazyImage(data)
+
+	- tag = data.tag || 'div';
+
+		#{tag}(class=['js-lazy-image', 'lazy__image', data.classes || null])
+			case data.type
+				when 'img'
+					img(
+						data-lazy-src=data.imageSrc || null
+						alt=data.imageAlt || 'Альтернативное описание'
+						class=['lazy__image-element', 'js-lazy-image-element', data.imageClasses || null]
+					).w-100
+					.lazy__image-loader.js-lazy-image-loader
+						div(class=['spinner-border text-secondary'] role='status')
+
+				when 'background'
+					div(class=['lazy__image-element', 'js-lazy-image-element', data.imageClasses || null] data-lazy-bg=data.imageSrc)
+					.lazy__image-loader.js-lazy-image-loader
+						div(class=['spinner-border text-secondary'] role='status')

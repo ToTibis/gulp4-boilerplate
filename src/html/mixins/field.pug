@@ -1,0 +1,89 @@
+mixin field(data)
+
+	- validateFieldClassName = 'js-field-validate';
+	- validateGroupClassName = 'js-group-validate';
+
+	case data.type
+		when 'select'
+			div(class=['form__group', data.validate && validateGroupClassName])
+				select(
+					name=data.name || null
+					disabled=data.disabled || null
+					multiple=data.multiple || null
+					required=(data.required || data.validate) || null
+					class=['form__select', data.classes || null, data.validate && validateFieldClassName]
+				)
+					if data.placeholder
+						option(value='' disabled selected) #{data.placeholder}
+
+					if Array.isArray(data.options) && data.options.length > 0
+						each option in data.options
+							option(
+								value=option.value
+								selected=option.selected || null
+							) !{option.content}
+		when 'radio'
+			div(class=['form__group'])
+				label(for=data.id || null class=['form__radio', data.classes || null])
+					input(
+						class=['visually-hidden', data.validate && validateFieldClassName]
+						type='radio'
+						checked=data.checked || null
+						id=data.id || null
+						name=data.name || null
+						required=(data.required || data.validate) || null
+						placeholder=data.placeholder || null
+						value=data.value || null
+					)
+					span.radio__content #{data.content}
+		when 'checkbox'
+			div(class=['form__group', data.validate && validateGroupClassName])
+				label(for=data.id || null class=['form__checkbox', data.classes || null])
+					input(
+						class=['visually-hidden', data.validate && validateFieldClassName]
+						type='checkbox'
+						checked=data.checked || null
+						id=data.id || null
+						name=data.name || null
+						required=(data.required || data.validate) || null
+						placeholder=data.placeholder || null
+						value=data.value || null
+					)
+					span.checkbox__content #{data.content}
+		when 'textarea'
+			div(class=['form__group', data.validate && validateGroupClassName])
+				if Boolean(data.label)
+					label(class='form__label' for=data.id || null) #{data.label}
+				textarea(
+					rows=data.rows || '3'
+					cols=data.cols || null
+					id=data.id || null
+					name=data.name || null
+					required=(data.required || data.validate) || null
+					placeholder=data.placeholder || null
+					value=data.value || null
+					class=['form__field', data.classes || null, data.validate && validateFieldClassName]
+
+					data-validate-words=data.validateWords || null
+					data-validate-length=data.validateLength || null
+					data-validate-linked=data.validateLinked || null
+					pattern=data.pattern || null
+				)
+		default
+			div(class=['form__group', data.validate && validateGroupClassName])
+				if Boolean(data.label)
+					label(class='form__label' for=data.id || null) #{data.label}
+				input(
+					type=data.type
+					id=data.id || null
+					name=data.name || null
+					required=(data.required || data.validate) || null
+					placeholder=data.placeholder || null
+					value=data.value || null
+					class=['form__field', data.classes || null, data.validate && validateFieldClassName]
+
+					data-validate-words=data.validateWords || null
+					data-validate-length=data.validateLength || null
+					data-validate-linked=data.validateLinked || null
+					pattern=data.pattern || null
+				)

@@ -215,8 +215,6 @@ export const $events = (function() {
 
 	let resizeTimout;
 
-
-
 	localAPIs.add = function(types, target, callback, options = {}) {
 
 		const defaults = {once: false};
@@ -240,7 +238,7 @@ export const $events = (function() {
 		return this;
 	};
 
-	localAPIs.emit = function (type, element = window, detail = {}) {
+	localAPIs.emit = function (type, detail = {}, element = window,) {
 		if (!type) return;
 
 		const event = new CustomEvent(type, {
@@ -419,9 +417,9 @@ export const $events = (function() {
 		clearTimeout(resizeTimout);
 
 		resizeTimout = setTimeout(() => {
-			localAPIs.emit(variables.customEventNames.resize, document.body, {
+			localAPIs.emit(variables.customEventNames.resize, {
 				originalEvent: event
-			})
+			}, document.body)
 		}, variables.resizeDebounce);
 
 	});

@@ -4,5 +4,5 @@ const
 
 module.exports = merge(common, {
 	mode: 'production',
-	devtool: 'none'
+	devtool: 'source-map'
 });

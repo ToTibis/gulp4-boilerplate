@@ -139,7 +139,7 @@ export const $dom = (function () {
 		}
 
 		let l = collection.length;
-		for (let i = 0; i < l; i++) callback(collection[i], i);
+		for (let i = 0; i < l; i++) callback.call(collection[i], collection[i], i);
 
 		return collection;
 	};
@@ -247,6 +247,12 @@ export const $dom = (function () {
 		return el
 	};
 
+	localAPIs.createElementFromString = function(string) {
+    const div = document.createElement('div');
+    div.innerHTML = string.trim();
+    return div.firstChild;
+  };
+
 	localAPIs.replace = function(element, newElement) {
 		element.parentNode.replaceChild(newElement, element);
 
@@ -278,10 +284,34 @@ export const $dom = (function () {
 			return;
 		}
 
-		if (document.readyState === 'complete' ) callback();
+		if (document.readyState === 'complete' ) callback.call(document);
 
-		document.addEventListener( 'DOMContentLoaded', callback, {once: true});
+		document.addEventListener( 'DOMContentLoaded', callback.bind(document), {once: true});
 	};
+
+  localAPIs.exist = (target, context = document) => {
+
+    if (is.null(target)) return false;
+
+    if (is.string(target)) {
+      if (is.null(context.querySelector(target))) return false;
+    }
+
+    if (is.array(target)) {
+      if (target.length === 0) return false;
+
+      for (let i = 0; i < target.length; i++) {
+        if (is.string(target[i])) {
+
+          if (!isElement(context.querySelector(target[i]))) return false;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    return Boolean(target);
+  };
 
 	return localAPIs;
 })();

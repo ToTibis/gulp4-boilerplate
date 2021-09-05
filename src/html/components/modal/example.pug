@@ -1,0 +1,12 @@
+extends ../../layout/modal
+
+block modalVariables
+	- modalId = 'js-example-modal'
+	- modalClasses = 'modal--example'
+
+block modalContent
+	+title({
+		classes: 'mb-5',
+		type: 'sub-large',
+		content: 'Hello, friend!'
+	})

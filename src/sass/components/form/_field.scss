@@ -1,0 +1,22 @@
+@import '../../utilites/variables';
+@import 'node_modules/bootstrap/scss/vendor/rfs';
+
+.form {
+	&__label {
+		display: block;
+		padding-bottom: $spacer * .5;
+	}
+	&__field {
+		width: 100%;
+		@include placeholder {
+			@include transition;
+			@include font-size($font-size-sm);
+		}
+		&:focus {
+			@include placeholder {
+				opacity: 0;
+				transform: translateX($spacer * .5);
+			}
+		}
+	}
+}

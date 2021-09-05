@@ -39,15 +39,6 @@
 }
 /*--------------------placeholder styles--------------------*/
 
-@mixin clearfix {
-	&:after {
-		content: "";
-		display: table;
-		clear: both;
-	}
-}
-/*-------------------------clearfix-------------------------*/
-
 @mixin transition($what: all, $when: #{$transition-duration}s, $how: ease) {
 	transition: $what $when $how;
 }
@@ -127,19 +118,6 @@
 	}
 }
 /*---------------------------fonts---------------------------*/
-
-@mixin forIE() {
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		@content;
-	}
-}
-
-@mixin forFF() {
-	@-moz-document url-prefix() {
-		@content;
-	}
-}
-/*-----------------------for browsers-----------------------*/
 
 @function get($map, $keys...) {
 	@each $key in $keys {
