@@ -6,14 +6,6 @@ import Offcanvas from 'bootstrap/js/dist/offcanvas';
 import Collapse from 'bootstrap/js/dist/collapse';
 import Dropdown from 'bootstrap/js/dist/dropdown';
 import Modal from 'bootstrap/js/dist/modal';
-import {$events} from '../helpers/events';
-import {$style} from '../helpers/style';
-
-const {delegate} = $events;
-
-const {get: domGet} = $dom;
-const {get, set, remove, offset} = $style;
-
 
 $dom.ready(() => {
   window.currentPage = [
@@ -26,6 +18,4 @@ $dom.ready(() => {
     window.currentPage.Bootstrap = {Modal, Offcanvas, Dropdown, Collapse};
     window.currentPage.init();
   }
-
-  console.log(offset(domGet('ul')))
 });

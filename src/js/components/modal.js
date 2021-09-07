@@ -1,6 +1,5 @@
 import Component from '../classes/Component';
 import {$dom} from '../helpers/dom';
-import variables from '../variables';
 import is from 'is_js';
 import {isElement, warn} from '../helpers/_utilities';
 import {$events} from '../helpers/events';
@@ -13,8 +12,7 @@ const {
   get,
   remove,
   exist,
-  callAll,
-  html
+  callAll
 } = $dom;
 
 export default function modal(
@@ -25,6 +23,8 @@ export default function modal(
   closeText = 'Закрыть',
   closeIcon = 'close'
 ) {
+
+  const $Page = this;
 
   const
     modalEl = () => {
@@ -70,7 +70,9 @@ export default function modal(
     }
   ;
 
-  const $self = this;
+  const sayHelloByResize = () => console.log('Hello by resize from modal component');
+
+  $Page.options.resizeMethods =  [sayHelloByResize, ...$Page.options.resizeMethods];
 
   return new Component({
     name: 'modalController',
@@ -80,14 +82,14 @@ export default function modal(
       this.open = function (id) {
         const el = get('#'+id);
 
-        if (el.Modal instanceof $self.Bootstrap.Modal) el.Modal.show();
+        if (el.Modal instanceof $Page.Bootstrap.Modal) el.Modal.show();
       };
 
       this.close = function (id = null) {
         if (exist('#'+id)) {
           get('#'+id).Modal.hide()
         } else if (is.null(id)) {
-          callAll(modalSelector, el => el.Modal instanceof $self.Bootstrap.Modal && el.Modal.hide());
+          callAll(modalSelector, el => el.Modal instanceof $Page.Bootstrap.Modal && el.Modal.hide());
         }
 
         this.notify.hide(dynamicModalId)
@@ -127,24 +129,29 @@ export default function modal(
 
             if (isElement(modalEl)) remove(modalEl);
             this.currentModal = null;
+            this.messagePrinted = false;
           }
 
         },
         show(options = {}) {
-          if (!$self.created) return null;
+          if (!$Page.created) return null;
 
           append(embedPoint, this.createTemplate());
 
           const modalEl = get('#'+this.elId);
 
           if (is.null(this.currentModal)) {
-            this.currentModal = new $self.Bootstrap.Modal(modalEl);
+            this.currentModal = new $Page.Bootstrap.Modal(modalEl);
           }
 
           const {title, subtitle, markup} = options;
           const body = get(`#${this.elId} .${modalBodyClassName}`);
-          const isMarkup = isElement(createElementFromString(markup));
+          let isMarkup = false;
 
+          try {
+            createElementFromString(markup);
+            isMarkup = true
+          } catch (e) {}
 
           if (!this.messagePrinted) {
             if (Boolean(title) && is.string(title) && is.not.empty(title)) {
@@ -169,7 +176,7 @@ export default function modal(
           return modalEl
         },
         hide() {
-          if (this.currentModal instanceof $self.Bootstrap.Modal) {
+          if (this.currentModal instanceof $Page.Bootstrap.Modal) {
             this.currentModal.hide();
             this.currentModal = null;
           }
@@ -180,7 +187,7 @@ export default function modal(
     },
     onInit() {
       if (exist(modalSelector))
-        callAll(modalSelector, modalEl => modalEl.Modal = new $self.Bootstrap.Modal(modalEl));
+        callAll(modalSelector, modalEl => modalEl.Modal = new $Page.Bootstrap.Modal(modalEl));
 
       $events.delegate.on('hidden.bs.modal', document, this.notify.removeTemplate);
     },

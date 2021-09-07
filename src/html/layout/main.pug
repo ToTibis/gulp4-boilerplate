@@ -19,21 +19,21 @@ html(lang='ru')
 		include ../mixins/field
 		include ../mixins/lazyImage
 
-	div(
-		class=[
-			'page',
-			pageRootClass && `page--${pageRootClass}`
-		]
-		id=pageId || 'js-page-regular'
-	)
-		div(class='page__wrapper' id='js-page-wrapper')
-			div(class='page__content')
-				include ../components/header
-				main.py-5
-					block mainContent
-			include ../components/footer
-	include ../components/modal/example
-	include ../components/menu
-	script(src='js/iePolyfills.js')
-	script(src='js/vendors.js')
-	script(src='js/main.js')
+		div(
+			class=[
+				'page',
+				pageRootClass && `page--${pageRootClass}`
+			]
+			id=pageId || 'js-page-regular'
+		)
+			div(class='page__wrapper' id='js-page-wrapper')
+				div(class='page__content')
+					include ../components/header
+					main.py-5
+						block mainContent
+				include ../components/footer
+		include ../components/modal/example
+		include ../components/menu
+		script(src='js/iePolyfills.js')
+		script(src='js/vendors.js')
+		script(src='js/main.js')
