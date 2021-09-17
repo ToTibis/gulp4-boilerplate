@@ -3,18 +3,13 @@ import {$events} from "./events";
 import variables from "../variables";
 import is from 'is_js';
 import {$data} from "./data";
-import {optimizeTarget, filterStringArgs, toDashesCase} from "./_utilities";
+import {optimizeTarget, filterStringArgs, toDashesCase, cssPropertyToCamelCase} from './_utilities';
 
 export const $style = (function () {
 
 	const
 		localAPIs = {},
-		{callAll, get} = $dom,
-		cssPropertyToCamelCase = string => {
-			return string.replace( /-([a-z])/g, function( _all, letter ) {
-				return letter.toUpperCase();
-			});
-		}
+		{callAll, get} = $dom
 	;
 
 	localAPIs.get = function (element, property = undefined, clean = false) {

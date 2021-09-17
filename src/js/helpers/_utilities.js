@@ -70,3 +70,28 @@ export function getRandomInt(min, max) {
 export function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
 }
+
+export function cssPropertyToCamelCase(string) {
+  return string.replace( /-([a-z])/g, function( _all, letter ) {
+    return letter.toUpperCase();
+  });
+}
+
+export function generateId() {
+
+  const prefix = getRandomInt(0, 10000);
+
+  return prefix + '--' + Math.random().toString(36).substr(2, 9);
+}
+
+export function addZero(val) {
+  return ('0' + val).slice(-2);
+}
+
+export function objForIn(obj, cb) {
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      cb(key, obj[key])
+    }
+  }
+}
