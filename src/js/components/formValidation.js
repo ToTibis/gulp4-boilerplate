@@ -101,7 +101,9 @@ export function formValidation(
       });
 
 
-      $events.delegate
+      $events
+        .remove('focus blur', formFieldSelector, this.checkField)
+        .delegate
         .off('submit', formSelector, this.handleForm)
         .off('input change', formGroupSelector, this.checkField)
       ;
