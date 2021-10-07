@@ -15,21 +15,12 @@ export default class Component extends Model {
     };
 
     this.options = merge(this.defaults, options);
-    this.created = exist(this.options.requiredSelector) || is.undefined(this.options.requiredSelector);
-
-    this.payload = {
-      init: Function.prototype,
-      destroy: Function.prototype,
-    };
+    this.initialized = exist(this.options.requiredSelector) || is.undefined(this.options.requiredSelector);
   }
 
-
   init() {
-    if (this.created) {
-      super.init();
-      return this.payload
-    }
+    if (!this.initialized) return;
 
-    return null
+    super.init();
   }
 }

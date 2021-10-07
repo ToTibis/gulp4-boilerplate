@@ -3,6 +3,7 @@ const variables = {
 	gsapDefaultDuration: .25,
   carouselDefaultDuration: 800,
 	resizeDebounce: 100,
+  globalSettingsAttrName: 'paths',
 	debugLogs: true,
 	debugLogsDisabledNotify: true,
 	customEventNames: {
@@ -22,6 +23,25 @@ const variables = {
     filled: 'is-filled',
     invalid: 'is-invalid',
     error: 'is-error'
+  },
+  formValidationMessages: {
+    invalid         : 'Некорректное значение',
+    short           : 'input is too short',
+    long            : 'input is too long',
+    checked         : 'Должно быть отмечено',
+    empty           : 'Пожалуйста, заполните это поле',
+    select          : 'Please select an option',
+    number_min      : 'too low',
+    number_max      : 'too high',
+    url             : 'invalid URL',
+    number          : 'not a number',
+    email           : 'Некорректный e-mail',
+    email_repeat    : 'emails do not match',
+    date            : 'invalid date',
+    time            : 'invalid time',
+    password_repeat : 'Пароли не совпадают',
+    no_match        : 'no match',
+    complete        : 'Ввод не завершён'
   },
 	get windowWidth() {
 		return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth

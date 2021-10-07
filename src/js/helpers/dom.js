@@ -284,12 +284,10 @@ export const $dom = (function () {
       return;
     }
 
-    if (document.readyState === 'complete' ) callback.call(document);
+    if (document.readyState === 'complete' ) callback.call(window);
 
-    document.addEventListener( 'DOMContentLoaded', callback.bind(document), {once: true});
+    document.addEventListener( 'DOMContentLoaded', callback.bind(window), {once: true});
   };
-
-
 
   localAPIs.exist = (target, context = document) => {
 

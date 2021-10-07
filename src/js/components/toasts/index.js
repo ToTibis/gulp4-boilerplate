@@ -1,10 +1,12 @@
 import {$data} from '../../helpers/data';
 import Component from '../../classes/Component';
 import Toastify from './Toastify';
+import variables from '../../variables';
 
 const {merge} = $data;
+const {globalSettingsAttrName} = variables;
 
-export default function toasts(settings = {}) {
+export default function index(settings = {}) {
 
   const defaults = {
     duration: 3000,
@@ -26,6 +28,8 @@ export default function toasts(settings = {}) {
     }
   ;
 
+  const $Page = this;
+
   return new Component({
     name: 'toast',
     requiredSelector: undefined,
@@ -34,10 +38,9 @@ export default function toasts(settings = {}) {
         return Toastify(merge(pluginOptions, {
           text,
           className: 'status--'+status,
-          icon: `<svg class="svg-icon"><use xlink:href="img/sprite.svg#${icons[status]}"></use></svg>`
+          icon: `<svg class="svg-icon"><use xlink:href="${$Page[globalSettingsAttrName].images}/sprite.svg#${icons[status]}"></use></svg>`
         })).showToast();
       }
     }
   })
-
 }

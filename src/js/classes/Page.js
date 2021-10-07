@@ -1,4 +1,4 @@
-import {loop, warn} from '../helpers/_utilities';
+import {forIn, warn} from '../helpers/_utilities';
 import {$data} from '../helpers/data';
 import is from 'is_js';
 import {$events} from '../helpers/events';
@@ -7,22 +7,27 @@ import {lazyLoad} from '../components/lazyLoad';
 import Component from './Component';
 import {formValidation} from '../components/formValidation';
 import modal from '../components/modal';
-import toasts from '../components/toasts/toasts';
+import toasts from '../components/toasts';
+import variables from '../variables';
+
 const {merge} = $data;
+const {globalSettingsAttrName} = variables;
 
 export default class Page extends Model {
+  #components = {};
+
 
   constructor(options) {
 
     super(options);
 
-    this.created = true;
+    this.initialized = true;
 
     if (is.not.domNode(this.rootElement)) {
       if (this.options.debug) {
-        warn(`Instance Page with name "${this.name}" has no root element provided`, 'Page-class')
+        warn(`Instance Page with name "${this.name}" has no root element provided`, 'Class Page')
       }
-      this.created = false;
+      this.initialized = false;
       return;
     }
 
@@ -31,8 +36,14 @@ export default class Page extends Model {
     };
 
     this.options = merge(this.defaults, options);
-    this.carousels = this.options.carousels || [];
-    this.components = [];
+
+    this[globalSettingsAttrName] = this.rootEl.dataset[globalSettingsAttrName] && JSON.parse(this.rootEl.dataset[globalSettingsAttrName]);
+
+    if (is.undefined(this[globalSettingsAttrName])) {
+      warn(`Global settings is not provided to root element as "data-${globalSettingsAttrName}" attribute`, 'Class Page')
+    } else {
+      this.rootEl.removeAttribute(`data-${globalSettingsAttrName}`)
+    }
 
     this
       .addComponent(lazyLoad, [50, 'data-error'])
@@ -42,41 +53,25 @@ export default class Page extends Model {
     ;
   }
 
-  addComponent(fn = null, initialArgs = []) {
+  addComponent(fn, initialArgs = []) {
     if (is.function(fn)) {
 
       const component = fn.call(this, ...initialArgs);
 
-      if (component instanceof Component) {
-        this.components.push({instance: component, args: initialArgs});
-      }
+      if (component instanceof Component) this.#components[component.name] = component;
 
     }
     return this;
   }
 
-  processComponents(action, components = this.components) {
-    if (components.length > 0) {
+  processComponents(action, components = this.#components) {
+    forIn(components, (key, component) => {
+      if (is.undefined(this[key])) this[key] = component;
 
-      components.filter(component => {
-
-        const {instance, args} = component;
-        const {name} = instance;
-
-        if (is.undefined(this[name])) this[name] = instance;
-
-        if (is.function(this[name][action])) {
-          this[name][action]();
-          return {
-            instance: this[name],
-            initialArgs: args
-          }
-        }
-
-        return false
-      });
-    }
-    return []
+      if (is.function(component[action])) {
+        component[action]()
+      }
+    })
   }
 
   resizeDependentMethods(action) {
@@ -121,7 +116,7 @@ export default class Page extends Model {
     this.processComponents('destroy');
     this.resizeDependentMethods('remove');
 
-    this.created = false;
+    this.initialized = false;
 
     super.destroy(this);
     return this;

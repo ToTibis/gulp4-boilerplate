@@ -77,21 +77,21 @@ export function cssPropertyToCamelCase(string) {
   });
 }
 
-export function generateId() {
+export function generateId(usePostfix = true) {
 
-  const prefix = getRandomInt(0, 10000);
+  const postfix = '--' + getRandomInt(0, 10000);
 
-  return prefix + '--' + Math.random().toString(36).substr(2, 9);
+  return '_' + Math.random().toString(36).substr(2, 9) + (usePostfix ? postfix : '');
 }
 
 export function addZero(val) {
   return ('0' + val).slice(-2);
 }
 
-export function objForIn(obj, cb) {
+export function forIn(obj, cb) {
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
-      cb(key, obj[key])
+      cb.call(obj[key], key, obj[key])
     }
   }
 }
