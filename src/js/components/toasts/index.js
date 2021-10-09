@@ -6,7 +6,7 @@ import variables from '../../variables';
 const {merge} = $data;
 const {globalSettingsAttrName} = variables;
 
-export default function index(settings = {}) {
+export default function(settings = {}) {
 
   const defaults = {
     duration: 3000,
