@@ -7,7 +7,8 @@ const variables = {
 	debugLogs: true,
 	debugLogsDisabledNotify: true,
 	customEventNames: {
-		resize: 'resize-done'
+		resize: 'resize-done',
+    selectDropdownSelected: 'select-dropdown-selected'
 	},
   classNames: {
     disabled: 'is-disabled',
@@ -22,7 +23,8 @@ const variables = {
     focused: 'is-focused',
     filled: 'is-filled',
     invalid: 'is-invalid',
-    error: 'is-error'
+    error: 'is-error',
+    selected: 'is-selected'
   },
   formValidationMessages: {
     invalid         : 'Некорректное значение',

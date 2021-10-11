@@ -10,6 +10,17 @@ block mainContent
 	- text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aspernatur beatae distinctio dolorem dolorum ex harum, nesciunt nisi nobis praesentium quam quasi quod quos suscipit, ullam voluptates voluptatum? Nobis, totam!';
 
 	.container
+		+breadcrumbs([
+			{
+				name: 'Главная',
+				href: 'home.html'
+			},
+			{
+				name:'UI Kit'
+			}
+		])
+
+	.container
 		+title({
 			tag: 'h1',
 			content: 'Заголовок 1 уровня'
@@ -67,25 +78,54 @@ block mainContent
 
 		hr.my-4
 
-		+field({
-			type: 'select',
-			classes: 'px-4 py-2',
-			options: [
-				{
-					value: 'Select option 1',
-					content: 'Select option 1',
-					checked: true
-				},
-				{
-					value: 'Select option 2',
-					content: 'Select option 2'
-				},
-				{
-					value: 'Select option 3',
-					content: 'Select option 3'
-				}
-			]
-		})
+		.row
+			.col-4
+				+field({
+					type: 'select',
+					classes: 'px-4 py-2',
+					label: 'Default select:',
+					options: [
+						{
+							value: 'Default select option 1',
+							content: 'Default select option 1'
+						},
+						{
+							value: 'Default select option 2',
+							content: 'Default select option 2',
+							selected: true
+						},
+						{
+							value: 'Default select option 3',
+							content: 'Default select option 3'
+						}
+					]
+				})
+			.col-4
+				+field({
+					type: 'dropdown',
+					label: 'Custom select:',
+					classes: {
+						root: '',
+						button: 'border rounded py-2 px-3',
+						list: '',
+						listItem: 'p-3'
+					},
+					options: [
+						{
+							value: 'Custom select option 1',
+							content: 'Custom select option 1'
+						},
+						{
+							value: 'Custom select option 2',
+							content: 'Custom select option 2'
+						},
+						{
+							value: 'Custom select option 3',
+							content: 'Custom select option 3',
+							selected: true
+						}
+					]
+				})
 		form(class=['js-form-validate'])
 			.row.py-4
 				.col-md-6.col-lg-auto

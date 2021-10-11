@@ -1,5 +1,8 @@
 @import '../../utilites/variables';
+@import '../../utilites/mixins';
 @import 'node_modules/bootstrap/scss/vendor/rfs';
+
+$field-dropdown-icon-size:  rem(14px);
 
 .form {
 	&__label {
@@ -16,6 +19,56 @@
 			@include placeholder {
 				opacity: 0;
 				transform: translateX($spacer * .5);
+			}
+		}
+	}
+	&__select {
+		width: 100%;
+	}
+	&__dropdown {
+		&-button {
+			position: relative;
+			text-align: left;
+			width: 100%;
+			padding-right: $field-dropdown-icon-size * 2;
+			z-index: get($index, default);
+			.svg-icon {
+				@include transition(transform);
+				position: absolute;
+				right: $field-dropdown-icon-size / 2;
+				top: 50%;
+				width: $field-dropdown-icon-size;
+				height: $field-dropdown-icon-size;
+				transform-origin: center center;
+				transform: translateY(-50%) rotateX(0);
+				will-change: transform;
+			}
+			&:hover {
+				cursor: pointer;
+			}
+			&.show {
+				.svg-icon {
+					transform: translateY(-50%) rotateX(180deg);
+				}
+			}
+			.spinner-border {
+				color: get($colors, dark);
+			}
+		}
+		&-list {
+			background-color: get($colors, white);
+			box-shadow: 0 $spacer * .6 $spacer * 2 0 rgba(get($colors, black),.1);
+			border-radius: $border-radius-sm;
+			&-item {
+				@include transition(background-color);
+				cursor: pointer;
+				background-color: get($colors, white);
+				&.is-selected {
+					color: get($colors, pink);
+				}
+				&:hover, &.is-selected {
+					background-color: rgba(get($colors, dark), .05);
+				}
 			}
 		}
 	}

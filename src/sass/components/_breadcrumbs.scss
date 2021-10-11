@@ -1,0 +1,35 @@
+@import '../utilites/variables';
+@import 'node_modules/bootstrap/scss/mixins/breakpoints';
+
+.breadcrumbs {
+	@include media-breakpoint-up(sm) {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding-top: $spacer;
+		padding-bottom: $spacer;
+	}
+	@include media-breakpoint-down(sm) {
+		display: none;
+	}
+
+	&__item {
+		position: relative;
+		display: flex;
+		align-items: center;
+		color: get($colors, gray-third);
+
+		& + .breadcrumbs__item {
+			margin-left: $spacer;
+
+			&:before {
+				content: '/';
+				display: inline;
+				margin-right: $spacer;
+			}
+		}
+	}
+	&__current {
+		cursor: default;
+	}
+}

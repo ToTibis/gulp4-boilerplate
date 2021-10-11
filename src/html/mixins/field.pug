@@ -6,6 +6,8 @@ mixin field(data)
 	case data.type
 		when 'select'
 			div(class=['form__group', data.validate && validateGroupClassName])
+				if data.label
+					label(for=data.id || null class='form__label') #{data.label}
 				select(
 					name=data.name || null
 					disabled=data.disabled || null
@@ -22,6 +24,35 @@ mixin field(data)
 								value=option.value
 								selected=option.selected || null
 							) !{option.content}
+		when 'dropdown'
+			div(class=['form__group'] data-select-dropdown)
+				if data.label
+					label(for=data.id || null class='form__label') #{data.label}
+				div(class=['form__field form__dropdown', data.classes && data.classes.root])
+					button(
+						type='button'
+						data-bs-toggle='dropdown'
+						aria-expanded='false'
+						class=['form__dropdown-button', data.classes && data.classes.button]
+						data-select-dropdown-button
+					).text-ellipsis
+						div(data-select-dropdown-selected)
+							.spinner-border.spinner-border-sm
+						+icon('arrow-down')
+					if Array.isArray(data.options)
+						div(class=['form__dropdown-dropdown', 'dropdown-menu'], data-select-dropdown-menu)
+							ul(class=['form__dropdown-list', data.classes && data.classes.list])
+								each opt in data.options
+									li(
+										data-value=opt.value
+										class=[
+											'form__dropdown-list-item',
+											opt.selected && 'is-selected',
+											data.classes && data.classes.listItem
+										]
+										data-select-dropdown-option
+									) #{opt.content}
+				input(hidden type='text' data-select-dropdown-output)
 		when 'radio'
 			div(class=['form__group'])
 				label(for=data.id || null class=['form__radio', data.classes || null])

@@ -15,7 +15,13 @@ export default class Component extends Model {
     };
 
     this.options = merge(this.defaults, options);
-    this.initialized = exist(this.options.requiredSelector) || is.undefined(this.options.requiredSelector);
+    this.initialized =
+      exist(this.options.requiredSelector)
+      ||
+      is.undefined(this.options.requiredSelector)
+      ||
+      (is.function(this.options.requiredSelector) && this.options.requiredSelector() === true)
+    ;
   }
 
   init() {
