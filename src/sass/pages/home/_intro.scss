@@ -3,7 +3,7 @@
 @import 'node_modules/bootstrap/scss/vendor/rfs';
 
 .page--home {
-	@include background('../img/background.jpg');
+	background-color: get($colors, dark);
 	a, button {
 		@include transition(color);
 		&:hover {
