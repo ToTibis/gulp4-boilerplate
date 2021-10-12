@@ -44,4 +44,9 @@ export default class Model {
   destroy() {
     this.checkAndRunCallback(this.options.onDestroy);
   }
+
+  update() {
+    this.destroy();
+    this.init();
+  }
 }

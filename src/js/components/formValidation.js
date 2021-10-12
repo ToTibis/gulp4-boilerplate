@@ -25,7 +25,6 @@ export function formValidation(
   needValidateClassName = 'is-need-validate'
 ) {
 
-
   return new Component({
     name: 'formValidation',
     requiredSelector: formSelector,
@@ -73,8 +72,8 @@ export function formValidation(
       $events
         .add('focus blur', formFieldSelector, this.checkField)
         .delegate
-          .on('submit', formSelector, this.handleForm)
-          .on('input change', formGroupSelector, this.checkField)
+        .on('submit', formSelector, this.handleForm)
+        .on('input change', formGroupSelector, this.checkField)
       ;
     },
     onDestroy() {

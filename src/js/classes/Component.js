@@ -15,18 +15,20 @@ export default class Component extends Model {
     };
 
     this.options = merge(this.defaults, options);
-    this.initialized =
-      exist(this.options.requiredSelector)
+  }
+
+  get initialized() {
+    return exist(this.options.requiredSelector)
       ||
       is.undefined(this.options.requiredSelector)
       ||
       (is.function(this.options.requiredSelector) && this.options.requiredSelector() === true)
-    ;
   }
 
   init() {
-    if (!this.initialized) return;
-
-    super.init();
+    if (this.initialized) super.init();
+  }
+  destroy() {
+    if (this.initialized) super.destroy();
   }
 }
