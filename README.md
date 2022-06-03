@@ -17,12 +17,24 @@ $ cd FOLDER_NAME
 
 For **development** mode run command:
  ```sh
- $ gulp
+ $ npm run start
  ```
 For **production** mode run command:
  ```sh
- $ gulp build
+ $ npm run build
  ```
+And others:
+
+|            |        |
+|:----------         |:-------------|
+| $ npm run pug       |    generate html |
+| $ npm run clear     |    delete public directory   |
+| $ npm run scss      |    generate production version of css   |
+| $ npm run js        |    generate production version of js bundle   |
+| $ npm run img       |    minified images   |
+| $ npm run font      |    convert fonts to popular formats   |
+| $ npm run sprite    |    generate sprite of svg icons   |
+
 
 ## In this boilerplate you can use:
 
@@ -44,16 +56,12 @@ Processing using [Sass](https://github.com/sass/sass), scss syntax.
 
 ### Javascript:
 You can use Javascript ES6 modules - Javascript is processing by [Webpack 5](https://github.com/webpack/webpack) to handle Javascript.
-I stopped using jquery because this tool is cumbersome, outdated and part of the functionality is already implemented native.
-
-I wrote my own "bicycle" :) - a library of helpers for working with DOM, events, styles. It works in all modern browsers and IE10+. 
-The helper library is written in a functional style and uses revealing module pattern.
+Тow everything is built on the interaction of two entities - Page and Component. You can find examples in the code.
 
 #### The following sources were used to write it:
 - [The Vanilla JS Toolkit](https://vanillajstoolkit.com/) - A collection of JavaScript methods, helper functions, plugins, boilerplates, polyfills, and learning resources;
 - [plain.js](https://plainjs.com/javascript/) - Vanilla JavaScript for building powerful web applications;
 - [Events](https://github.com/cferdinandi/events) - Event delegation helper library;
-- [Tocca.js](https://github.com/GianlucaGuarini/Tocca.js/) - Script to detect via Javascript events like 'tap' 'longtap' 'dbltap' 'swipeup' 'swipedown' 'swipeleft' 'swiperight' on any kind of device.
 
 #### The following plugins are used in the js-side of the boilerplate:
 - [is.js](https://github.com/arasatasaygin/is.js) - multi-purpose check library.
@@ -62,7 +70,7 @@ The helper library is written in a functional style and uses revealing module pa
 - [deepmerge](https://github.com/TehShrike/deepmerge) - merges the enumerable properties of two or more objects deeply.
 - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) - load images, videos and iframes to when they will enter the viewport.
 
-*Of course, you can remove my "bicycle", include jQuery and use it as you like.*
+*Of course, you can change the template however you like.*
 
 ### All helpers are divided into the following modules:
 
@@ -296,32 +304,6 @@ The helper library is written in a functional style and uses revealing module pa
   })
   ```
 
-- **resize(action: String - can be only two values: "on" or "off"; callback: Function)** an optimized version of the resize event. Depending on the device: on mobile - the callback is called after changing the screen orientation, on others - after changing the window size. The default callback debounce is 100 milliseconds (can be changed in the `js/variables.js`). Example:
-
-  ```javascript    
-  function byResize() {
-      // do something by resize
-  }
-          
-  $events.resize('on', byResize);
-      
-  // some code ....
-  
-  $events.resize('off', byResize)
-  ```
-  
-- **touchConfigure(Object or undefined)** - configure the touch support. If undefined - returns defaults options.
-    Defaults options: 
-    ```
-    {
-        swipeThreshold:   100,
-        tapThreshold:     150,   // range of time where a tap event could be detected
-        dbltapThreshold:  200,   // delay needed to detect a double tap
-        longtapThreshold: 1000,  // delay needed to detect a long tap
-        tapPrecision:     30,    // touch events boundaries
-    }
-    ```
-
 #### **$events**:
 - **add(types: String or Array; target: Array of Elements or String or Element; callback: Function; options: Object)** - add event listeners to target. "Types" can be transmitted in the following ways - `'click touch'` or `'click, touch, mouseenter'` or `["mouseenter", "swipeLeft"]`. `this` in callback is target element(if you don't use arrow function). This method delivers to the callback event. "Options" - is a native addEventListener options object(like capture, once, passive); that is, if you want to call the listener once - you must specify it like this `$events.add('tap click swipeRight', 'h1', log, {once: true});`;
 
@@ -374,16 +356,21 @@ The helper library is written in a functional style and uses revealing module pa
     payload: 'some-payload'
   }, document)
   ```
+- **resize(action: String - can be only two values: "on" or "off"; callback: Function)** an optimized version of the resize event. Depending on the device: on mobile - the callback is called after changing the screen orientation, on others - after changing the window size. The default callback debounce is 100 milliseconds (can be changed in the `js/variables.js`). Example:
   
-- **debounce(targetFunction: Function)** - debounce function for better performance. [See more]('https://gomakethings.com/debouncing-your-javascript-events/');
-
-  ```javascript
-  const {debounce} = $events;
+    ```javascript
+    const {resize} = $events;
   
-  const debouncedFn = debounce(() => {
-    // do some stuff by requestAnimationFrame
-  })
-  ```
+    function byResize() {
+        // do something by resize
+    }
+            
+    resize('on', byResize);
+        
+    // some code ....
+    
+    resize('off', byResize)
+    ```
 
 #### **$events.delegate**:
 Event bubbling is an approach to listening for events that’s better for performance and gives you a bit more flexibility.

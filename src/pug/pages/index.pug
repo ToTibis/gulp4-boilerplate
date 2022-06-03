@@ -1,0 +1,37 @@
+extends ../layout/main
+
+block mainVariables
+	- pageTitle = 'Навигатор по страницам'
+	- pageRootClass = null
+	- activeNavIndex = 2
+
+
+block mainContent
+	.container-fluid.py-5
+		.row
+			.col-md-6.mx-auto
+				h1.title.title--normal.pb-4 Навигатор по станицам
+				ul.d-flex.flex-column
+					-
+						pages = [
+							{
+								href: 'ui.html',
+								name: 'Ui kit',
+								done: false,
+								adaptive: false
+							},
+							{
+								href: 'home.html',
+								name: 'Главная',
+								done: true,
+								adaptive: true
+							}
+						]
+					each page in pages
+						- color = (page.done && page.adaptive) ? '#81c784' : '#EE8732'
+
+						li(style=`background-color: ${page.done ? color : '#e57373'};`).mb-3
+							a(
+								href=page.href
+								style='padding: 10px 15px; color: white;'
+							).py-2.d-inline-block.page__text--large.d-block #{page.name}#{!page.adaptive && ' - без адаптивности' || null}

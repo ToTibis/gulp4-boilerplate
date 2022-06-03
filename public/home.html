@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Description of the page less than 150 characters">
+    <title>Главная</title>
+    <link rel="stylesheet" href="css/libs.css">
+    <link rel="stylesheet" href="css/common.css">
+  </head>
+  <body>
+    <div class="page page--home" id="js-page-home" data-sprite-path="img/">
+      <div class="page__wrapper" id="js-page-wrapper">
+        <div class="page__content">
+          <header class="header js-header py-3">
+            <div class="container">
+              <div class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                  <h2><a class="d-inline-block" href="index.html">Logo</a></h2>
+                </div>
+                <div class="col-auto">
+                  <button type="button" data-bs-toggle="offcanvas" data-bs-target="#js-offcanvas-menu">
+                        <svg class="svg-icon" width="30px" height="30px">
+                          <use xlink:href="img/sprite.svg#menu"></use>
+                        </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </header>
+          <main class="py-5">
+            <div class="home__intro">
+              <div class="container">
+                <div class="container mt-n3">
+                  <div class="row align-items-center">
+                    <div class="col-4 col-xl-3 mx-auto mb-4 mb-md-0"><a class="d-inline-block mx-auto" href="https://github.com/ToTibis" target="_blank">
+                            <svg class="svg-icon">
+                              <use xlink:href="img/sprite.svg#github"></use>
+                            </svg></a></div>
+                    <div class="col-md-8 col-xl-6">
+                      <section>
+                            <h1 class="title">In this boilerplate you can use:</h1>
+                        <div class="home__intro-list pt-3">
+                          <ul class="row gy-2">
+                            <li class="col-12"><span class="d-block">- HTML - processing using Pug.js;</span></li>
+                            <li class="col-12"><span class="d-block">- Sass - Bootstrap 5 and some custom things</span></li>
+                            <li class="col-12"><span class="d-block">- Javascript ES6 Modules - processing using Webpack 5;</span></li>
+                            <li class="col-12"><span class="d-block">- Without jQuery - instead in this template included set of helpers-functions written on vanilla javascript ($data, $dom, $events, $style, $ui) and Bootstrap 5 components&nbsp;-&nbsp;Offcanvas, Collapse, Dropdown, Modal etc;</span></li>
+                            <li class="col-12"><span class="d-block">- SVG-sprites.</span></li>
+                            <li class="col-12"><span class="d-block">- Ready-made project structure</span></li>
+                            <li class="col-12"><span class="d-block">- Images lazy load by - <a class="text-decoration-underline" href="https://github.com/verlok/vanilla-lazyload" target="_blank">vanilla-lazyload</a></span></li>
+                            <li class="col-12"><span class="d-block">- Form validation by - <a class="text-decoration-underline" href="https://github.com/yairEO/validator" target="_blank">validator</a></span></li>
+                            <li class="col-12"><span class="d-block">- Modal - by Bootstrap5 with controller wrap - you can call modal window programmatically and create modal with dynamic content</span></li>
+                            <li class="col-12"><span class="d-block">- Toasts - based on <a class="text-decoration-underline" href="https://github.com/apvarun/toastify-js" target="_blank">toastify</a></span></li>
+                          </ul>
+                        </div>
+                      </section>
+                      <div class="row mt-4">
+                        <div class="col-md-auto mb-3 mb-md-0">
+                              <button class="button button--default border rounded px-4 py-2" type="submit" data-bs-toggle="modal" data-bs-target="#js-example-modal"><span class="button__content">Open modal</span></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 d-none d-xl-block">
+                      <div class="ratio ratio-1x1">
+                        <!--picture-->
+                        <!--	source(srcset='img/v8.webp' type='image/webp')-->
+                        <!--	img(src='img/v8.png' alt='Альтернативное описание')-->
+                            <div class="js-lazy-image lazy__image w-100 h-100">
+                              <picture>
+                                <source data-lazy-srcset="img/v8.webp" type="image/webp">
+                                <!--img(src='img/v8.png' alt='Альтернативное описание')--><img class="lazy__image-element js-lazy-image-element w-100 h-100 w-100" data-lazy-src="img/v8.png" alt="Альтернативное описание"><span class="lazy__image-loader js-lazy-image-loader"><span class="spinner-border text-secondary" role="status"></span></span>
+                              </picture>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+        <footer class="footer js-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <h2 class="text-center">Footer</h2>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <div class="modal js-modal fade modal--example" id="js-example-modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <button class="modal-close ms-auto d-flex align-items-center" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><span class="me-3">Закрыть</span>
+                <svg class="svg-icon">
+                  <use xlink:href="img/sprite.svg#close"></use>
+                </svg>
+          </button>
+          <div class="modal-body">
+                <h2 class="title title--sub-large mb-5">Hello, friend!</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="offcanvas offcanvas-end" id="js-offcanvas-menu" aria-hidden="true" data-bs-backdrop="true">
+      <div class="offcanvas-header">
+            <h4 class="title mb-0">Offcanvas menu</h4>
+        <button type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+              <svg class="svg-icon" width="20px" height="20px">
+                <use xlink:href="img/sprite.svg#close"></use>
+              </svg>
+        </button>
+      </div>
+      <div class="offcanvas-body">
+        <nav class="row g-3 text-center">
+          <div class="col-12"><a class="button button--default w-100 border rounded px-4 py-2  text-decoration-underline" href="home.html"><span class="button__content">Home</span></a>
+          </div>
+          <div class="col-12"><a class="button button--default w-100 border rounded px-4 py-2 false" href="ui.html"><span class="button__content">Ui kit</span></a>
+          </div>
+          <div class="col-12"><a class="button button--default w-100 border rounded px-4 py-2 false" href="index.html"><span class="button__content">Pages</span></a>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <script src="js/vendors.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -5,32 +5,19 @@ import {isElement} from '../helpers/_utilities';
 const {merge} = $data;
 
 export default class Model {
-  constructor(options = {}) {
-    this.defaults = {
-      onCreate: null,
-      onInit: null,
-      onDestroy: null,
-      name: null,
-      rootElementId: null,
-      debug: true
-    };
+  #defaults = {
+    onCreate: null,
+    onInit: null,
+    onDestroy: null,
+    name: null,
+    rootElementId: null
+  };
 
-    this.options = merge(this.defaults, options);
-    this.name = options.name;
-    this.rootElement = this.rootEl;
+  constructor(options = {}) {
+
+    this.options = merge(this.#defaults, options);
 
     this.checkAndRunCallback(this.options.onCreate);
-  }
-
-  get rootEl() {
-    const
-      {rootElementId} = this.options,
-      el = document.getElementById(rootElementId)
-    ;
-
-    if (is.string(rootElementId) && Boolean(rootElementId) && isElement(el)) return el;
-
-    return null
   }
 
   checkAndRunCallback(cb) {
@@ -45,7 +32,7 @@ export default class Model {
     this.checkAndRunCallback(this.options.onDestroy);
   }
 
-  update() {
+  refresh() {
     this.destroy();
     this.init();
   }

@@ -7,210 +7,7 @@ export const $events = (function() {
 
 	const
 		localAPIs = {},
-		isTouch = is.touchDevice(),
-		mouseEvents = ['click', 'dblclick'],
-		touchEvents = ['tap', 'dbltap', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'longtap'],
-		processEventTypes = (types, callback) => filterStringArgs(types).forEach(type => callback(type)),
-		needToExcludeEventByDevice = type => (isTouch && mouseEvents.includes(type)) || (!isTouch && touchEvents.includes(type)),
-		createTouch = (() => {
-			if (typeof document.createEvent !== 'function') return false;
-
-			const
-				defaults = {
-					swipeThreshold: 100,
-					tapThreshold: 150, // range of time where a tap event could be detected
-					dbltapThreshold: 200, // delay needed to detect a double tap
-					longtapThreshold: 1000, // delay needed to detect a long tap
-					tapPrecision: 30, // touch events boundaries
-				};
-
-			let
-				pointerEvent = function(type) {
-					let
-						lo = type.toLowerCase(),
-						ms = 'MS' + type
-					;
-					return navigator.msPointerEnabled ? ms : window.PointerEvent ? lo : false
-				},
-				touchEvent = name => 'on' + name in window ? name : false,
-				wasTouch = false,
-				tapNum = 0,
-				pointerId, currX, currY, cachedX, cachedY, timestamp, target, dblTapTimer, longtapTimer,
-				touchEvents = {
-					touchstart: touchEvent('touchstart') || pointerEvent('PointerDown'),
-					touchend: touchEvent('touchend') || pointerEvent('PointerUp'),
-					touchmove: touchEvent('touchmove') || pointerEvent('PointerMove')
-				},
-				isTheSameFingerId = e => !e.pointerId || typeof pointerId === 'undefined' || e.pointerId === pointerId,
-				setListener = function(elm, events, callback) {
-					let
-						eventsArray = events.split(' '),
-						i = eventsArray.length
-					;
-
-					while (i--) {
-						elm.addEventListener(eventsArray[i], callback, false)
-					}
-				},
-				getPointerEvent = function(event) {
-					let hasTargetTouches = Boolean(event.targetTouches && event.targetTouches.length);
-
-					switch (true) {
-						case Boolean(event.target.touches):
-							return event.target.touches[0];
-						case hasTargetTouches && typeof event.targetTouches[0].pageX !== 'undefined':
-							return event.targetTouches[0];
-						case hasTargetTouches && Boolean(event.targetTouches[0].touches):
-							return event.targetTouches[0].touches[0];
-						default:
-							return event
-					}
-				},
-				isMultipleTouches = event => (event.targetTouches || event.target.touches || []).length > 1,
-				getTimestamp = () => new Date().getTime(),
-				sendEvent = function(elm, eventName, originalEvent, data) {
-					let customEvent = document.createEvent('Event');
-					customEvent.originalEvent = originalEvent;
-					data = data || {};
-					data.x = currX;
-					data.y = currY;
-
-					if (customEvent.initEvent) {
-						for (let key in data) {
-							if (data.hasOwnProperty(key)) {
-								customEvent[key] = data[key]
-							}
-						}
-
-						customEvent.initEvent(eventName, true, true);
-						elm.dispatchEvent(customEvent)
-					}
-
-					while (elm) {
-						if (elm['on' + eventName]) elm['on' + eventName](customEvent);
-						elm = elm.parentNode
-					}
-
-				},
-				onTouchStart = function(e) {
-					if (!isTheSameFingerId(e) || isMultipleTouches(e)) return;
-
-					pointerId = e.pointerId;
-
-					if (e.type !== 'mousedown') wasTouch = true;
-
-					// skip this event we don't need to track it now
-					if (e.type === 'mousedown' && wasTouch) return;
-
-					let pointer = getPointerEvent(e);
-
-					// caching the current x
-					cachedX = currX = pointer.pageX;
-					// caching the current y
-					cachedY = currY = pointer.pageY;
-
-					longtapTimer = setTimeout(function() {
-						sendEvent(e.target, 'longtap', e);
-						target = e.target
-					}, defaults.longtapThreshold);
-
-					// we will use these variables on the touchend events
-					timestamp = getTimestamp();
-
-					tapNum++
-
-				},
-				onTouchEnd = function(e) {
-					if (!isTheSameFingerId(e) || isMultipleTouches(e)) return;
-
-					pointerId = undefined;
-
-					// skip the mouse events if previously a touch event was dispatched
-					// and reset the touch flag
-					if (e.type === 'mouseup' && wasTouch) {
-						wasTouch = false;
-						return
-					}
-
-					let
-						eventsArr = [],
-						now = getTimestamp(),
-						deltaY = cachedY - currY,
-						deltaX = cachedX - currX
-					;
-
-					// clear the previous timer if it was set
-					clearTimeout(dblTapTimer);
-					// kill the long tap timer
-					clearTimeout(longtapTimer);
-
-					if (deltaX <= -defaults.swipeThreshold) eventsArr.push('swipeRight');
-
-					if (deltaX >= defaults.swipeThreshold) eventsArr.push('swipeLeft');
-
-					if (deltaY <= -defaults.swipeThreshold) eventsArr.push('swipeDown');
-
-					if (deltaY >= defaults.swipeThreshold) eventsArr.push('swipeUp');
-
-					if (eventsArr.length) {
-						for (let i = 0; i < eventsArr.length; i++) {
-							let eventName = eventsArr[i];
-							sendEvent(e.target, eventName, e, {
-								distance: {
-									x: Math.abs(deltaX),
-									y: Math.abs(deltaY)
-								}
-							})
-						}
-						// reset the tap counter
-						tapNum = 0
-					} else {
-
-						if (
-							cachedX >= currX - defaults.tapPrecision &&
-							cachedX <= currX + defaults.tapPrecision &&
-							cachedY >= currY - defaults.tapPrecision &&
-							cachedY <= currY + defaults.tapPrecision
-						) {
-							if (timestamp + defaults.tapThreshold - now >= 0)
-							{
-								// Here you get the Tap event
-								sendEvent(e.target, tapNum >= 2 && target === e.target ? 'dbltap' : 'tap', e);
-								target= e.target
-							}
-						}
-
-						// reset the tap counter
-						dblTapTimer = setTimeout(function() {
-							tapNum = 0
-						}, defaults.dbltapThreshold)
-
-					}
-				},
-				onTouchMove = function(e) {
-					if (!isTheSameFingerId(e)) return;
-					// skip the mouse move events if the touch events were previously detected
-					if (e.type === 'mousemove' && wasTouch) return;
-
-					let pointer = getPointerEvent(e);
-					currX = pointer.pageX;
-					currY = pointer.pageY;
-				};
-
-			setListener(document, touchEvents.touchstart + (defaults.justTouchEvents ? '' : ' mousedown'), onTouchStart);
-			setListener(document, touchEvents.touchend + (defaults.justTouchEvents ? '' : ' mouseup'), onTouchEnd);
-			setListener(document, touchEvents.touchmove + (defaults.justTouchEvents ? '' : ' mousemove'), onTouchMove);
-
-			return function(options) {
-				for (let opt in options) {
-					if (options.hasOwnProperty(opt)) {
-						defaults[opt] = options[opt]
-					}
-				}
-
-				return defaults
-			}
-		})()
+		processEventTypes = (types, callback) => filterStringArgs(types).forEach(type => callback(type))
 	;
 
 	let resizeTimout;
@@ -220,11 +17,9 @@ export const $events = (function() {
 		const defaults = {once: false};
 
 		processEventTypes(types, type => {
-			if (!needToExcludeEventByDevice(type)) {
-				$dom.callAll(target, element => {
-					element.addEventListener(type, callback, Object.assign(defaults, options))
-				})
-			}
+      $dom.callAll(target, element => {
+        element.addEventListener(type, callback, Object.assign(defaults, options))
+      })
 		});
 
 		return this;
@@ -250,23 +45,6 @@ export const $events = (function() {
 		element.dispatchEvent(event);
 
 		return this;
-	};
-
-	localAPIs.debounce = function (targetFunction) {
-
-		let timeout;
-
-		return function () {
-			let
-				context = this,
-				args = arguments
-			;
-
-			if (timeout) window.cancelAnimationFrame(timeout);
-
-			timeout = window.requestAnimationFrame(() => targetFunction.apply(context, args));
-		}
-
 	};
 
 	localAPIs.delegate = {
@@ -307,14 +85,14 @@ export const $events = (function() {
 
 			const {target, type} = event;
 
-			if (!this.processedEvents[type] || needToExcludeEventByDevice(type)) return;
+			if (!this.processedEvents[type]) return;
 
 
 			this.processedEvents[type].forEach(listener => {
 
 				const {selector, callback} = listener;
 
-				if (!this.shouldDelegateRun(target, selector, type)) return;
+				if (!this.shouldDelegateRun(target, selector)) return;
 
 				let returned = null;
 				if (this.exceptionElement(selector)) {
@@ -346,13 +124,11 @@ export const $events = (function() {
 		},
 		processEventSetup(type, selector, callback) {
 
-			if (!needToExcludeEventByDevice(type)) {
-				if (!this.processedEvents[type]) {
-					this.processedEvents[type] = [];
-					window.addEventListener(type, this.eventDelegateHandler.bind(this), true);
-				}
-				this.processedEvents[type].push({selector,	callback});
-			}
+      if (!this.processedEvents[type]) {
+        this.processedEvents[type] = [];
+        window.addEventListener(type, this.eventDelegateHandler.bind(this), true);
+      }
+      this.processedEvents[type].push({selector,	callback});
 
 		},
 
@@ -432,8 +208,6 @@ export const $events = (function() {
 			warn('Action for resize-callback not specified or specified incorrectly', '$events-helper')
 		}
 	};
-
-	localAPIs.touchConfigure = createTouch;
 
 	return localAPIs
 

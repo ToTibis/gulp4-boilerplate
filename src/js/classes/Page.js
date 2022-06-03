@@ -1,4 +1,4 @@
-import {forIn, generateId, warn} from '../helpers/_utilities';
+import {toCamelCase, isElement, warn} from '../helpers/_utilities';
 import {$data} from '../helpers/data';
 import is from 'is_js';
 import {$events} from '../helpers/events';
@@ -8,50 +8,61 @@ import Component from './Component';
 import {formValidation} from '../components/formValidation';
 import modal from '../components/modal';
 import toasts from '../components/toasts';
-import variables from '../variables';
 import selectDropdown from '../components/selectDropdown';
-
+import {$dom} from '../helpers/dom';
+import {$style} from '../helpers/style';
+import {$ui} from '../helpers/ui';
+import {Modal, Collapse, Dropdown, Offcanvas} from 'bootstrap/dist/js/bootstrap.esm';
 const {merge} = $data;
-const {globalSettingsAttrName} = variables;
 
 export default class Page extends Model {
-  #components = {};
+  #defaults = {
+    debug: true
+  };
+
+  #spritePathAttr = 'data-sprite-path';
+  #spritePathAsDataset = toCamelCase(this.#spritePathAttr.replace('data-', ''));
 
   constructor(options) {
-
     super(options);
 
-    this.initialized = true;
+    this.options = merge(this.#defaults, options);
+    this.rootEl = (() => {
+      const
+        {rootElementId} = this.options,
+        el = document.getElementById(rootElementId)
+      ;
 
-    if (is.not.domNode(this.rootElement)) {
-      if (this.options.debug) {
+      if (is.string(rootElementId) && Boolean(rootElementId) && isElement(el)) return el;
+      return null
+    })();
+
+    if (is.not.domNode(this.rootEl)) {
+      if (this.options.debug)
         warn(`Instance Page with name "${this.name}" has no root element provided`, 'Class Page')
-      }
-      this.initialized = false;
       return;
     }
 
-    this.defaults = {
-      resizeMethods: []
+    this.components = {};
+    this.resizeDependentMethods = [];
+    this.helpers = {
+      'dom': $dom,
+      'is': is,
+      'events': $events,
+      'style': $style,
+      'ui': $ui
     };
+    this.bootstrap = {Modal, Collapse, Dropdown, Offcanvas};
+    this.spritePath = this.rootEl.dataset[`${this.#spritePathAsDataset}`];
 
-    this.options = merge(this.defaults, options);
-
-    this[globalSettingsAttrName] = this.rootEl.dataset[globalSettingsAttrName] && JSON.parse(this.rootEl.dataset[globalSettingsAttrName]);
-
-    if (is.undefined(this[globalSettingsAttrName])) {
-      warn(`Global settings is not provided to root element as "data-${globalSettingsAttrName}" attribute`, 'Class Page')
+    if (is.undefined(this.spritePath)) {
+      warn(
+        `Path to svg-sprite is not provided to root element as "${this.#spritePathAttr}" attribute`,
+        'Class Page, constructor'
+      )
     } else {
-      this.rootEl.removeAttribute(`data-${globalSettingsAttrName}`)
+      this.rootEl.removeAttribute(`${this.#spritePathAttr}`)
     }
-
-    this
-      .addComponent(lazyLoad, [50, 'data-error'])
-      .addComponent(formValidation)
-      .addComponent(modal)
-      .addComponent(toasts)
-      .addComponent(selectDropdown)
-    ;
   }
 
   addComponent(fn, initialArgs = []) {
@@ -59,97 +70,96 @@ export default class Page extends Model {
 
       const component = fn.call(this, ...initialArgs);
 
-      if (component instanceof Component) this.#components[component.name] = component;
+      if (component instanceof Component) {
+        if (component?.options?.name && is.undefined(this.components[component.options.name])) {
+          this.components[component.options.name] = component;
 
+          if (!component?.initialized && is.function(component.init)) component.init()
+        }
+      }
     }
+
     return this;
   }
 
-  processComponents(action, components = this.#components) {
-    forIn(components, (key, component) => {
-      if (is.undefined(this[key])) this[key] = component;
+  destroyComponent(name) {
+    if (this.components.hasOwnProperty(name)) {
+      const component = this.components[name];
 
-      if (is.function(component[action])) {
-        component[action]()
+      if (component instanceof Component && component.initialized && is.function(component.destroy)) {
+        component.destroy();
+
+        delete this.components[name];
       }
-    })
+    }
+  };
+
+  removeComponents(arg) {
+    if (is.undefined(arg)) {
+      Object.entries(this.components).forEach(([name, component]) => this.destroyComponent(name));
+    } else if (is.array(arg) && arg.length > 0) {
+      arg.forEach(componentName => this.destroyComponent(componentName))
+    } else if (is.string(arg) && arg.length > 0) {
+      this.destroyComponent(arg)
+    }
   }
 
-  processResizeMethod(action, method) {
-    switch (action) {
-      case 'add':
-        method.call(this);
+  addResizeDependentMethod(method) {
+    if (is.function(method)) {
+
+      if (this.resizeDependentMethods.indexOf(method) < 0) {
         $events.resize('on', method);
-        break;
-
-      case 'remove':
-        $events.resize('off', method);
-        break;
-    }
-  }
-
-  resizeDependentMethods(action) {
-    this.options.resizeMethods = this.options.resizeMethods.map(target => {
-
-      if (is.function(target)) {
-        this.processResizeMethod(action, target);
-
-        if (action === 'add') {
-          const fnName = Boolean(target.name) ? target.name : generateId();
-
-          return {
-            [fnName]: target,
-            processed: true
-          }
-        }
-
-        return {}
-      } else {
-        return action === 'add' ? target : {};
+        this.resizeDependentMethods.push(method);
       }
-    });
-  }
 
-  addResizeDependMethod(method) {
-
-    this.options.resizeMethods = [...this.options.resizeMethods, method];
-
-    this.resizeDependentMethods('add');
-  }
-
-  removeResizeDependMethod(method) {
-
-    if (Boolean(method.name)) {
-      const target = this.options.resizeMethods.find(obj => {
-        return obj.hasOwnProperty(method.name) && is.function(obj[method.name])
-      });
-
-      if (Boolean(target) && target.processed && is.function(target[method.name])) {
-        this.processResizeMethod('remove', method);
-        this.options.resizeMethods = this.options.resizeMethods.filter(m => m !== target);
-      } else {
-        warn('Required method not found!', 'Page class, removeResizeDependMethod')
-      }
-    } else {
-      warn('When deleting a resize depend method please use named functions', 'Page class, removeResizeDependMethod')
     }
+    return this
+  }
+
+  removeResizeDependentMethod(method) {
+
+    if (is.undefined(method)) {
+      if (this.resizeDependentMethods.length > 0) {
+        this.resizeDependentMethods = this.resizeDependentMethods.filter(m => {
+          $events.resize('off', m);
+          return false
+        })
+      }
+      return this;
+    }
+
+    const indOf = this.resizeDependentMethods.indexOf(method);
+    if (indOf !== -1) {
+      this.resizeDependentMethods = this.resizeDependentMethods.splice(indOf, 1);
+      $events.resize('off', method);
+    }
+
+    return this
   }
 
   init() {
-    this.processComponents('init');
-    this.resizeDependentMethods('add');
+    try {
+      this
+        .addComponent(lazyLoad, [200, 'data-error'])
+        .addComponent(formValidation)
+        .addComponent(modal)
+        .addComponent(toasts)
+        .addComponent(selectDropdown)
+      ;
 
-    super.init(this);
+      super.init(this);
+    } catch (e) {console.error(e)}
+
     return this;
   }
 
   destroy() {
-    this.processComponents('destroy');
-    this.resizeDependentMethods('remove');
+    try {
+      this.removeComponents();
 
-    this.initialized = false;
 
-    super.destroy(this);
+      super.destroy(this);
+    } catch (e) {console.error(e)}
     return this;
   }
 }

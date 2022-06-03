@@ -4,38 +4,36 @@ import variables from '../variables';
 import {isElement} from '../helpers/_utilities';
 import {$dom} from '../helpers/dom';
 
-const {
-  lazyLoaded,
-  error
-} = variables.classNames;
+const {lazyLoaded, error} = variables.classNames;
+const {get, attr} = $dom;
 
-const {
-  get,
-  attr
-} = $dom;
+const
+  wrapperSelector = '.js-lazy-image',
+  elementSelector = '.js-lazy-image-element',
+  loaderSelector = '.js-lazy-image-loader'
+;
 
 export function lazyLoad(
   threshold = 0,
   errorAttr = 'data-error',
-  wrapperSelector = '.js-lazy-image',
-  elements_selector = '.js-lazy-image-element',
-  loaderSelector = '.js-lazy-image-loader',
+  dataSrcAttr = 'lazy-src',
+  dataBgAttr = 'lazy-bg'
 ) {
 
   return new Component({
     name: 'lazyLoad',
-    requiredSelector: elements_selector,
+    requiredTargets: elementSelector,
     onCreate() {
       this.lazyInstance = null
     },
     onInit() {
       this.lazyInstance = new LazyLoad({
         threshold,
-        elements_selector: elements_selector,
+        elements_selector: elementSelector,
         class_loaded: lazyLoaded,
         class_error: error,
-        data_src: 'lazy-src',
-        data_bg: 'lazy-bg',
+        data_src: dataSrcAttr,
+        data_bg: dataBgAttr,
         callback_loaded(el) {
           const wrapper = el.closest(wrapperSelector);
           el.removeAttribute(errorAttr);

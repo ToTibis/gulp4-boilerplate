@@ -14,14 +14,15 @@ const {
     } else {
         root.Toastify = factory();
     }
-})(this, function(global) {
+
+})(window, function() {
     const
         Toastify = options => new Toastify.lib.init(options),
         rootClassName = 'toast',
         activeClassName = variables.classNames.active
     ;
-    let adaptiveBreakpoint = null;
 
+    let adaptiveBreakpoint = null;
 
     Toastify.defaults = {
         oldestFirst: true,
@@ -73,7 +74,7 @@ const {
             this.options.style.background = '' || options.backgroundColor;
             this.options.breakpoint = options.breakpoint || Toastify.defaults.breakpoint;
 
-            adaptiveBreakpoint = this.options.breakpoint
+            adaptiveBreakpoint = this.options.breakpoint;
 
             return this;
         },

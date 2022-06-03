@@ -1,9 +1,7 @@
 const variables = {
-	$EXTERNAL_API_NAME: '$HELPERS',
 	gsapDefaultDuration: .25,
   carouselDefaultDuration: 800,
 	resizeDebounce: 100,
-  globalSettingsAttrName: 'paths',
 	debugLogs: true,
 	debugLogsDisabledNotify: true,
 	customEventNames: {

@@ -2,32 +2,32 @@ import Component from '../../classes/Component';
 import {$dom} from '../../helpers/dom';
 import is from 'is_js';
 import {forIn, generateId, warn} from '../../helpers/_utilities';
-import bootstrapComponents from '../bootstrap'
 import notify from './notify'
 
-const {
-  get,
-  exist,
-  callAll
-} = $dom;
+const {get, exist, callAll} = $dom;
 
-const {Modal} = bootstrapComponents;
+const modalSelector = '.js-modal';
 
-export default function modal(
-  modalSelector = '.js-modal'
-) {
+export default function modal() {
 
   const $Page = this;
 
+  const createModal = modalEl => {
+    modalEl.modalId = generateId();
+
+    return {instance: $Page.bootstrap.Modal.getOrCreateInstance(modalEl), id: modalEl.modalId}
+  };
+
   return new Component({
     name: 'modal',
-    requiredSelector: undefined,
+    requiredTargets: 'STAND_ALONE',
     onCreate() {
       this.modals = {};
     },
     onInit() {
+      this.notify = notify.call($Page, this);
 
-      this.modalIsCashed = modalId => this.modals.hasOwnProperty(modalId);
+      this.modalIsCashed = id => this.modals.hasOwnProperty(id);
 
       this.checkElementExist = (id, cb = null) => {
         if (exist('#'+id)) {
@@ -41,29 +41,43 @@ export default function modal(
 
       this.open = id => {
         this.checkElementExist(id, elem => {
-          if (this.modalIsCashed(elem.modalId))
+          if (this.modalIsCashed(elem.modalId)) {
             this.modals[elem.modalId].show()
+          } else {
+            const {instance,id} = createModal(elem);
+
+            this.modals[id] = instance;
+
+            this.modals[id].show()
+          }
         })
       };
 
       this.close = (id = null) => {
+        this.notify.hide();
+
         if (is.null(id)) {
           forIn(this.modals, (_, modal) => modal.hide())
         } else {
           this.checkElementExist(id, elem => {
-            if (this.modalIsCashed(elem.modalId))
+            if (this.modalIsCashed(elem.modalId)) {
               this.modals[elem.modalId].hide()
+            } else {
+              const {instance,id} = createModal(elem);
+
+              this.modals[id] = instance;
+
+              this.modals[id].hide()
+            }
           })
         }
       };
 
-      this.notify = notify.call($Page);
 
       if (exist(modalSelector)) {
         callAll(modalSelector, modalEl => {
-          modalEl.modalId = generateId();
-
-          this.modals[modalEl.modalId] = new Modal(modalEl);
+          const {instance,id} = createModal(modalEl);
+          this.modals[id] = instance;
         });
       }
 

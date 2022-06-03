@@ -1,9 +1,6 @@
 import {$dom} from "./dom";
-import {$events} from "./events";
-import variables from "../variables";
 import is from 'is_js';
-import {$data} from "./data";
-import {optimizeTarget, filterStringArgs, toDashesCase, cssPropertyToCamelCase} from './_utilities';
+import {optimizeTarget, filterStringArgs, toDashesCase, toCamelCase} from './_utilities';
 
 export const $style = (function () {
 
@@ -31,7 +28,7 @@ export const $style = (function () {
 			if (is.object(property)) {
 				for (let [key, value] of Object.entries(property)) el.style[key] = value
 			} else if(is.string(property) && is.string(value)) {
-				el.style[cssPropertyToCamelCase(property)] = value
+				el.style[toCamelCase(property)] = value
 			}
 		});
 
@@ -82,4 +79,4 @@ export const $style = (function () {
 
 	return localAPIs;
 
-})(window);
+})();

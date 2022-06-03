@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Description of the page less than 150 characters">
+    <title>Ui kit</title>
+    <link rel="stylesheet" href="css/libs.css">
+    <link rel="stylesheet" href="css/common.css">
+  </head>
+  <body>
+    <div class="page page--ui" id="js-page-regular" data-sprite-path="img/">
+      <div class="page__wrapper" id="js-page-wrapper">
+        <div class="page__content">
+          <header class="header js-header py-3">
+            <div class="container">
+              <div class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                  <h2><a class="d-inline-block" href="index.html">Logo</a></h2>
+                </div>
+                <div class="col-auto">
+                  <button type="button" data-bs-toggle="offcanvas" data-bs-target="#js-offcanvas-menu">
+                        <svg class="svg-icon" width="30px" height="30px">
+                          <use xlink:href="img/sprite.svg#menu"></use>
+                        </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </header>
+          <main class="py-5">
+            <div class="container">
+                  <ul class="breadcrumbs">
+                    <li class="breadcrumbs__item"><a class="breadcrumbs-link" href="home.html">Главная</a>
+                    </li>
+                    <li class="breadcrumbs__item"><span class="breadcrumbs__current">UI Kit</span>
+                    </li>
+                  </ul>
+            </div>
+            <div class="container">
+                  <h1 class="title">Заголовок 1 уровня</h1>
+                  <h2 class="title">Заголовок 2 уровня</h2>
+                  <h3 class="title">Заголовок 3 уровня</h3>
+                  <h4 class="title">Заголовок 4 уровня</h4>
+                  <h5 class="title">Заголовок 5 уровня</h5>
+                  <h6 class="title">Заголовок 6 уровня</h6>
+              <hr class="my-4">
+              <p><strong>Example text default paragraph:  </strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aspernatur beatae distinctio dolorem dolorum ex harum, nesciunt nisi nobis praesentium quam quasi quod quos suscipit, ullam voluptates voluptatum? Nobis, totam!</p>
+              <p class="text-primary"><strong>Example text primary paragraph:  </strong>Example text primary paragraph: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aspernatur beatae distinctio dolorem dolorum ex harum, nesciunt nisi nobis praesentium quam quasi quod quos suscipit, ullam voluptates voluptatum? Nobis, totam!</p>
+              <p class="text-danger"><strong>Example text danger paragraph:  </strong>Example text danger paragraph: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aspernatur beatae distinctio dolorem dolorum ex harum, nesciunt nisi nobis praesentium quam quasi quod quos suscipit, ullam voluptates voluptatum? Nobis, totam!</p>
+              <p><small>Example text small</small></p>
+              <p><strong>Example text strong</strong></p>
+              <hr class="my-4">
+                  <button class="button button--default border rounded px-4 py-2" type="submit" data-bs-toggle="modal" data-bs-target="#js-example-modal"><span class="button__content">Button default</span></button>
+              <hr class="my-4">
+              <div class="row">
+                <div class="col-4">
+                      <div class="form__group">
+                        <label class="form__label">Default select:</label>
+                        <select class="form__select px-4 py-2">
+                          <option value="Default select option 1">Default select option 1</option>
+                          <option value="Default select option 2" selected>Default select option 2</option>
+                          <option value="Default select option 3">Default select option 3</option>
+                        </select>
+                      </div>
+                </div>
+                <div class="col-4">
+                      <div class="form__group" data-select-dropdown>
+                        <label class="form__label">Custom select:</label>
+                        <div class="form__field form__dropdown">
+                          <button class="form__dropdown-button border rounded py-2 px-3 text-ellipsis" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-select-dropdown-button>
+                            <div data-select-dropdown-selected>
+                              <div class="spinner-border spinner-border-sm"></div>
+                            </div>
+                                <svg class="svg-icon">
+                                  <use xlink:href="img/sprite.svg#arrow-down"></use>
+                                </svg>
+                          </button>
+                          <div class="form__dropdown-dropdown dropdown-menu" data-select-dropdown-menu>
+                            <ul class="form__dropdown-list">
+                              <li class="form__dropdown-list-item p-3" data-value="Custom select option 1" data-select-dropdown-option>Custom select option 1</li>
+                              <li class="form__dropdown-list-item p-3" data-value="Custom select option 2" data-select-dropdown-option>Custom select option 2</li>
+                              <li class="form__dropdown-list-item is-selected p-3" data-value="Custom select option 3" data-select-dropdown-option>Custom select option 3</li>
+                            </ul>
+                          </div>
+                        </div>
+                        <input hidden type="text" data-select-dropdown-output>
+                      </div>
+                </div>
+              </div>
+              <form class="js-form-validate">
+                <div class="row py-4">
+                  <div class="col-md-6 col-lg-auto">
+                        <div class="form__group">
+                          <label class="form__radio">
+                            <input class="visually-hidden" type="radio" checked name="ui-radio"><span class="radio__content">Radio 1</span>
+                          </label>
+                        </div>
+                  </div>
+                  <div class="col-md-6 col-lg-auto">
+                        <div class="form__group">
+                          <label class="form__radio">
+                            <input class="visually-hidden" type="radio" name="ui-radio"><span class="radio__content">Radio 2</span>
+                          </label>
+                        </div>
+                  </div>
+                  <div class="col-md-6 col-lg-auto">
+                        <div class="form__group">
+                          <label class="form__checkbox">
+                            <input class="visually-hidden" type="checkbox" checked name="ui-checkbox"><span class="checkbox__content">Checkbox 1</span>
+                          </label>
+                        </div>
+                  </div>
+                  <div class="col-md-6 col-lg-auto">
+                        <div class="form__group js-group-validate">
+                          <label class="form__checkbox">
+                            <input class="visually-hidden js-field-validate" type="checkbox" name="ui-checkbox" required><span class="checkbox__content">Checkbox 2</span>
+                          </label>
+                        </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-lg-4">
+                        <div class="form__group js-group-validate">
+                          <label class="form__label">Textarea example:</label>
+                          <textarea class="form__field border rounded py-2 px-3 js-field-validate" rows="3" required placeholder="Textarea placeholder" data-validate-length="3"></textarea>
+                        </div>
+                  </div>
+                  <div class="col-md-6 col-lg-4">
+                        <div class="form__group js-group-validate">
+                          <label class="form__label">Text input example:</label>
+                          <input class="form__field border rounded py-2 px-3 js-field-validate" type="text" required placeholder="Text input placeholder">
+                        </div>
+                  </div>
+                  <div class="col-md-6 col-lg-4">
+                        <div class="form__group js-group-validate">
+                          <label class="form__label">Number input example:</label>
+                          <input class="form__field border rounded py-2 px-3 js-field-validate" type="number" required placeholder="Number input placeholder">
+                        </div>
+                  </div>
+                </div>
+                    <button class="button button--default border rounded px-4 py-2" type="submit"><span class="button__content">Submit</span></button>
+              </form>
+              <hr class="my-4">
+              <div class="row gx-3 py-4">
+                <div class="col-auto">
+                  <div class="spinner-border text-primary"></div>
+                </div>
+                <div class="col-auto">
+                  <div class="spinner-border text-secondary"></div>
+                </div>
+                <div class="col-auto">
+                  <div class="spinner-border text-success"></div>
+                </div>
+                <div class="col-auto">
+                  <div class="spinner-border text-danger"></div>
+                </div>
+              </div>
+              <hr class="my-4">
+              <div class="row py-4">
+                <div class="col-sm-6">
+                  <p>Lazy image as img and width broken url:</p>
+                  <div class="ratio ratio-16x9">
+                        <div class="js-lazy-image lazy__image w-100 h-100">
+                          <picture>
+                            <source data-lazy-srcset="img/v8.webp" type="image/webp">
+                            <!--img(src='img/v8.png' alt='Альтернативное описание')--><img class="lazy__image-element js-lazy-image-element w-100 h-100 w-100" data-lazy-src="https://picsum.photos/i/0/1600/900" alt="Альтернативное описание"><span class="lazy__image-loader js-lazy-image-loader"><span class="spinner-border text-secondary" role="status"></span></span>
+                          </picture>
+                        </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <p>Lazy image as background:</p>
+                  <div class="ratio ratio-16x9">
+                        <div class="js-lazy-image lazy__image w-100 h-100">
+                          <div class="lazy__image-element js-lazy-image-element w-100 h-100" data-lazy-bg="https://picsum.photos/id/10/1600/900"></div>
+                          <div class="lazy__image-loader js-lazy-image-loader">
+                            <div class="spinner-border text-secondary" role="status"></div>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+        <footer class="footer js-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <h2 class="text-center">Footer</h2>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <div class="modal js-modal fade modal--example" id="js-example-modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <button class="modal-close ms-auto d-flex align-items-center" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><span class="me-3">Закрыть</span>
+                <svg class="svg-icon">
+                  <use xlink:href="img/sprite.svg#close"></use>
+                </svg>
+          </button>
+          <div class="modal-body">
+                <h2 class="title title--sub-large mb-5">Hello, friend!</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="offcanvas offcanvas-end" id="js-offcanvas-menu" aria-hidden="true" data-bs-backdrop="true">
+      <div class="offcanvas-header">
+            <h4 class="title mb-0">Offcanvas menu</h4>
+        <button type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+              <svg class="svg-icon" width="20px" height="20px">
+                <use xlink:href="img/sprite.svg#close"></use>
+              </svg>
+        </button>
+      </div>
+      <div class="offcanvas-body">
+        <nav class="row g-3 text-center">
+          <div class="col-12"><a class="button button--default w-100 border rounded px-4 py-2 false" href="home.html"><span class="button__content">Home</span></a>
+          </div>
+          <div class="col-12"><a class="button button--default w-100 border rounded px-4 py-2  text-decoration-underline" href="ui.html"><span class="button__content">Ui kit</span></a>
+          </div>
+          <div class="col-12"><a class="button button--default w-100 border rounded px-4 py-2 false" href="index.html"><span class="button__content">Pages</span></a>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <script src="js/vendors.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

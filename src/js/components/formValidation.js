@@ -16,23 +16,23 @@ const {
 } = $dom;
 
 const {formValidationMessages} = variables;
-
-export function formValidation(
+const
   formSelector = '.js-form-validate',
   formGroupSelector = '.js-group-validate',
   formFieldSelector = '.js-field-validate',
   notifyClassName = 'form__group-notify',
   needValidateClassName = 'is-need-validate'
-) {
+;
+
+export function formValidation() {
 
   return new Component({
     name: 'formValidation',
-    requiredSelector: formSelector,
+    requiredTargets: formSelector,
     onCreate() {
       this.validator = null;
     },
     onInit() {
-
       this.validator = new FormValidator({
         classes: {
           item: formGroupSelector.replace('.', ''),

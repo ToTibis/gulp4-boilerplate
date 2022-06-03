@@ -15,16 +15,17 @@ const {
 	addClass
 } = $dom;
 
-export default function selectDropdown(
-	rootSelector = '[data-select-dropdown]',
 
-	buttonSelector ='[data-select-dropdown-button]',
-	menuSelector ='[data-select-dropdown-menu]',
-	selectedOutputSelector = '[data-select-dropdown-selected]',
-	optionSelector ='[data-select-dropdown-option]',
-	outputSelector ='[data-select-dropdown-output]',
-	valueAttr = 'data-value'
-) {
+const
+  rootSelector = '[data-select-dropdown]',
+  buttonSelector ='[data-select-dropdown-button]',
+  menuSelector ='[data-select-dropdown-menu]',
+  selectedOutputSelector = '[data-select-dropdown-selected]',
+  optionSelector ='[data-select-dropdown-option]',
+  outputSelector ='[data-select-dropdown-output]'
+;
+
+export default function selectDropdown(valueAttr = 'data-value') {
 
 	const selectedState = variables.classNames.selected;
 
@@ -72,18 +73,18 @@ export default function selectDropdown(
 
 	return new Component({
 		name: 'selectDropdown',
-		requiredSelector: rootSelector,
+    requiredTargets: rootSelector,
 		onInit() {
 			callAll(rootSelector, checkOptions);
 
 			$events.delegate
-				.on('click tap', rootSelector, handleClick)
+				.on('click', rootSelector, handleClick)
 				.on('show.bs.dropdown', rootSelector, handleToggle)
 				.on('hide.bs.dropdown', rootSelector, handleToggle)
 		},
 		onDestroy() {
 			$events.delegate
-				.off('click tap', rootSelector, handleClick)
+				.off('click', rootSelector, handleClick)
 				.off('show.bs.dropdown', rootSelector, handleToggle)
 				.off('hide.bs.dropdown', rootSelector, handleToggle)
 			;

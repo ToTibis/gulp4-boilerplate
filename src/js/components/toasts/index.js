@@ -1,10 +1,8 @@
 import {$data} from '../../helpers/data';
 import Component from '../../classes/Component';
-import Toastify from './Toastify';
-import variables from '../../variables';
+import './Toastify';
 
 const {merge} = $data;
-const {globalSettingsAttrName} = variables;
 
 export default function(settings = {}) {
 
@@ -13,7 +11,7 @@ export default function(settings = {}) {
     newWindow: true,
     close: true,
     gravity: 'top',
-    position: 'right',
+    position: 'left',
     stopOnFocus: true,
     escapeMarkup: false
   };
@@ -32,13 +30,16 @@ export default function(settings = {}) {
 
   return new Component({
     name: 'toast',
-    requiredSelector: undefined,
+    requiredTargets: 'STAND_ALONE',
     onInit() {
+
       this.show = function (text = '', status = 'info') {
-        return Toastify(merge(pluginOptions, {
+
+        return window.Toastify(merge(pluginOptions, {
           text,
+          close: false,
           className: 'status--'+status,
-          icon: `<svg class="svg-icon"><use xlink:href="${$Page[globalSettingsAttrName].images}/sprite.svg#${icons[status]}"></use></svg>`
+          icon: `<svg class="svg-icon"><use xlink:href="${$Page.spritePath}sprite.svg#${icons[status]}"></use></svg>`
         })).showToast();
       }
     }

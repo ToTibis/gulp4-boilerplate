@@ -16,6 +16,12 @@ export function toDashesCase(string) {
 	return  string.replace(/[A-Z]/g, m => '-' + m.toLowerCase())
 }
 
+export function toCamelCase(string) {
+  return string.replace( /-([a-z])/g, function( _all, letter ) {
+    return letter.toUpperCase();
+  });
+}
+
 export function isElement(target){
 	return (
 		typeof HTMLElement === 'object' ? target instanceof HTMLElement :
@@ -35,7 +41,9 @@ export function filterStringArgs(targets) {
 }
 
 export function optimizeTarget(target) {
-	return is.not.array(target) && !isElement(target) && target !== window ? document.querySelector(target) : target;
+	return (is.not.array(target) && !isElement(target) && target !== window && target !== document)
+    ? document.querySelector(target)
+    : target;
 }
 
 export function preventDefault(event) {
@@ -43,21 +51,19 @@ export function preventDefault(event) {
 	return event;
 }
 
-export function sleep(ms) {
-	let tm = null;
-	return new Promise(resolve => {
-		tm = setTimeout(resolve, ms);
-	}).then(() => {
-		clearTimeout(tm);
-		tm = null;
-	});
-}
-
 export function loop(arr, cb) {
   if (is.not.array(arr) || is.not.function(cb)) return;
 
   for (let i = 0; i < arr.length; i++) {
     cb.call(arr[i], arr[i], i)
+  }
+}
+
+export function forIn(obj, cb) {
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      cb.call(obj[key], key, obj[key])
+    }
   }
 }
 
@@ -71,12 +77,6 @@ export function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
 }
 
-export function cssPropertyToCamelCase(string) {
-  return string.replace( /-([a-z])/g, function( _all, letter ) {
-    return letter.toUpperCase();
-  });
-}
-
 export function generateId(usePostfix = true) {
 
   const postfix = '--' + getRandomInt(0, 10000);
@@ -86,12 +86,4 @@ export function generateId(usePostfix = true) {
 
 export function addZero(val) {
   return ('0' + val).slice(-2);
-}
-
-export function forIn(obj, cb) {
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      cb.call(obj[key], key, obj[key])
-    }
-  }
 }

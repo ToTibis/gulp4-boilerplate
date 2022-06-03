@@ -1,19 +1,13 @@
 import templates from './templates';
 import {generateId} from '../../../helpers/_utilities';
 import {$dom} from '../../../helpers/dom';
-import bootstrapComponents from '../../bootstrap'
 import is from 'is_js';
 import {$data} from '../../../helpers/data';
 import {$events} from '../../../helpers/events';
-import variables from '../../../variables';
-
-const {Modal} = bootstrapComponents;
 
 const {append, get, createElement, text, createElementFromString, remove, hasClass} = $dom;
 
-const {globalSettingsAttrName} = variables;
-
-export default function (opts = {
+export default function (ModalComponent, opts = {
   embedPoint: document.body,
   closeText: 'Закрыть',
   closeIcon: 'close'
@@ -21,10 +15,12 @@ export default function (opts = {
 
   let currentModal = null;
   const $Page = this;
+  const {Modal} = $Page.bootstrap;
 
   let
     show = (p = {}) => {
-      if (!$Page.initialized) return currentModal;
+
+      if (!ModalComponent.initialized) return currentModal;
 
       const defaults = {
         title: {
@@ -82,6 +78,7 @@ export default function (opts = {
     }
     ;
 
+
   const
     id = generateId(false),
     createTemplate = () => {
@@ -92,7 +89,7 @@ export default function (opts = {
         body = templates.body(),
         close = templates.close(),
         closeText = templates.closeText(opts.closeText),
-        closeIcon = templates.closeIcon($Page[globalSettingsAttrName].images, opts.closeIcon)
+        closeIcon = templates.closeIcon($Page.spritePath, opts.closeIcon)
       ;
 
       append(close, closeText);

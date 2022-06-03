@@ -1,0 +1,40 @@
+block mainVariables
+
+doctype html
+html(lang='ru')
+	head
+		meta(charset='UTF-8')
+		meta(http-equiv='x-ua-compatible' content="ie=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		meta(name="description" content="Description of the page less than 150 characters")
+		title #{pageTitle}
+		link(rel="stylesheet" href="css/libs.css")
+		link(rel="stylesheet" href="css/common.css")
+	body
+
+		include ../mixins/icon
+		include ../mixins/breadcrumbs
+		include ../mixins/title
+		include ../mixins/button
+		include ../mixins/field
+		include ../mixins/lazyImage
+
+		div(
+			class=[
+				'page',
+				pageRootClass && `page--${pageRootClass}`
+			]
+			id=pageId || 'js-page-regular'
+			data-sprite-path='img/'
+		)
+			div(class='page__wrapper' id='js-page-wrapper')
+				div(class='page__content')
+					include ../components/header
+					main.py-5
+						block mainContent
+				include ../components/footer
+		include ../components/modal/example
+		include ../components/menu
+
+		script(src='js/vendors.js')
+		script(src='js/main.js')
