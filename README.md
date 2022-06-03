@@ -25,7 +25,7 @@ For **production** mode run command:
  ```
 And others:
 
-|            |        |
+|       Command     |        Description|
 |:----------         |:-------------|
 | $ npm run pug       |    generate html |
 | $ npm run clear     |    delete public directory   |
