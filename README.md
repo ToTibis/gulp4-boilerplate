@@ -56,7 +56,98 @@ Processing using [Sass](https://github.com/sass/sass), scss syntax.
 
 ### Javascript:
 You can use Javascript ES6 modules - Javascript is processing by [Webpack 5](https://github.com/webpack/webpack) to handle Javascript.
-Тow everything is built on the interaction of two entities - Page and Component. You can find examples in the code.
+Everything is built on the interaction of two entities - Page and Component.
+
+Example Component:
+
+  ```javascript
+  export default function() {
+    // here your code, context is Page
+    // from the context you can get, for example - Page.spritePath or Page.bootstrap.Modal
+
+    // Be sure to return an instance of the component class
+    return new Component({
+      name: 'lazyLoad', // required field
+
+      requiredTargets: '.js-lazy-image', // required field
+      // may be string 'STAND_ALONE' - if the logic of the component does not depend on DOM elements
+      // or selector
+
+      onCreate() { 
+        // here your code, context is Component, for example - 
+        this.lazyInstance = null
+      },
+      // is always called
+
+      onInit() {
+        // here your code, context is Component, for example -
+        this.lazyInstance = new LazyLoad()
+      },
+      // called if 'requiredTargets' is valid
+
+      onDestroy() {
+        // here your code, context is Component, for example -
+        if (this.lazyInstance instanceof LazyLoad) {
+            this.lazyInstance.destroy();
+            this.lazyInstance = null
+        }
+      }
+      // called if we call, for example - currentPage.components.lazyLoad.destroy()
+    })
+  }
+  ```
+
+Example Page:
+
+  ```javascript
+
+  const resizeCallback = event => {
+    console.log('hello, i\'am resizeCallback, event is ', event)
+  };
+
+  const resizeRepeatCallback = event => {
+    console.log('hello, i\'am resizeRepeatCallback, event is ', event)
+  };
+
+  const homePage = new Page({
+    name: 'home',
+    rootElementId: 'js-page-home', // required field
+    onCreate() {
+      // here your code, context is Page
+      this.someField = null;
+    },
+    // is always called
+
+    onInit() {
+      // here your code, context is Page, example -
+
+      this
+          .addResizeDependentMethod(resizeCallback)
+          .addResizeDependentMethod(resizeRepeatCallback)
+      ;
+
+      this.addComponent(lazyLoad); // Component lazyLoad
+
+      setTimeout(() => {
+        this
+          .removeComponents('lazyLoad')
+          .removeResizeDependentMethod(resizeRepeatCallback)
+      }, 1000);
+    },
+    // called if 'rootElementId' is provided and root element found
+
+    onDestroy() {
+      // here your code, context is Page
+
+      console.log('HomePage destroy')
+    },
+    // called if we call, for example - currentPage.destroy() - destroyed and all associated components!
+  });
+  
+  export default homePage;
+  ```
+
+ 
 
 #### The following sources were used to write it:
 - [The Vanilla JS Toolkit](https://vanillajstoolkit.com/) - A collection of JavaScript methods, helper functions, plugins, boilerplates, polyfills, and learning resources;

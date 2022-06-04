@@ -3,11 +3,11 @@ import {$data} from '../helpers/data';
 import is from 'is_js';
 import {$events} from '../helpers/events';
 import Model from './Model';
-import {lazyLoad} from '../components/lazyLoad';
 import Component from './Component';
 import {formValidation} from '../components/formValidation';
 import modal from '../components/modal';
 import toasts from '../components/toasts';
+import lazyLoad from '../components/lazyLoad';
 import selectDropdown from '../components/selectDropdown';
 import {$dom} from '../helpers/dom';
 import {$style} from '../helpers/style';
@@ -92,6 +92,8 @@ export default class Page extends Model {
         delete this.components[name];
       }
     }
+
+    return this;
   };
 
   removeComponents(arg) {
@@ -102,6 +104,8 @@ export default class Page extends Model {
     } else if (is.string(arg) && arg.length > 0) {
       this.destroyComponent(arg)
     }
+
+    return this;
   }
 
   addResizeDependentMethod(method) {
@@ -156,7 +160,7 @@ export default class Page extends Model {
   destroy() {
     try {
       this.removeComponents();
-
+      this.removeResizeDependentMethod();
 
       super.destroy(this);
     } catch (e) {console.error(e)}

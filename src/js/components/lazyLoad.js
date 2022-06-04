@@ -13,7 +13,7 @@ const
   loaderSelector = '.js-lazy-image-loader'
 ;
 
-export function lazyLoad(
+export default function(
   threshold = 0,
   errorAttr = 'data-error',
   dataSrcAttr = 'lazy-src',

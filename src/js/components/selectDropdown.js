@@ -25,7 +25,7 @@ const
   outputSelector ='[data-select-dropdown-output]'
 ;
 
-export default function selectDropdown(valueAttr = 'data-value') {
+export default function (valueAttr = 'data-value') {
 
 	const selectedState = variables.classNames.selected;
 

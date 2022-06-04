@@ -1,22 +1,24 @@
 mixin lazyImage(data)
 
 	- tag = data.tag || 'div';
+	- imagesFormats = ['png','jpg','jpeg','gif','svg'];
+	- isWebp = !imagesFormats.some(ext => data.imageSrc.includes(ext))
+	- imageSrc = isWebp ? data.imageSrc+'.webp' : data.imageSrc;
 
-		#{tag}(class=['js-lazy-image', 'lazy__image', data.classes || null])
-			case data.type
-				when 'img'
-					picture
-						source(data-lazy-srcset='img/v8.webp' type='image/webp')
-						//img(src='img/v8.png' alt='Альтернативное описание')
-						img(
-							data-lazy-src=data.imageSrc || null
-							alt=data.imageAlt || 'Альтернативное описание'
-							class=['lazy__image-element', 'js-lazy-image-element', data.imageClasses || null]
-						).w-100
-						span.lazy__image-loader.js-lazy-image-loader
-							span(class=['spinner-border text-secondary'] role='status')
+	#{tag}(class=['js-lazy-image', 'lazy__image', data.classes || null])
+		case data.type
+			when 'img'
+				picture.d-block.h-100
+					source(data-lazy-srcset=imageSrc || null type='image/webp').js-lazy-image-element
+					img(
+						data-lazy-src=imageSrc || null
+						alt=data.imageAlt || 'Альтернативное описание'
+						class=['lazy__image-element', 'js-lazy-image-element', data.imageClasses || null]
+					).w-100
+					span.lazy__image-loader.js-lazy-image-loader
+						span(class=['spinner-border text-secondary'] role='status')
 
-				when 'background'
-					div(class=['lazy__image-element', 'js-lazy-image-element', data.imageClasses || null] data-lazy-bg=data.imageSrc)
-					.lazy__image-loader.js-lazy-image-loader
-						div(class=['spinner-border text-secondary'] role='status')
+			when 'background'
+				div(class=['lazy__image-element', 'js-lazy-image-element', data.imageClasses || null] data-lazy-bg=imageSrc)
+				.lazy__image-loader.js-lazy-image-loader
+					div(class=['spinner-border text-secondary'] role='status')
