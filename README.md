@@ -63,9 +63,9 @@ Example Component:
   ```javascript
   export default function() {
     // here your code, context is Page
-    // from the context you can get, for example - Page.spritePath or Page.bootstrap.Modal
+    // from the context you can get, for example, Page.spritePath or Page.bootstrap.Modal
 
-    // Be sure to return an instance of the component class
+    // Be sure to return an instance of the Component class
     return new Component({
       name: 'lazyLoad', // required field
 
@@ -92,7 +92,7 @@ Example Component:
             this.lazyInstance = null
         }
       }
-      // called if we call, for example - currentPage.components.lazyLoad.destroy()
+      // called if we call, for example, currentPage.components.lazyLoad.destroy()
     })
   }
   ```
@@ -141,7 +141,7 @@ Example Page:
 
       console.log('HomePage destroy')
     },
-    // called if we call, for example - currentPage.destroy() - destroyed and all associated components!
+    // called if we call, for example, currentPage.destroy() - destroyed and all associated components!
   });
   
   export default homePage;

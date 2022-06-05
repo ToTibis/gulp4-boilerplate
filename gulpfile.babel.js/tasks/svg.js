@@ -8,9 +8,14 @@ export default () => {
   return gulp.src(paths.svg.src)
     .pipe(svgmin({
       plugins: [
-        {
-          name: 'preset-default',
-        }
+	      {
+		      name: 'removeViewBox',
+		      active: false
+	      },
+	      'removeDimensions',
+	      'removeXMLNS',
+	      'removeRasterImages',
+	      'removeStyleElement',
       ]
     }))
     .pipe(svgStore())

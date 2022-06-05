@@ -39,7 +39,7 @@ export default class Page extends Model {
 
     if (is.not.domNode(this.rootEl)) {
       if (this.options.debug)
-        warn(`Instance Page with name "${this.name}" has no root element provided`, 'Class Page')
+        warn(`Instance Page with name "${this.options.name}" has no root element provided`, 'Class Page')
       return;
     }
 
