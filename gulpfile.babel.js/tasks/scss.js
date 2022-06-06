@@ -5,7 +5,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const debug = require('gulp-debug');
 const sass = require('gulp-sass')(require('node-sass'));
-const plumber = require('gulp-plumber');
 const stripCssComments = require('gulp-strip-css-comments');
 
 import paths from '../paths';
@@ -19,12 +18,11 @@ import {browserSyncInstance} from './server';
       .pipe(stripCssComments())
       .pipe(gulp.dest(paths.scss.dest))
     : gulp.src(paths.scss.src, {since: gulp.lastRun(processScss)})
-      .pipe(plumber())
       .pipe(debug({title: 'cache pass:'}))
       .pipe(dependents())
       .pipe(debug({title: 'dependents:'}))
       .pipe(sourcemaps.init())
-      .pipe(sass({outputStyle: 'compact'}))
+		  .pipe(sass({outputStyle: 'compact'}).on('error', sass.logError))
       .pipe(autoprefixer())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(paths.scss.dest))
