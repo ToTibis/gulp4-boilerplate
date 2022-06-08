@@ -402,15 +402,15 @@ Example Page:
   const {add} = $events;
   const {getAll, get} = $dom;
   
-  add('click tap', getAll('ul li'), event => {
+  add('click', getAll('ul li'), event => {
     // event.target is current element
   });
   // or
-  add('click tap', 'ul li', function() {
+  add('click', 'ul li', function() {
     // this is current element
   });
   // or
-  add('click tap', get('ul li'), function() {
+  add('click', get('ul li'), function() {
     // this is current element
   })
   ```
@@ -421,15 +421,15 @@ Example Page:
   const {remove} = $events;
   const {getAll, get} = $dom;
     
-  remove('click tap', getAll('ul li'), event => {
+  remove('click', getAll('ul li'), event => {
     // event.target is current element
   });
   // or
-  remove('click tap', 'ul li', function() {
+  remove('click', 'ul li', function() {
     // this is current element
   });
   // or
-  remove('click tap', get('ul li'), function() {
+  remove('click', get('ul li'), function() {
     // this is current element
   })
   ```
@@ -474,17 +474,17 @@ Instead of adding event listeners to specific elements, you listen to all events
   const {delegate} = $events;
   const {get} = $dom;
   
-  delegate.on('click tap', '.some-selector', event => {
+  delegate.on('click', '.some-selector', event => {
     if (event.target.closest('.some-selector')) {
       // do stuff with event.target
     }
   });
   // or
-  delegate.on('click tap', 'ul', function() {
+  delegate.on('click', 'ul', function() {
     // if use 'function' keyword as callback this will be ul-element
   });
   //or
-  delegate.on('click tap', get('ul'), function() {
+  delegate.on('click', get('ul'), function() {
     // if use 'function' keyword as callback this will be ul-element
   })
   ```
@@ -495,17 +495,17 @@ Instead of adding event listeners to specific elements, you listen to all events
   const {delegate} = $events;
   const {get} = $dom;
     
-  delegate.off('click tap', '.some-selector', event => {
+  delegate.off('click', '.some-selector', event => {
     if (event.target.closest('.some-selector')) {
       // do stuff with event.target
     }
   });
   // or
-  delegate.off('click tap', 'ul', function() {
+  delegate.off('click', 'ul', function() {
     // if use 'function' keyword as callback this will be ul-element
   });
   //or
-  delegate.off('click tap', get('ul'), function() {
+  delegate.off('click', get('ul'), function() {
     // if use 'function' keyword as callback this will be ul-element
   })
   ```
@@ -516,17 +516,17 @@ Instead of adding event listeners to specific elements, you listen to all events
   const {delegate} = $events;
   const {get} = $dom;
     
-  delegate.once('click tap', '.some-selector', event => {
+  delegate.once('click', '.some-selector', event => {
     if (event.target.closest('.some-selector')) {
       // do stuff with event.target
     }
   });
   // or
-  delegate.once('click tap', 'ul', function() {
+  delegate.once('click', 'ul', function() {
     // if use 'function' keyword as callback this will be ul-element
   });
   //or
-  delegate.once('click tap', get('ul'), function() {
+  delegate.once('click', get('ul'), function() {
     // if use 'function' keyword as callback this will be ul-element
   })
   ```
