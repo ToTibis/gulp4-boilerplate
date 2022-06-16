@@ -6,19 +6,19 @@ const {merge} = $data;
 const {exist, getAll} = $dom;
 
 export default class Component extends Model {
-  #defaults = {
-    requiredTargets: null
-  };
+	#defaults = {
+		requiredTargets: null
+	};
 
-  constructor(options) {
-    super(options);
+	constructor(options) {
+		super(options);
 
-    this.options = merge(this.#defaults, options);
-    this.initialized = false;
-  }
+		this.options = merge(this.#defaults, options);
+		this.initialized = false;
+	}
 
-  #targetsExist = exist(this.options.requiredTargets);
-  #needInitialization = this.#targetsExist || this.options.requiredTargets === 'STAND_ALONE';
+	#targetsExist = exist(this.options.requiredTargets);
+	#needInitialization = this.#targetsExist || this.options.requiredTargets === 'STAND_ALONE';
 
 	get targets() {
 		if (this.#targetsExist && this.options.requiredTargets !== 'STAND_ALONE')
@@ -27,20 +27,20 @@ export default class Component extends Model {
 		return []
 	}
 
-  init() {
-    if (this.#needInitialization) {
-      try {
-        super.init();
-        this.initialized = true
-      } catch (e) {console.log(e)}
-    }
-  }
-  destroy() {
-    if (this.#needInitialization) {
-      try {
-        super.destroy();
-        this.initialized = false
-      } catch (e) {console.log(e)}
-    }
-  }
+	init() {
+		if (this.#needInitialization) {
+			try {
+				super.init();
+				this.initialized = true
+			} catch (e) {console.log(e)}
+		}
+	}
+	destroy() {
+		if (this.#needInitialization) {
+			try {
+				super.destroy();
+				this.initialized = false
+			} catch (e) {console.log(e)}
+		}
+	}
 }
