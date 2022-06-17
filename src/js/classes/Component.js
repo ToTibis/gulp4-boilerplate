@@ -1,6 +1,7 @@
 import Model from './Model';
 import {$data} from '../helpers/data';
 import {$dom} from '../helpers/dom';
+import is from 'is_js';
 
 const {merge} = $data;
 const {exist, getAll} = $dom;
@@ -17,7 +18,10 @@ export default class Component extends Model {
 		this.initialized = false;
 	}
 
-	#targetsExist = exist(this.options.requiredTargets);
+	#targetsExist = is.array(this.options.requiredTargets)
+		? this.options.requiredTargets.every(selector => exist(selector))
+		: exist(this.options.requiredTargets);
+
 	#needInitialization = this.#targetsExist || this.options.requiredTargets === 'STAND_ALONE';
 
 	get targets() {
@@ -32,7 +36,7 @@ export default class Component extends Model {
 			try {
 				super.init();
 				this.initialized = true
-			} catch (e) {console.log(e)}
+			} catch (e) {console.error(e)}
 		}
 	}
 	destroy() {
@@ -40,7 +44,7 @@ export default class Component extends Model {
 			try {
 				super.destroy();
 				this.initialized = false
-			} catch (e) {console.log(e)}
+			} catch (e) {console.error(e)}
 		}
 	}
 }

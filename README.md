@@ -72,6 +72,7 @@ Example Component:
       requiredTargets: '.js-lazy-image', // required field
       // may be string 'STAND_ALONE' - if the logic of the component does not depend on DOM elements
       // or selector
+      // or array of selectors
 
       onCreate() { 
         // here your code, context is Component, for example - 

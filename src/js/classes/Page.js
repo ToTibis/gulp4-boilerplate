@@ -29,8 +29,7 @@ export default class Page extends Model {
 		this.options = merge(this.#defaults, options);
 
 		if (is.not.domNode(this.rootEl)) {
-			if (this.options.debug)
-				warn(`Instance Page with name "${this.options.name}" has no root element provided`, 'Class Page')
+			this.options.debug && warn(`Instance Page with name "${this.options.name}" has no root element provided`, 'Class Page');
 			return;
 		}
 
@@ -47,7 +46,7 @@ export default class Page extends Model {
 		this.spritePath = this.rootEl.dataset[`${this.#spritePathAsDataset}`];
 
 		if (is.undefined(this.spritePath)) {
-			warn(
+			this.options.debug && warn(
 				`Path to svg-sprite is not provided to root element as "${this.#spritePathAttr}" attribute`,
 				'Class Page, constructor'
 			)
@@ -78,6 +77,11 @@ export default class Page extends Model {
 
 					if (!component?.initialized && is.function(component.init)) component.init()
 				}
+			} else {
+				this.options.debug && warn(
+					`The name parameter was not passed to the Component an "${this.options.name}" Page`,
+					'Class Page, addComponent method'
+				)
 			}
 		}
 
