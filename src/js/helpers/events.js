@@ -10,16 +10,49 @@ export const $events = (function() {
 		processEventTypes = (types, callback) => filterStringArgs(types).forEach(type => callback(type))
 	;
 
-	let resizeTimout;
+	let
+		resizeTimout,
+		eventDelegateHandler = function (event) {
+			const {target, type} = event;
+
+			if (!this.processedEvents[type]) return;
+
+			this.processedEvents[type].forEach(listener => {
+
+				const {selector, callback} = listener;
+
+				if (!this.shouldDelegateRun(target, selector)) return;
+
+				let returned = null;
+
+				if (this.exceptionElement(selector)) {
+					if (selector === '*') {
+						returned = $dom.getAll('*')
+					} else if (selector === 'document' || selector === document) {
+						returned = document
+					} else if (selector === 'window' || selector === window) {
+						returned = window
+					} else if (selector === 'html' || selector === document.documentElement || selector === 'document.documentElement') {
+						returned = document.documentElement
+					}
+				} else {
+					returned = isElement(selector) ? selector : target.closest(selector);
+				}
+
+				callback.call(returned, event);
+
+			});
+		}
+	;
 
 	localAPIs.add = function(types, target, callback, options = {}) {
 
 		const defaults = {once: false};
 
 		processEventTypes(types, type => {
-      $dom.callAll(target, element => {
-        element.addEventListener(type, callback, Object.assign(defaults, options))
-      })
+			$dom.callAll(target, element => {
+				element.addEventListener(type, callback, Object.assign(defaults, options))
+			})
 		});
 
 		return this;
@@ -81,38 +114,6 @@ export const $events = (function() {
 
 			return isElement(target) ? target.closest(selector) : false;
 		},
-		eventDelegateHandler(event) {
-
-			const {target, type} = event;
-
-			if (!this.processedEvents[type]) return;
-
-
-			this.processedEvents[type].forEach(listener => {
-
-				const {selector, callback} = listener;
-
-				if (!this.shouldDelegateRun(target, selector)) return;
-
-				let returned = null;
-				if (this.exceptionElement(selector)) {
-					if (selector === '*') {
-						returned = $dom.getAll('*')
-					} else if (selector === 'document' || selector === document) {
-						returned = document
-					} else if (selector === 'window' || selector === window) {
-						returned = window
-					} else if (selector === 'html' || selector === document.documentElement || selector === 'document.documentElement') {
-						returned = document.documentElement
-					}
-				} else {
-					returned = isElement(selector) ? selector : target.closest(selector);
-				}
-
-				callback.call(returned, event);
-
-			});
-		},
 		getDelegateEventIndex(arr, selector, callback) {
 			for (let i = 0; i < arr.length; i++) {
 				if (
@@ -123,15 +124,14 @@ export const $events = (function() {
 			return -1;
 		},
 		processEventSetup(type, selector, callback) {
+			if (!this.processedEvents[type]) {
+				this.processedEvents[type] = [];
+				window.addEventListener(type, eventDelegateHandler, true);
+			}
 
-      if (!this.processedEvents[type]) {
-        this.processedEvents[type] = [];
-        window.addEventListener(type, this.eventDelegateHandler.bind(this), true);
-      }
-      this.processedEvents[type].push({selector,	callback});
+			this.processedEvents[type].push({selector,	callback});
 
 		},
-
 		on(types, selector, callback) {
 			processEventTypes(types, type => {
 				if (this.isBubbleEvent(type)) {
@@ -148,9 +148,9 @@ export const $events = (function() {
 			processEventTypes(types, type => {
 				if (!this.processedEvents[type]) return;
 
-				if (this.processedEvents[type].length < 2 || !selector) {
+				if (this.processedEvents[type].length === 1) {
 					delete this.processedEvents[type];
-					window.removeEventListener(type, this.eventDelegateHandler.bind(this), true);
+					window.removeEventListener(type, eventDelegateHandler, true);
 					return;
 				}
 
@@ -188,6 +188,8 @@ export const $events = (function() {
 		}
 	};
 
+	eventDelegateHandler = eventDelegateHandler.bind(localAPIs.delegate);
+
 	localAPIs.delegate.on(is.mobile() ? 'orientationchange' : 'resize', window, event => {
 
 		clearTimeout(resizeTimout);
@@ -210,5 +212,4 @@ export const $events = (function() {
 	};
 
 	return localAPIs
-
 })();
