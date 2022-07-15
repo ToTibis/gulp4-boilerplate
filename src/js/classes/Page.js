@@ -150,7 +150,7 @@ export default class Page extends Model {
 	init() {
 		try {
 			this
-				.addComponent(lazyLoad, [200, 'data-error'])
+				.addComponent(lazyLoad, [200])
 				.addComponent(formValidation)
 				.addComponent(modal)
 				.addComponent(toasts)

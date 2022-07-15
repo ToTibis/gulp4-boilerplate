@@ -14,6 +14,17 @@ $colors: (
 	light:                    #f8f9fa,
 	dark:                     #212529
 );
+
+$theme-colors: (
+	"primary":    get($colors, primary),
+	"secondary":  get($colors, secondary),
+	"success":    get($colors, success),
+	"info":       get($colors, info),
+	"warning":    get($colors, warning),
+	"danger":     get($colors, danger),
+	"light":      get($colors, light),
+	"dark":       get($colors, dark)
+);
 /* Colors variables end */
 
 
@@ -38,16 +49,7 @@ $pics: (
 
 
 /* Bootstrap variables start*/
-$theme-colors: (
-	"primary":    get($colors, primary),
-	"secondary":  get($colors, secondary),
-	"success":    get($colors, success),
-	"info":       get($colors, info),
-	"warning":    get($colors, warning),
-	"danger":     get($colors, danger),
-	"light":      get($colors, light),
-	"dark":       get($colors, dark)
-);
+
 
 $theme-colors-rgb: map-loop($theme-colors, to-rgb, '$value');
 

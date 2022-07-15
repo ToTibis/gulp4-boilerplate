@@ -1,6 +1,4 @@
-@import '../utilites/variables';
-
-
+@import '../utilities/variables';
 
 :root {
 	@each $color, $value in $colors {
