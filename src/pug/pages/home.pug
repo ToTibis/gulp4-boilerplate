@@ -8,53 +8,52 @@ block mainVariables
 
 block mainContent
 	div(class='home__intro')
-		.container
-			-
-				listItems = [
-					'- HTML - processing using Pug.js;',
-					'- Sass - Bootstrap 5 and some custom things',
-					'- Javascript ES6 Modules - processing using Webpack 5;',
-					'- Without jQuery - instead in this template included set of helpers-functions written on vanilla javascript ($data, $dom, $events, $style, $ui) and Bootstrap 5 components&nbsp;-&nbsp;Offcanvas, Collapse, Dropdown, Modal etc;',
-					'- SVG-sprites.',
-					'- Ready-made project structure',
-					'- Images lazy load by - <a class="text-decoration-underline" href="https://github.com/verlok/vanilla-lazyload" target="_blank">vanilla-lazyload</a>',
-					'- Form validation by - <a class="text-decoration-underline" href="https://github.com/yairEO/validator" target="_blank">validator</a>',
-					'- Modal - by Bootstrap5 with controller wrap - you can call modal window programmatically and create modal with dynamic content',
-					'- Toasts - based on <a class="text-decoration-underline" href="https://github.com/apvarun/toastify-js" target="_blank">toastify</a>'
-				]
+		-
+			listItems = [
+				'- HTML - processing using Pug.js;',
+				'- Sass - Bootstrap 5 and some custom things',
+				'- Javascript ES6 Modules - processing using Webpack 5;',
+				'- Without jQuery - instead in this template included set of helpers-functions written on vanilla javascript ($data, $dom, $events, $style, $ui) and Bootstrap 5 components&nbsp;-&nbsp;Offcanvas, Collapse, Dropdown, Modal etc;',
+				'- SVG-sprites.',
+				'- Ready-made project structure',
+				'- Images lazy load by - <a class="text-decoration-underline" href="https://github.com/verlok/vanilla-lazyload" target="_blank">vanilla-lazyload</a>',
+				'- Form validation by - <a class="text-decoration-underline" href="https://github.com/yairEO/validator" target="_blank">validator</a>',
+				'- Modal - by Bootstrap5 with controller wrap - you can call modal window programmatically and create modal with dynamic content',
+				'- Toasts - based on <a class="text-decoration-underline" href="https://github.com/apvarun/toastify-js" target="_blank">toastify</a>'
+			]
 
-			.container.mt-n3
-				.row.align-items-center
-					.col-4.col-xl-3.mx-auto.mb-4.mb-md-0
-						a(href='https://github.com/ToTibis' target='_blank', class='d-inline-block').mx-auto
-							+icon('github')
-					.col-md-8.col-xl-6
-						section
-							+title({
-								tag: 'h1',
-								content: 'In this boilerplate you can use:'
+		.container.mt-n3
+			.row.align-items-center
+				.col-4.col-xl-3.mx-auto.mb-4.mb-md-0
+					a(href='https://github.com/ToTibis' target='_blank', class='d-inline-block').mx-auto
+						+icon('github')
+				.col-md-8.col-xl-6
+					section
+						+title({
+							tag: 'h1',
+							content: 'In this boilerplate you can use:'
+						})
+						.home__intro-list.pt-3
+							ul.row.gy-2
+								each item, index in listItems
+									li.col-12
+										span.d-block !{item}
+					.row.mt-4
+						.col-md-auto.mb-3.mb-md-0
+							+button({
+								buttonType: 'submit',
+								type: 'default',
+								content: 'Open modal',
+								classes: 'border rounded px-4 py-2',
+								bsToggle: 'modal',
+								bsTarget: '#js-example-modal',
 							})
-							.home__intro-list.pt-3
-								ul.row.gy-2
-									each item, index in listItems
-										li.col-12
-											span.d-block !{item}
-						.row.mt-4
-							.col-md-auto.mb-3.mb-md-0
-								+button({
-									buttonType: 'submit',
-									type: 'default',
-									content: 'Open modal',
-									classes: 'border rounded px-4 py-2',
-									bsToggle: 'modal',
-									bsTarget: '#js-example-modal',
-								})
 
-					.col-3.d-none.d-xl-block
-						.ratio.ratio-1x1
-							+lazyImage({
-								imageSrc: 'img/v8',
-								type: 'background',
-								classes: 'w-100 h-100',
-								imageClasses: 'w-100 h-100'
-							})
+				.col-3.d-none.d-xl-block
+					.ratio.ratio-1x1
+						+lazyImage({
+							imageSrc: 'img/v8',
+							type: 'background',
+							classes: 'w-100 h-100',
+							imageClasses: 'w-100 h-100'
+						})
