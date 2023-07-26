@@ -197,7 +197,7 @@ export const $dom = (function () {
 
         if (is.null(value)) {
           results.push({ element, value: element.getAttribute(property)});
-        } else if (is.string(value)) {
+        } else if (is.string(value) || is.number(value)) {
           element.setAttribute(toDashesCase(property), value);
         }
 
